@@ -1,0 +1,15 @@
+{
+	"name": "meanchef",
+	"version": "0.0.1",
+	"main": "server/app.js",
+	"dependencies": {
+		"express": "latest",
+		"morgan": "latest",
+		"body-parser": "latest",
+		"errorhandler": "latest",
+		"mongoose": "latest",
+		"jade": "latest",
+		"socket.io": "latest",
+		"lodash": "latest"
+	}
+}
