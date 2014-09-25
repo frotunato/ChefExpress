@@ -1,2 +1,25 @@
-p.
-	Ingredientes: {{ingredientes}}
+ul
+	li(ng-repeat="ingrediente in ingredientes").
+		{{ingrediente.nombre}}
+		{{ingrediente.estado}}
+form(style="margin-left:10px;width:300px;")
+	fieldset
+		legend Clasificación del ingrediente
+		h4 Nombre
+		input(type="text" require ng-model="nuevoIngrediente.nombre" placeholder="Nombre del ingrediente" name="nombre")
+		h4 Categoría
+		input(type="text" ng-model="nuevoIngrediente.categoria" typeahead="categoria for categoria in categorias | filter:$viewValue | limitTo:8"  placeholder="Categoria" name="categoria")
+	fieldset
+		legend Composición
+		h4 Grasas 
+		input(type="number" ng-change="chartObject.data[1][1]=nuevoIngrediente.composicion.grasas" min="0" step="any" ng-model="nuevoIngrediente.composicion.grasas" placeholder="Grasas" name="grasas")
+		h4 Proteinas
+		input(type="number" ng-change="chartObject.data[2][1]=nuevoIngrediente.composicion.proteinas" min="0" step="any" ng-model="nuevoIngrediente.composicion.proteinas" placeholder="Proteinas" name="proteinas")
+		h4 Carbohidratos
+		input(type="number" ng-change="chartObject.data[3][1]=nuevoIngrediente.composicion.carbohidratos" min="0" step="any" ng-model="nuevoIngrediente.composicion.carbohidratos" placeholder="Carbohidratos" name="carbohidratos")
+		h4 Calorías
+		input(type="number" ng-change="chartObject.data[4][1]=nuevoIngrediente.composicion.calorias" min="0" step="any" ng-model="nuevoIngrediente.composicion.calorias" placeholder="Calorias" name="calorias")
+		div(style="relative:absolute;margin-left:290px;" google-chart chart="chartObject")
+		button(type="submit" ng-click="addIngrediente()") Crear
+
+

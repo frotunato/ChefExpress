@@ -7,9 +7,7 @@ var IngredienteSchema = new Schema({
   nombre: String,
   estado: String,
   categoria: String,
-  alergenos: [{
-    nombre: {type: 'String'}
-  }],
+  alergenos: [String],
   composicion: {
     calorias: {type: Number, min: 0},
     proteinas: {type: Number, min: 0},
@@ -18,4 +16,4 @@ var IngredienteSchema = new Schema({
   }
 });
 
-module.exports = mongoose.model('IngredienteSchema', IngredienteSchema);
+module.exports = mongoose.model('Ingrediente', IngredienteSchema);

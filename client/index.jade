@@ -2,14 +2,25 @@ html(ng-app="chefExpressApp")
 	head
 		title ChefExpress
 		base(href="/")
+		link(rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css")
+
+		<!--############################ ANGULAR ###############################-->
 		script(src="bower_components/angular/angular.js")
-		script(src="bower_components/angular-bootstrap/ui-bootstrap.min.js")
+		<!--################################################################### -->
+		
+		<!--######################## ANGULAR EXTRAS ############################-->
+		script(src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js")
 		script(src="bower_components/angular-route/angular-route.min.js")
 		script(src="bower_components/angular-socket-io/socket.min.js")
+		script(src="bower_components/angular-google-chart/ng-google-chart.js")
+		<!--################################################################### -->
+
+		<!--########################## APP MODULES #############################-->
 		script(src="app/app.js")
 		script(src="app/ingredientes/ingredientes.js")
 		script(src="app/ingredientes/ingredientes.controller.js")
 		script(src="app/ingredientes/ingredientes.factory.js")
+		<!--################################################################### -->
 
 	body
 		div(ng-view="")

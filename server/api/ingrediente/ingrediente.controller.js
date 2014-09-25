@@ -7,7 +7,7 @@ var Ingrediente = require('./ingrediente.model');
 exports.index = function(req, res) {
   Ingrediente.find(function (err, ingredientes) {
     if(err) { return handleError(res, err); }
-    return res.json(200, ingredientes);
+    return res.status(200).send(ingredientes);
   });
 };
 
@@ -23,8 +23,9 @@ exports.show = function(req, res) {
 // Creates a new Ingrediente in the DB.
 exports.create = function(req, res) {
   Ingrediente.create(req.body, function(err, ingredientes) {
+    console.log(req['body'])
     if(err) { return handleError(res, err); }
-    return res.json(201, ingredientes);
+    return res.status(201).json(ingredientes);
   });
 };
 
@@ -37,7 +38,7 @@ exports.update = function(req, res) {
     var updated = _.merge(ingredientes, req.body);
     updated.save(function (err) {
       if (err) { return handleError(res, err); }
-      return res.json(200, ingredientes);
+      return res.status(200).json(ingredientes);
     });
   });
 };
@@ -49,11 +50,12 @@ exports.destroy = function(req, res) {
     if(!ingredientes) { return res.send(404); }
     Ingrediente.remove(function(err) {
       if(err) { return handleError(res, err); }
-      return res.send(204);
+      return res.status(204);
     });
   });
 };
 
 function handleError(res, err) {
-  return res.send(500, err);
+  console.log(err);
+  return res.status(500).send(err);
 }

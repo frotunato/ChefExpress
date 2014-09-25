@@ -4,7 +4,7 @@
 module.exports = function(app) {
 
   // Insert routes below
-  app.use('/api/ingrediente', require('./api/ingrediente'));
+  app.use('/api/ingredientes', require('./api/ingrediente'));
  
  	// app.route('/:url(api|components|app|bower_components)/*')
 
