@@ -6,8 +6,13 @@ var mongoose = require('mongoose'),
 var IngredienteSchema = new Schema({
   nombre: String,
   estado: String,
-  categoria: String,
-  alergenos: [String],
+  familia: String,
+  alergeno: String,
+  precio: Number,
+  historicoPrecios: {
+    fecha: {type: Object},
+    precio: {type: Number, min: 0}
+  },
   composicion: {
     calorias: {type: Number, min: 0},
     proteinas: {type: Number, min: 0},

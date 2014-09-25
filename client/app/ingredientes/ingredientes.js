@@ -1,4 +1,4 @@
-angular.module('chefExpressApp.ingredientes', ['ngRoute', 'googlechart'])
+angular.module('chefExpressApp.ingredientes', ['ngRoute', 'googlechart', 'smart-table'])
 	
   .config(function ($routeProvider) {
   	/*
