@@ -1,4 +1,4 @@
-table(st-table="rowCollection" class="table table-stripped")
+table(st-table="rowCollection" class="table table-striped")
 	thead
 	tr
 		th Ingrediente
@@ -6,40 +6,18 @@ table(st-table="rowCollection" class="table table-stripped")
 		th Familia
 		th Precio (€/Kg)
 		th Alergeno
+		th
+			button(class="btn btn-primary" ng-click="showIngredientesModal()") Nuevo
+
 	tbody
 		tr(ng-repeat="ingrediente in ingredientes")
 			td {{ingrediente.nombre}}
 			td {{ingrediente.estado}}
 			td {{ingrediente.familia}}
-			td {{ingrediente.precio}}
+			td {{ingrediente.precio[0].valor}}
 			td {{ingrediente.alergeno}}
-
-form(style="margin-left:10px;width:300px;")
-	fieldset
-		legend Información sobre el ingrediente
-		h4 Nombre
-		input(type="text" require ng-model="nuevoIngrediente.nombre" placeholder="Nombre del ingrediente" name="nombre")
-		h4 Familia
-		input(type="text" ng-model="nuevoIngrediente.familia" typeahead="familia for familia in familias | filter:$viewValue | limitTo:8"  placeholder="Introduce la familia" name="familia")
-		h4 Estado
-		input(type="text" ng-model="nuevoIngrediente.estado" typeahead="estado for estado in estados | filter:$viewValue | limitTo:8" placeholder="Introduce el estado" name="estado")
-		h4 Precio
-		input(type="number" min="0" step="any" ng-model="nuevoIngrediente.precio" placeholder="Precio" name="precio")
-
-	fieldset
-		h4 Alérgeno
-		select(ng-options="alergeno.nombre as alergeno.nombre for alergeno in alergenos" ng-model="nuevoIngrediente.alergeno")
-		legend Composición
-		h4 Grasas 
-		input(type="number" ng-change="chartObject.data[1][1]=nuevoIngrediente.composicion.grasas" min="0" step="any" ng-model="nuevoIngrediente.composicion.grasas" placeholder="Grasas" name="grasas")
-		h4 Proteinas
-		input(type="number" ng-change="chartObject.data[2][1]=nuevoIngrediente.composicion.proteinas" min="0" step="any" ng-model="nuevoIngrediente.composicion.proteinas" placeholder="Proteinas" name="proteinas")
-		h4 Carbohidratos
-		input(type="number" ng-change="chartObject.data[3][1]=nuevoIngrediente.composicion.carbohidratos" min="0" step="any" ng-model="nuevoIngrediente.composicion.carbohidratos" placeholder="Carbohidratos" name="carbohidratos")
-		h4 Calorías
-		input(type="number" ng-change="chartObject.data[4][1]=nuevoIngrediente.composicion.calorias" min="0" step="any" ng-model="nuevoIngrediente.composicion.calorias" placeholder="Calorias" name="calorias")
-		div(style="relative:absolute;margin-left:290px;" google-chart chart="chartObject")
-		button(type="submit" ng-click="addIngrediente()") Crear
-
-{{nuevoIngrediente}}
-
+			td
+				button(type="button" ng-click="showIngredientesModal(ingrediente['_id'])" class="btn btn-default") Editar
+			td
+				button(type="button" ng-click="borrarIngrediente(ingrediente)" class="btn btn-sm btn-danger")
+					i(class="glyphicon glyphicon-remove-circle")

@@ -8,11 +8,10 @@ var IngredienteSchema = new Schema({
   estado: String,
   familia: String,
   alergeno: String,
-  precio: Number,
-  historicoPrecios: {
+  precio: [{
     fecha: {type: Object},
-    precio: {type: Number, min: 0}
-  },
+    valor: {type: Number, min: 0}
+  }],
   composicion: {
     calorias: {type: Number, min: 0},
     proteinas: {type: Number, min: 0},

@@ -17,9 +17,9 @@ angular.module('chefExpressApp.ingredientes')
 				});
 				return deferred.promise;
 			},
-			updateIngrediente: function (id) {
+			updateIngrediente: function (id, data) {
 				var deferred = $q.defer();
-				$http.put(this.apiUrl + id).success(function (data, status) {
+				$http.put(this.apiUrl + id, data).success(function (data, status) {
 					deferred.resolve(data);
 				});
 				return deferred.promise;
@@ -32,4 +32,4 @@ angular.module('chefExpressApp.ingredientes')
 				return deferred.promise;	
 			}
 		}
-	});
+	})
