@@ -14,19 +14,24 @@ angular.module('chefExpressApp.ingredientes')
 		{nombre: 'Huevo y derivados'}, {nombre: 'Soja'}, {nombre: 'Frutos de cascara'}, {nombre: 'Apio y derivados'}, {nombre: 'Mostaza y derivados'}, 
 		{nombre: 'Sesamo'}, {nombre: 'Sulfitos'}, {nombre: 'Pescado y derivados'}, {nombre: 'Crustaceos'}, {nombre: 'Ninguno'}];
 
-		$scope.tablaIngredientes = new ngTableParams({
-			page: 1,
-			count: 10
-		}, {
-			total: 0,
-			getData: function ($defer, params) {
-				ingredientesAPI.getIngredientes().then(function (data) {
-					$scope.ingredientes = data;
-				})
-			}
-		});
 		
-	
+		
+		ingredientesAPI.getIngredientes().then(function (data) {
+			$scope.ingredientes = data;
+			
+			$scope.tablaIngredientes = new ngTableParams({
+				page: 1,
+				count: 10
+			}, {
+				total: 0,
+				getData: function ($defer, params) {
+					params.total($scope.ingredientes.length)
+					console.log($scope.ingredientes.length);
+					$defer.resolve($scope.ingredientes.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+				}
+			});
+		})
+
 		/*
 		ingredientesAPI.getIngredientes().then(function (data) {
 			$scope.ingredientes = data;
@@ -62,7 +67,6 @@ angular.module('chefExpressApp.ingredientes')
 	*/
    
     $scope.send = function (ingrediente) {
-   	alert('saved');
    	
    }
 

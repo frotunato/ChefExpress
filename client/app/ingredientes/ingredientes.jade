@@ -14,7 +14,7 @@ table(ng-table="(tablaIngredientes)" class="table-condensed table table-hover ta
 		th(class="text-center") Alérgeno
 		th(class="text-center") Acciones
 	tbody
-		tr(ng-repeat="ingrediente in ingredientes" ng-class="{success: guardarCambios, danger: borrarIngr, info: modoEditar, active: descartarCambios}" )
+		tr(ng-repeat="ingrediente in $data" ng-class="{success: guardarCambios, danger: borrarIngr, info: modoEditar, active: descartarCambios}" )
 			td
 				span(ng-if="!ingrediente.$edit") {{ingrediente.nombre}}
 				div(ng-if="ingrediente.$edit")
