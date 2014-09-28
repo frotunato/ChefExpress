@@ -1,23 +1,74 @@
-table(st-table="rowCollection" class="table table-striped")
+table(ng-table="(tablaIngredientes)" class="table-condensed table table-hover table-bordered")
 	thead
-	tr
-		th Ingrediente
-		th Estado
-		th Familia
-		th Precio (€/Kg)
-		th Alergeno
-		th
-			button(class="btn btn-primary" ng-click="showIngredientesModal()") Nuevo
-
+		tr
+			th(class="text-center" colspan="4") Información del ingrediente
+			th(class="text-center" colspan="5") Composición del ingrediente
+		th(class="text-center") Nombre
+		th(class="text-center") Familia
+		th(class="text-center") Estado
+		th(class="text-center") Precio
+		th(class="text-center") Calorías
+		th(class="text-center") Carbohidratos
+		th(class="text-center") Proteínas
+		th(class="text-center") Grasas
+		th(class="text-center") Alérgeno
+		th(class="text-center") Acciones
 	tbody
-		tr(ng-repeat="ingrediente in ingredientes")
-			td {{ingrediente.nombre}}
-			td {{ingrediente.estado}}
-			td {{ingrediente.familia}}
-			td {{ingrediente.precio[0].valor}}
-			td {{ingrediente.alergeno}}
+		tr(ng-repeat="ingrediente in ingredientes" ng-class="{success: guardarCambios, danger: borrarIngr, info: modoEditar, active: descartarCambios}" )
 			td
-				button(type="button" ng-click="showIngredientesModal(ingrediente['_id'])" class="btn btn-default") Editar
+				span(ng-if="!ingrediente.$edit") {{ingrediente.nombre}}
+				div(ng-if="ingrediente.$edit")
+					input(style="height:30px;" tooltip="Nombre del ingrediente." tooltip-delay="1000" placeholder="Nombre" class="form-control" type="text" ng-model="ingrediente.nombre")
+			
 			td
-				button(type="button" ng-click="borrarIngrediente(ingrediente)" class="btn btn-sm btn-danger")
-					i(class="glyphicon glyphicon-remove-circle")
+				span(ng-if="!ingrediente.$edit") {{ingrediente.familia}}
+				div(ng-if="ingrediente.$edit")
+					select(style="height:30px;" tooltip="Familia del ingrediente." tooltip-delay="1000" required class="form-control" ng-options="familia.nombre as familia.nombre for familia in familias" ng-model="ingrediente.familia")
+			
+			td
+				span(ng-if="!ingrediente.$edit") {{ingrediente.estado}}
+				div(ng-if="ingrediente.$edit")
+					select(style="height:30px;" tooltip="Estado del ingrediente." tooltip-delay="1000" required class="form-control" ng-options="estado.nombre as estado.nombre for estado in estados" ng-model="ingrediente.estado")
+			
+			td
+				span(ng-if="!ingrediente.$edit") {{ingrediente.precio}} €
+				div(ng-if="ingrediente.$edit")
+					input(style="height:30px;" tooltip="Precio del ingrediente por kg de producto." tooltip-delay="1000" placeholder="placeholder" class="form-control" type="number" ng-model="ingrediente.precio")
+						
+			td
+				span(ng-if="!ingrediente.$edit") {{ingrediente.composicion.calorias}} g
+				div(ng-if="ingrediente.$edit")
+					input(style="height:30px;" tooltip="Calorías por cada 100g de producto." tooltip-delay="1000" placeholder="Calorías" class="form-control" type="number" ng-model="ingrediente.composicion.calorias")
+			
+			td
+				span(ng-if="!ingrediente.$edit") {{ingrediente.composicion.carbohidratos}} g
+				div(ng-if="ingrediente.$edit")
+					input(style="height:30px;" tooltip="Carbohidratos por cada 100g de producto." tooltip-delay="1000" placeholder="Carbohidratos" class="form-control" type="number" ng-model="ingrediente.composicion.carbohidratos")
+			
+			td
+				span(ng-if="!ingrediente.$edit") {{ingrediente.composicion.proteinas}} g
+				div(ng-if="ingrediente.$edit")
+					input(style="height:30px;" tooltip="Proteínas por cada 100g de producto." tooltip-delay="1000" placeholder="Proteinas" class="form-control" type="number" ng-model="ingrediente.composicion.proteinas")
+			
+			td
+				span(ng-if="!ingrediente.$edit") {{ingrediente.composicion.grasas}} g
+				div(ng-if="ingrediente.$edit")
+					input(style="height:30px;" tooltip="Grasas por cada 100g de producto." tooltip-delay="1000" placeholder="Grasas" class="form-control" type="number" ng-model="ingrediente.composicion.grasas")
+
+			td
+				span(ng-if="!ingrediente.$edit") {{ingrediente.alergeno}}
+				div(ng-if="ingrediente.$edit")
+					select(style="height:30px;" tooltip="Indicar si el ingrediente contiene algún alérgeno." tooltip-delay="1000" required class="form-control" ng-options="alergeno.nombre as alergeno.nombre for alergeno in alergenos" ng-model="ingrediente.alergeno")
+		
+			td
+				a(ng-if="!ingrediente.$edit" href="" class="btn btn-default btn-sm" ng-click="ingrediente.$edit = true;$parent.modoEditar = true;")
+					span(tooltip="Editar el ingrediente" tooltip-delay="1000" class="glyphicon glyphicon-pencil")
+				
+				a(ng-if="ingrediente.$edit" href="" class="btn btn-default btn-sm" ng-click="send(ingrediente);ingrediente.$edit = false;$parent.modoEditar = false;") 	
+					span(tooltip="Guardar los cambios" tooltip-delay="1000" class="glyphicon glyphicon-floppy-open")
+				
+				a(ng-if="ingrediente.$edit" href="" class="btn btn-default btn-sm" style="margin-left:5px;" ng-click="send(ingrediente)") 	
+					span(tooltip="Descartar cambios" tooltip-delay="1000" class="glyphicon glyphicon-remove")
+				
+				a(ng-if="!ingrediente.$edit" href="" class="btn btn-default btn-sm" style="margin-left:5px;" ng-click="alert('erased')") 
+					span(tooltip="Eliminar el ingrediente" tooltip-delay="1000" class="glyphicon glyphicon-trash")

@@ -4,16 +4,17 @@ html(ng-app="chefExpressApp")
 		base(href="/")
 		link(rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css")
 
-		<!--############################ ANGULAR ##############################-->
+		<!--########################## ANGULAR CORE ###########################-->
 		script(src="bower_components/angular/angular.js")
+		script(src="bower_components/ng-resource/dist/ng-resource.min.js")
+		script(src="bower_components/angular-route/angular-route.min.js")
 		<!--###################################################################-->
 		
-		<!--######################## ANGULAR EXTRAS ###########################-->
+		<!--######################### ANGULAR EXTRAS ##########################-->
 		script(src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js")
-		script(src="bower_components/angular-route/angular-route.min.js")
 		script(src="bower_components/angular-socket-io/socket.min.js")
 		script(src="bower_components/angular-google-chart/ng-google-chart.js")
-		script(src="bower_components/angular-smart-table/dist/smart-table.min.js")
+		script(src="bower_components/ng-table/ng-table.min.js")
 		<!--###################################################################-->
 
 		<!--########################## APP MODULES ############################-->
@@ -30,6 +31,8 @@ html(ng-app="chefExpressApp")
 		<!--###################################################################-->
 		
 		<!--########################## APP FILTERS ############################-->
+		
+		<!--###################################################################-->
 
 	body
 		div(ng-view="")

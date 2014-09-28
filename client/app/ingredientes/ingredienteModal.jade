@@ -6,15 +6,15 @@ div(id="modalWrapper")
 			fieldset(style="width:200px;")
 				legend Información
 				h4 Nombre
-				input(type="text" required ng-model="ingrediente.nombre" placeholder="Nombre del ingrediente" name="nombre")
+				input(class="class-form" type="text" required ng-model="ingrediente.nombre" placeholder="Nombre del ingrediente" name="nombre")
 				h4 Familia
 				input(type="text" required ng-model="ingrediente.familia" typeahead="familia for familia in familias | filter:$viewValue | limitTo:8"  placeholder="Introduce la familia" name="familia")
 				h4 Estado
 				input(type="text" required ng-model="ingrediente.estado" typeahead="estado for estado in estados | filter:$viewValue | limitTo:8" placeholder="Introduce el estado" name="estado")
 				h4 Precio
-				input(type="number" required min="0" step="any" ng-model="precioIngrediente.valor" placeholder="Precio" name="precio")
+				input(type="number" required min="0" step="any" ng-model="ingrediente.precio" placeholder="Precio" name="precio")
 
-			fieldset(style="width:200px;")
+			fieldset(style="float:top;float:right;width:200px;")
 				h4 Alérgeno
 				select(required ng-options="alergeno.nombre as alergeno.nombre for alergeno in alergenos" ng-model="ingrediente.alergeno")
 				legend Composición
@@ -30,9 +30,5 @@ div(id="modalWrapper")
 				button(type="submit" ng-click="addIngrediente()") Crear
 
 	div(class="modal-footer")
-		{{familias}}
 		button(form="editIngrediente" class="btn btn-success" ng-disabled="editIngrediente.$invalid" ng-click="ok()") Aceptar
 		button(class="btn btn-warning" ng-click="cancel()") Cancelar
-
-{{ingrediente}}
-{{precioIngrediente}}

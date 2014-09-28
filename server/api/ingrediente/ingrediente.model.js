@@ -3,21 +3,20 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
-var IngredienteSchema = new Schema({
-  nombre: String,
-  estado: String,
+
+var ingredienteSchema = new Schema({
+  nombre: {type: String, required: true},
+  estado: {type: String, required: true},
   familia: String,
   alergeno: String,
-  precio: [{
-    fecha: {type: Object},
-    valor: {type: Number, min: 0}
-  }],
+  precio: {type: Number, min: 0, default: 0},
   composicion: {
-    calorias: {type: Number, min: 0},
-    proteinas: {type: Number, min: 0},
-    grasas: {type: Number, min: 0},
-    carbohidratos: {type: Number, min: 0}
+    calorias: {type: Number, min: 0, default: 0},
+    proteinas: {type: Number, min: 0, default: 0},
+    grasas: {type: Number, min: 0, default: 0},
+    carbohidratos: {type: Number, min: 0, default: 0}
   }
 });
 
-module.exports = mongoose.model('Ingrediente', IngredienteSchema);
+
+module.exports = mongoose.model('Ingrediente', ingredienteSchema);

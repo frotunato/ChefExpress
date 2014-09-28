@@ -2,7 +2,7 @@ angular.module('chefExpressApp.ingredientes')
 
 	.factory('ingredientesAPI', function ($http, $q) {
 		return {
-			apiUrl: '/api/ingredientes/',
+			apiUrl: '/api/ingredientes',
 			getIngredientes: function () {
 				var deferred = $q.defer();
 				$http.get(this.apiUrl).success(function (data, status) {
@@ -33,3 +33,9 @@ angular.module('chefExpressApp.ingredientes')
 			}
 		}
 	})
+
+/*
+	.factory('ingredientesAPI', function ($resource) {
+		return $resource('/api/ingredientes');
+	});
+*/
