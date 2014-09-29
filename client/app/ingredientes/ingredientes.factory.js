@@ -10,6 +10,13 @@ angular.module('chefExpressApp.ingredientes')
 				});
 				return deferred.promise;
 			},
+			getIngredientesPagina: function (pagina, cantidad) {
+				var deferred = $q.defer();						
+				$http.get(this.apiUrl + '/' + pagina + '/' + cantidad).success(function (data) {
+					deferred.resolve(data);
+				});
+				return deferred.promise;
+			},
 			getIngrediente: function (id) {
 				var deferred = $q.defer();
 				$http.get(this.apiUrl + id).success(function (data, status) {

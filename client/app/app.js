@@ -1,4 +1,4 @@
-angular.module('chefExpressApp', ['ngRoute', 'chefExpressApp.ingredientes', 'btford.socket-io', 'ui.bootstrap'])
+angular.module('chefExpressApp', ['ngRoute', 'chefExpressApp.ingredientes'])
 
 .config(function ($routeProvider) {
  $routeProvider

@@ -1,6 +1,6 @@
 angular.module('chefExpressApp.ingredientes')
 	
-	.controller('ingredientesMainCtrl', function ($scope, $sce, ngTableParams, ingredientesAPI) {
+	.controller('ingredientesMainCtrl', function ($scope, ngTableParams, ingredientesAPI) {
 		$scope.ingredientes = [];
 		
 		$scope.familias = [{nombre: 'Carne'}, {nombre: 'Frutos secos'}, {nombre: 'Cereales'}, {nombre: 'Leguminosas'}, {nombre: 'Tubérculos y hortalizas'}, {nombre: 'Frutos frescos'}, 
@@ -13,39 +13,26 @@ angular.module('chefExpressApp.ingredientes')
 		$scope.alergenos = [{nombre: 'Cereales con gluten'}, {nombre: 'Leche y derivados'}, {nombre: 'Cacahuetes'},
 		{nombre: 'Huevo y derivados'}, {nombre: 'Soja'}, {nombre: 'Frutos de cascara'}, {nombre: 'Apio y derivados'}, {nombre: 'Mostaza y derivados'}, 
 		{nombre: 'Sesamo'}, {nombre: 'Sulfitos'}, {nombre: 'Pescado y derivados'}, {nombre: 'Crustaceos'}, {nombre: 'Ninguno'}];
+		
+		// this should match however many results your API puts on one page
+
+		$scope.tablaIngredientes = new ngTableParams({
+			page: 0,
+			count: 25
+		}, {
+			total: 0,
+			getData: function ($defer, params) {		
+				ingredientesAPI.getIngredientesPagina(params.$params.page, params.$params.count).then( function (result) {
+					params.total(result.total)
+					$defer.resolve(result.data);
+				})
 
 		
-		
-		ingredientesAPI.getIngredientes().then(function (data) {
-			$scope.ingredientes = data;
-			
-			$scope.tablaIngredientes = new ngTableParams({
-				page: 1,
-				count: 10
-			}, {
-				total: 0,
-				getData: function ($defer, params) {
-					params.total($scope.ingredientes.length)
-					console.log($scope.ingredientes.length);
-					$defer.resolve($scope.ingredientes.slice((params.page() - 1) * params.count(), params.page() * params.count()));
-				}
-			});
-		})
-
-		/*
-		ingredientesAPI.getIngredientes().then(function (data) {
-			$scope.ingredientes = data;
+			}
 		});
 
-		$scope.addIngrediente = function () {
-			if($scope.nuevoIngrediente['nombre'] ) {
-				ingredientesAPI.addIngrediente($scope.nuevoIngrediente).then(function (data) {
-					$scope.ingredientes.push(data);
-				});	
-			}
-		}
-		*/
-		/*
+
+				/*
     $scope.chartObject = {
     	type: 'PieChart',
     	data: [
@@ -66,8 +53,6 @@ angular.module('chefExpressApp.ingredientes')
     };
 	*/
    
-    $scope.send = function (ingrediente) {
-   	
-   }
+  
 
    });

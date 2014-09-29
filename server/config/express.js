@@ -9,6 +9,7 @@ module.exports = function(app) {
 
   app.set('appPath', path.join(config.root, 'client'));
   app.set('view engine', 'jade');
+  app.set('json spaces', 0);
   app.set('views', path.join(app.get('appPath'), '/app/'));
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());

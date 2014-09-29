@@ -7,7 +7,8 @@ var config = require('./config/config.js');
 
 var app = express();
 var server = require('http').createServer(app);
-var socketio = require('socket.io')(server);
+
+//var socketio = require('socket.io')(server);
 
 require('./config/express')(app);
 require('./routes')(app);

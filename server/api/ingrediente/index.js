@@ -6,6 +6,8 @@ var controller = require('./ingrediente.controller');
 var router = express.Router();
 
 router.get('', controller.index);
+router.get('/search/:nombre', controller.showFiltered);
+router.get('/:page/:maxItems', controller.pagination);
 router.get('/:id', controller.show);
 router.post('', controller.create);
 router.put('/:id', controller.update);
