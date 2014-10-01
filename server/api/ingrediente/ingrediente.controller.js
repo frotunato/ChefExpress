@@ -28,20 +28,23 @@ exports.pagination = function (req, res) {
   });
 };
 */
+var sorting = { 'composicion.calorias': 'asc'};
 
 exports.pagination = function (req, res) {
+  var sorting = {};
+  sorting[req.params.field] = req.params.order;
+  console.log(JSON.stringify(sorting))
   Ingrediente.find()
   .limit(req.params.maxItems)
   .skip(req.params.maxItems * req.params.page)
-  .sort({
-    nombre: 'asc'
-  })
+  .sort(sorting)
   .exec(function (err, ingredientes) {
     Ingrediente.count(function (err, c) {
       return res.json({data: ingredientes, total: c});
     });
   });
 };
+
 
 exports.showFiltered = function (req, res) {
   console.log(req.params)
@@ -65,7 +68,6 @@ exports.show = function(req, res) {
   });
 };
 
-// Creates a new Ingrediente in the DB.
 exports.create = function(req, res) {
   Ingrediente.create(req.body, function(err, ingredientes) {
     console.log(req['body'])
@@ -74,8 +76,9 @@ exports.create = function(req, res) {
   });
 };
 
-// Updates an existing Ingrediente in the DB.
+/*
 exports.update = function(req, res) {
+  console.log(JSON.stringify(req.body))
   if(req.body._id) { delete req.body._id; }
     Ingrediente.findById(req.params.id, function (err, ingredientes) {
     if (err) { return handleError(res, err); }
@@ -87,13 +90,17 @@ exports.update = function(req, res) {
     });
   });
 };
+*/
 
-exports.updateField = function (req, res) {
-  if(req['body']['_id']) { delete req['body']['_id']; }
-  Ingrediente.find
+exports.update = function (req, res) {
+  if(req.body._id) { delete req.body._id; }
+  Ingrediente.findByIdAndUpdate(req.params.id, { $set: req.body }, function (err, ingrediente) {
+    if(err) { return handleError(res, err); }
+    return res.status(200);
+  })
 }
 
-// Deletes a Ingrediente from the DB.
+
 exports.destroy = function(req, res) {
   Ingrediente.findById(req.params.id, function (err, ingredientes) {
     if(err) { return handleError(res, err); }

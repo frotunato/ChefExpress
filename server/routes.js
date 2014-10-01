@@ -10,7 +10,7 @@ module.exports = function(app) {
 
 	app.route('/app/:directory/:file')
 		.get(function (req, res) {
-			res.render(req['params']['directory'] + '/' + req['params']['file'], {test: 'yolo'});
+			res.render(req['params']['directory'] + '/' + req['params']['file']);
 		});
 
  	app.route('/*')
