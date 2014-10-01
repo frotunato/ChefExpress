@@ -44,7 +44,6 @@ exports.pagination = function (req, res) {
 };
 
 exports.showFiltered = function (req, res) {
-  console.log('FILTERED')
   console.log(req.params)
   Ingrediente.find({ 'nombre': new RegExp('^' + req.params.nombre + '$', "i")}, function (err, ingredientes) {
     if(err) { return handleError(res,err);}
@@ -88,6 +87,11 @@ exports.update = function(req, res) {
     });
   });
 };
+
+exports.updateField = function (req, res) {
+  if(req['body']['_id']) { delete req['body']['_id']; }
+  Ingrediente.find
+}
 
 // Deletes a Ingrediente from the DB.
 exports.destroy = function(req, res) {

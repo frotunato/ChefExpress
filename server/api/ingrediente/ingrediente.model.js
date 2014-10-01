@@ -11,10 +11,10 @@ var ingredienteSchema = new Schema({
   alergeno: String,
   precio: {type: Number, min: 0, default: 0},
   composicion: {
-    calorias: {type: Number, min: 0, default: 0},
-    proteinas: {type: Number, min: 0, default: 0},
-    grasas: {type: Number, min: 0, default: 0},
-    carbohidratos: {type: Number, min: 0, default: 0}
+    calorias: {type: Number, default: 0, min: 0},
+    proteinas: {type: Number, default: 0, min: 0},
+    grasas: {type: Number, default: 0, min: 0},
+    carbohidratos: {type: Number, default: 0, min: 0}
   }
 });
 

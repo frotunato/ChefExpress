@@ -17,21 +17,30 @@ angular.module('chefExpressApp.ingredientes')
 		// this should match however many results your API puts on one page
 
 		$scope.tablaIngredientes = new ngTableParams({
-			page: 0,
+			page: 1,
 			count: 25
 		}, {
 			total: 0,
 			getData: function ($defer, params) {		
-				ingredientesAPI.getIngredientesPagina(params.$params.page, params.$params.count).then( function (result) {
-					params.total(result.total)
+				ingredientesAPI.getIngredientesPagina(params.$params.page - 1, params.$params.count).then( function (result) {
+					params.total(result.total);
 					$defer.resolve(result.data);
-				})
-
-		
+				});
 			}
 		});
 
+		$scope.actualizarIngrediente = function (id, field, data) {
+			var res = {};
+			res[field] = data;
+			console.log(JSON.stringify(res));
+			ingredientesAPI.updateIngrediente(id, res).then(function (data) {
+			});
+		}
 
+		$scope.b = function () {
+			alert($scope.title)
+		}
+		$scope.b();
 				/*
     $scope.chartObject = {
     	type: 'PieChart',

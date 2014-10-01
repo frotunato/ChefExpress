@@ -4,31 +4,31 @@ html(ng-app="chefExpressApp")
 		base(href="/")
 		link(rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css")
 		<!--########################## ANGULAR CORE ###########################-->
-		script(async src="bower_components/angular/angular.min.js")
-		script(async src="bower_components/angular-route/angular-route.min.js")
+		script(src="bower_components/angular/angular.js")
+		script(src="bower_components/angular-route/angular-route.min.js")
 		<!--###################################################################-->
 		
 		<!--######################### ANGULAR EXTRAS ##########################-->
-		script(async src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js")
-		script(async src="bower_components/angular-google-chart/ng-google-chart.js")
-		script(async src="bower_components/ng-table/ng-table.min.js")
+		script(src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js")
+		script(src="bower_components/angular-google-chart/ng-google-chart.js")
+		script(src="bower_components/ng-table/ng-table.min.js")
 		<!--###################################################################-->
 
 		<!--########################## APP MODULES ############################-->
-		script(async src="app/app.js")
-		script(async src="app/ingredientes/ingredientes.js")
+		script(src="app/app.js")
+		script(src="app/ingredientes/ingredientes.js")
 		<!--################################################################## -->
 		
 		<!--######################## APP CONTROLLERS ##########################-->
-		script(async src="app/ingredientes/ingredientes.controller.js")
+		script(src="app/ingredientes/ingredientes.controller.js")
 		<!--###################################################################-->
 		
 		<!--######################### APP FACTORIES ###########################-->
-		script(async src="app/ingredientes/ingredientes.factory.js")
+		script(src="app/ingredientes/ingredientes.factory.js")
 		<!--###################################################################-->
 		
-		<!--########################## APP FILTERS ############################-->
-		
+		<!--######################### APP DIRECTIVES ##########################-->
+		script(src="app/ingredientes/ingredientes.directive.js")
 		<!--###################################################################-->
 
 	body
