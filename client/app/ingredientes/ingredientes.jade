@@ -3,16 +3,21 @@ table(ng-table="(tablaIngredientes)" class="table-condensed table table-bordered
 		tr
 			th(class="text-center" colspan="4") Información del ingrediente
 			th(class="text-center" colspan="5") Composición del ingrediente
-		th(class="text-center" ng-click="tablaIngredientes.sorting().field = 'nombre'; a()") Nombre
+		th(class="text-center")
+			a(href="" ng-click="sort('nombre')") Nombre
 		th(class="text-center") Familia
 		th(class="text-center") Estado
-		th(class="text-center") Precio
-		th(class="text-center") Calorías
-		th(class="text-center") Carbohidratos
-		th(class="text-center") Proteínas
-		th(class="text-center") Grasas
+		th(class="text-center")
+			a(href="" ng-click="sort('precio')") Precio
+		th(class="text-center")
+			a(href="" ng-click="sort('composicion.calorias')") Calorías
+		th(class="text-center")
+			a(href="" ng-click="sort('composicion.carbohidratos')") Carbohidratos
+		th(class="text-center")
+			a(href="" ng-click="sort('composicion.proteinas')") Proteínas
+		th(class="text-center")
+			a(href="" ng-click="sort('composicion.grasas')") Grasas
 		th(class="text-center") Alérgeno
-		th(class="text-center") Acciones
 	tbody
 		tr(ng-repeat="ingrediente in $data")
 			

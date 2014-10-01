@@ -15,8 +15,7 @@ require('./routes')(app);
 require('./config/db')(config)
 
 server.listen(config.port, config.ip, function () {
-	console.log('Express server up on %d', config.port);
-	console.log(app.get('appPath'))
+	console.log('Express server running at port %d in %s mode', config.port, process.env.NODE_ENV);
 });
 
 exports = module.exports = app;

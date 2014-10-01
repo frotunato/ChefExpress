@@ -1,14 +1,14 @@
-var _ = require('lodash');
+//var _ = require('lodash');
 var Ingrediente = require('./ingrediente.model');
 
 // Get list of Ingredientes
 
 exports.index = function(req, res) {
+  console.log('TODOS')
   Ingrediente.find({}, function (err, ingredientes) {
     if(err) { return handleError(res, err); }
       console.log('response');
       return res.status(200).send(ingredientes);
-      
     });
   }; 
 

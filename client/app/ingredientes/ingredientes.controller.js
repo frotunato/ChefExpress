@@ -18,13 +18,14 @@ angular.module('chefExpressApp.ingredientes')
 
 		$scope.tablaIngredientes = new ngTableParams({
 			page: 1,
-			count: 25,
+			count: 20,
 			sorting: {
-				field: 'composicion.carbohidratos',
+				field: 'nombre',
 				order: 'asc'
 			}
 		}, {
 			total: 0,
+			counts: [10,20,35,50,70,100],
 			getData: function ($defer, params) {		
 				ingredientesAPI.getIngredientesPagina(params.page() - 1, params.count(), params.sorting().field, params.sorting().order).then( function (result) {
 					params.total(result.total);
@@ -41,6 +42,17 @@ angular.module('chefExpressApp.ingredientes')
 			});
 		}
 
+		$scope.sort = function (inputField) {
+			var newOrder = null;
+			if($scope.tablaIngredientes.sorting().order === 'asc') {
+				var newOrder = 'desc';
+			} else {
+				var newOrder = 'asc';
+			}
+			$scope.tablaIngredientes.sorting()['field'] = inputField;
+			$scope.tablaIngredientes.sorting()['order'] = newOrder;
+
+		}
 
 				/*
     $scope.chartObject = {

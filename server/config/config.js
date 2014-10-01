@@ -1,4 +1,4 @@
-var env = process.env.NODE_ENV || 'development';
+var env = process.env.NODE_ENV = 'development';
 var path = require('path');
 
 var config = {
