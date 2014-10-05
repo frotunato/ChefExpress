@@ -1,67 +1,74 @@
-table(ng-table="(tablaIngredientes)" class="table-condensed table table-bordered" )
-	thead
-		tr
-			th(class="text-center" colspan="4") Información del ingrediente
-			th(class="text-center" colspan="5") Composición del ingrediente
-		th(class="text-center")
-			a(href="" ng-click="sort('nombre')") Nombre
-		th(class="text-center") Familia
-		th(class="text-center") Estado
-		th(class="text-center")
-			a(href="" ng-click="sort('precio')") Precio
-		th(class="text-center")
-			a(href="" ng-click="sort('composicion.calorias')") Calorías
-		th(class="text-center")
-			a(href="" ng-click="sort('composicion.carbohidratos')") Carbohidratos
-		th(class="text-center")
-			a(href="" ng-click="sort('composicion.proteinas')") Proteínas
-		th(class="text-center")
-			a(href="" ng-click="sort('composicion.grasas')") Grasas
-		th(class="text-center") Alérgeno
-	tbody
-		tr(ng-repeat="ingrediente in $data")
-			
-			td(ng-click="ingrediente.$editNombre = true")
-				span(ng-if="!ingrediente.$editNombre") {{ingrediente.nombre}}
-				div(ng-if="ingrediente.$editNombre" style="width:150px;")
-					input(focus ng-blur="ingrediente.$editNombre = false; actualizarIngrediente($parent.ingrediente._id, 'nombre', ingrediente.nombre)" style="max-width:inherit;max-height:inherit;" class="form-control" tooltip="Nombre del ingrediente." tooltip-delay="1000" placeholder="Nombre" type="text" ng-model="ingrediente.nombre")
-			
-			td(ng-click="ingrediente.$editFamilia = true")
-				span(ng-if="!ingrediente.$editFamilia") {{ingrediente.familia}}
-				div(ng-if="ingrediente.$editFamilia" style="width:170px;" )
-					select(focus ng-blur="ingrediente.$editFamilia = false; actualizarIngrediente($parent.ingrediente._id, 'familia', ingrediente.familia)" tooltip="Familia del ingrediente." tooltip-delay="1000" required class="form-control" ng-options="familia.nombre as familia.nombre for familia in familias" ng-model="ingrediente.familia")
-			
-			td(ng-click="ingrediente.$editEstado = true")
-				span(ng-if="!ingrediente.$editEstado") {{ingrediente.estado}}
-				div(ng-if="ingrediente.$editEstado" style="width:80px;" )
-					select(focus ng-blur="ingrediente.$editEstado = false; actualizarIngrediente($parent.ingrediente._id, 'estado', ingrediente.estado)" style="input-sm" tooltip="Estado del ingrediente." tooltip-delay="1000" required class="form-control" ng-options="estado.nombre as estado.nombre for estado in estados" ng-model="ingrediente.estado")
-			
-			td(ng-click="ingrediente.$editPrecio = true")
-				span(ng-if="!ingrediente.$editPrecio") {{ingrediente.precio}} €
-				div(ng-if="ingrediente.$editPrecio" style="width:80px;")
-					input(focus ng-blur="ingrediente.$editPrecio = false; actualizarIngrediente($parent.ingrediente._id, 'precio', ingrediente.precio)" style="height:30px;" tooltip="Precio del ingrediente por kg de producto." tooltip-delay="1000" placeholder="placeholder" class="form-control" type="number" ng-model="ingrediente.precio")
-						
-			td(ng-click="ingrediente.$editComposicion = true")
-				span(ng-if="!ingrediente.$editComposicion") {{ingrediente.composicion.calorias}} g
-				div(ng-if="ingrediente.$editComposicion" style="width:80px;")
-					input(focus ng-blur="ingrediente.$editComposicion = false; actualizarIngrediente($parent.ingrediente._id, 'composicion.calorias', ingrediente.composicion.calorias)" style="height:30px;" tooltip="Calorías por cada 100g de producto." tooltip-delay="1000" placeholder="Calorías" class="form-control" type="number" ng-model="ingrediente.composicion.calorias")
-			
-			td(ng-click="ingrediente.$editCarbohidratos = true")
-				span(ng-if="!ingrediente.$editCarbohidratos") {{ingrediente.composicion.carbohidratos}} g
-				div(ng-if="ingrediente.$editCarbohidratos" style="width:80px;")
-					input(focus ng-blur="ingrediente.$editCarbohidratos = false; actualizarIngrediente($parent.ingrediente._id, 'composicion.carbohidratos', ingrediente.composicion.carbohidratos)" style="height:30px;" tooltip="Carbohidratos por cada 100g de producto." tooltip-delay="1000" placeholder="Carbohidratos" class="form-control" type="number" ng-model="ingrediente.composicion.carbohidratos")
-			
-			td(ng-click="ingrediente.$editProteinas = true")
-				span(ng-if="!ingrediente.$editProteinas") {{ingrediente.composicion.proteinas}} g
-				div(ng-if="ingrediente.$editProteinas" style="width:80px;")
-					input(focus ng-blur="ingrediente.$editProteinas = false; actualizarIngrediente($parent.ingrediente._id, 'composicion.proteinas', ingrediente.composicion.proteinas)" style="height:30px;" tooltip="Proteínas por cada 100g de producto." tooltip-delay="1000" placeholder="Proteinas" class="form-control" type="number" ng-model="ingrediente.composicion.proteinas")
-			
-			td(ng-click="ingrediente.$editGrasas = true")
-				span(ng-if="!ingrediente.$editGrasas") {{ingrediente.composicion.grasas}} g
-				div(ng-if="ingrediente.$editGrasas" style="width:80px;")
-					input(focus ng-blur="ingrediente.$editGrasas = false; actualizarIngrediente($parent.ingrediente._id, 'composicion.grasas', ingrediente.composicion.grasas)"  tooltip="Grasas por cada 100g de producto." tooltip-delay="1000" placeholder="Grasas" class="form-control" type="number" ng-model="ingrediente.composicion.grasas")
+block content
+	{{filtro}}
+	table(ng-table="tablaIngredientes" show-filter="true" class="table-condensed table-bordered")
+		thead
+			tr
+				th(class="text-center" colspan="4") Información del ingrediente
+				th(class="text-center" colspan="5") Composición del ingrediente
+			th(class="text-center sortable")
+				p
+					a(href="" ng-click="sort('nombre')") Nombre
+				input(type="text" ng-change="search()" class="form-control input-sm" ng-model="$parent.busquedaNombre" ng-model-options="{debounce: 300}")
+			th(class="text-center")
+				p
+					a(href="" ng-click="filter('familia', 'Carne')") Familia
+				select(class="form-control input-sm" ng-options="familia.nombre as familia.nombre for familia in familias" ng-model="$parent.filtro.familia")
+			th(class="text-center") Estado
+			th(class="text-center")
+				a(href="" ng-click="sort('precio')") Precio
+			th(class="text-center")
+				a(href="" ng-click="sort('composicion.calorias')") Calorías
+			th(class="text-center")
+				a(href="" ng-click="sort('composicion.carbohidratos')") Carbohidratos
+			th(class="text-center")
+				a(href="" ng-click="sort('composicion.proteinas')") Proteínas
+			th(class="text-center")
+				a(href="" ng-click="sort('composicion.grasas')") Grasas
+			th(class="text-center") Alérgeno
+		tbody
+			tr(ng-repeat="ingrediente in $data")
+				
+				td(ng-dblclick="ingrediente.$editNombre = true" style="height:41px;")
+					span(ng-if="!ingrediente.$editNombre" ng-bind="ingrediente.nombre")
+					div(ng-if="ingrediente.$editNombre" style="width:150px;")
+						input(focus value="ingrediente.nombre" ng-blur="ingrediente.$editNombre = false; actualizarIngrediente($parent.ingrediente._id, 'nombre', ingrediente.nombre)" class="form-control input-sm" tooltip="Nombre del ingrediente." tooltip-delay="1000" placeholder="Nombre" type="text" ng-model="ingrediente.nombre")
+				
+				td(ng-dblclick="ingrediente.$editFamilia = true")
+					span(ng-if="!ingrediente.$editFamilia" ng-bind="ingrediente.familia")
+					div(ng-if="ingrediente.$editFamilia" style="width:170px;" )
+						select(focus ng-blur="ingrediente.$editFamilia = false; actualizarIngrediente($parent.ingrediente._id, 'familia', ingrediente.familia)" tooltip="Familia del ingrediente." tooltip-delay="1000" required class="form-control input-sm" ng-options="familia.nombre as familia.nombre for familia in familias" ng-model="ingrediente.familia")
+				
+				td(ng-dblclick="ingrediente.$editEstado = true")
+					span(ng-if="!ingrediente.$editEstado" ng-bind="ingrediente.estado")
+					div(ng-if="ingrediente.$editEstado" style="width:80px;" )
+						select(focus ng-blur="ingrediente.$editEstado = false; actualizarIngrediente($parent.ingrediente._id, 'estado', ingrediente.estado)" style="input-sm" tooltip="Estado del ingrediente." tooltip-delay="1000" required class="form-control input-sm" ng-options="estado.nombre as estado.nombre for estado in estados" ng-model="ingrediente.estado")
+				
+				td(ng-dblclick="ingrediente.$editPrecio = true")
+					span(ng-if="!ingrediente.$editPrecio" ng-bind="ingrediente.precio")
+					div(ng-if="ingrediente.$editPrecio" style="width:80px;")
+						input(focus ng-blur="ingrediente.$editPrecio = false; actualizarIngrediente($parent.ingrediente._id, 'precio', ingrediente.precio)" style="height:30px;" tooltip="Precio del ingrediente por kg de producto." tooltip-delay="1000" placeholder="placeholder" class="form-control input-sm" type="number" ng-model="ingrediente.precio")
+							
+				td(ng-dblclick="ingrediente.$editComposicion = true")
+					span(ng-if="!ingrediente.$editComposicion" ng-bind="ingrediente.composicion.calorias")
+					div(ng-if="ingrediente.$editComposicion" style="width:80px;")
+						input(focus ng-blur="ingrediente.$editComposicion = false; actualizarIngrediente($parent.ingrediente._id, 'composicion.calorias', ingrediente.composicion.calorias)" style="height:30px;" tooltip="Calorías por cada 100g de producto." tooltip-delay="1000" placeholder="Calorías" class="form-control input-sm" type="number" ng-model="ingrediente.composicion.calorias")
+				
+				td(ng-dblclick="ingrediente.$editCarbohidratos = true")
+					span(ng-if="!ingrediente.$editCarbohidratos" ng-bind="ingrediente.composicion.carbohidratos")
+					div(ng-if="ingrediente.$editCarbohidratos" style="width:80px;")
+						input(focus ng-blur="ingrediente.$editCarbohidratos = false; actualizarIngrediente($parent.ingrediente._id, 'composicion.carbohidratos', ingrediente.composicion.carbohidratos)" style="height:30px;" tooltip="Carbohidratos por cada 100g de producto." tooltip-delay="1000" placeholder="Carbohidratos" class="form-control input-sm" type="number" ng-model="ingrediente.composicion.carbohidratos")
+				
+				td(ng-dblclick="ingrediente.$editProteinas = true")
+					span(ng-if="!ingrediente.$editProteinas" ng-bind="ingrediente.composicion.proteinas")
+					div(ng-if="ingrediente.$editProteinas" style="width:80px;")
+						input(focus ng-blur="ingrediente.$editProteinas = false; actualizarIngrediente($parent.ingrediente._id, 'composicion.proteinas', ingrediente.composicion.proteinas)" style="height:30px;" tooltip="Proteínas por cada 100g de producto." tooltip-delay="1000" placeholder="Proteinas" class="form-control input-sm" type="number" ng-model="ingrediente.composicion.proteinas")
+				
+				td(ng-dblclick="ingrediente.$editGrasas = true")
+					span(ng-if="!ingrediente.$editGrasas" ng-bind="ingrediente.composicion.grasas")
+					div(ng-if="ingrediente.$editGrasas" style="width:80px;")
+						input(focus ng-blur="ingrediente.$editGrasas = false; actualizarIngrediente($parent.ingrediente._id, 'composicion.grasas', ingrediente.composicion.grasas)"  tooltip="Grasas por cada 100g de producto." tooltip-delay="1000" placeholder="Grasas" class="form-control input-sm" type="number" ng-model="ingrediente.composicion.grasas")
 
-			td(ng-click="ingrediente.$editAlergeno = true")
-				span(ng-if="!ingrediente.$editAlergeno") {{ingrediente.alergeno}}
-				div(ng-if="ingrediente.$editAlergeno" style="width:180px;")
-					select(focus ng-blur="ingrediente.$editAlergeno = false; actualizarIngrediente($parent.ingrediente._id, 'alergeno', ingrediente.alergeno)" style="height:30px;" tooltip="Indicar si el ingrediente contiene algún alérgeno." tooltip-delay="1000" required class="form-control" ng-options="alergeno.nombre as alergeno.nombre for alergeno in alergenos" ng-model="ingrediente.alergeno")
+				td(ng-dblclick="ingrediente.$editAlergeno = true")
+					span(ng-if="!ingrediente.$editAlergeno" ng-bind="ingrediente.alergeno")
+					div(ng-if="ingrediente.$editAlergeno" style="width:180px;")
+						select(focus ng-blur="ingrediente.$editAlergeno = false; actualizarIngrediente($parent.ingrediente._id, 'alergeno', ingrediente.alergeno)" style="height:30px;" tooltip="Indicar si el ingrediente contiene algún alérgeno." tooltip-delay="1000" required class="form-control input-sm" ng-options="alergeno.nombre as alergeno.nombre for alergeno in alergenos" ng-model="ingrediente.alergeno")	}

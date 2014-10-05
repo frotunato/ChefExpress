@@ -4,8 +4,8 @@ angular.module('chefExpressApp', ['ngRoute', 'chefExpressApp.ingredientes'])
  $routeProvider
  	
  	.when('/ingredientes', {
- 		controller: 'ingredientesMainCtrl',
- 		templateUrl: 'app/ingredientes/ingredientes'
+ 		templateUrl: 'app/ingredientes/ingredientes',
+ 		controller: 'ingredientesMainCtrl'
  	})
  	
  	.otherwise({

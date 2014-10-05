@@ -10,9 +10,18 @@ angular.module('chefExpressApp.ingredientes')
 				});
 				return deferred.promise;
 			},
-			getIngredientesPagina: function (pagina, cantidad, campo, orden) {
+			getIngredientesPagina: function (config) {
 				var deferred = $q.defer();						
-				$http.get(this.apiUrl + '/' + pagina + '/' + cantidad + '/' + campo + '/' + orden).success(function (data) {
+				console.log(JSON.stringify(config))
+				$http.get(this.apiUrl + '/', { params: {
+					page: config.page,
+					max: config.max,
+					sortByField: config.sorting.sortByField,
+					sortCriteria: config.sorting.sortCriteria,
+					filterByField: config.filtering.filterByField,
+					filterCriteria: config.filtering.filterCriteria
+				}, cache: true
+			}).success(function (data) {
 					deferred.resolve(data);
 				});
 				return deferred.promise;
@@ -37,6 +46,13 @@ angular.module('chefExpressApp.ingredientes')
 						deferred.resolve(data);
 				});
 				return deferred.promise;	
+			},
+			custom: function (data) {
+				var deferred = $q.defer();
+				$http.get(this.apiUrl, data).success(function (data, status) {
+					deferred.resolve(data);
+				});
+				return deferred.promise;
 			}
 		}
 	})
