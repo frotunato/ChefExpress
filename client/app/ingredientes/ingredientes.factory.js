@@ -12,14 +12,13 @@ angular.module('chefExpressApp.ingredientes')
 			},
 			getIngredientesPagina: function (config) {
 				var deferred = $q.defer();						
+				//var data = JSON.stringify(config.filter)
 				console.log(JSON.stringify(config))
 				$http.get(this.apiUrl + '/', { params: {
-					page: config.page,
-					max: config.max,
-					sortByField: config.sorting.sortByField,
-					sortCriteria: config.sorting.sortCriteria,
-					filterByField: config.filtering.filterByField,
-					filterCriteria: config.filtering.filterCriteria
+						page: config.page,
+						max: config.max,
+						sort: config.sort,
+						filter: config.filter
 				}, cache: true
 			}).success(function (data) {
 					deferred.resolve(data);

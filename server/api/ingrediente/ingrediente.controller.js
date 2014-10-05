@@ -5,11 +5,13 @@ var Ingrediente = require('./ingrediente.model');
 
 exports.index = function(req, res) {
   console.log(JSON.stringify(req.query))
+  console.log('original', req.query.filter, 'sorting', req.query.sort)
   var sorting = {};  
   var filtering = {};
-  sorting[req.query.sortByField] = req.query.sortCriteria;
-  filtering[req.query.filterByField] = req.query.filterCriteria;
- 
+  filtering = JSON.parse(req.query.filter);
+  sorting = JSON.parse(req.query.sort);
+  //filtering[req.query.filterByField] = req.query.filterCriteria;
+  
   if(filtering['nombre']) {
     filtering['nombre'] = new RegExp(filtering['nombre'], "i");
   }
@@ -26,7 +28,7 @@ exports.index = function(req, res) {
       Ingrediente.count(filtering, function (err, c) {
         return res.status(200).json({data: ingredientes, total: c});        
       });
-  });
+    });
 }
 
 

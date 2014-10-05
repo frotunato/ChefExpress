@@ -2,21 +2,22 @@ angular.module('chefExpressApp.ingredientes')
 	
 	.controller('ingredientesMainCtrl', function ($scope, ngTableParams, ingredientesAPI) {
 		$scope.ingredientes =  [];
-  		$scope.familias = [{nombre: 'Carne'}, {nombre: 'Frutos secos'}, {nombre: 'Cereales'}, {nombre: 'Leguminosas'}, {nombre: 'Tubérculos y hortalizas'}, {nombre: 'Frutos frescos'}, 
-  		{nombre: 'Leche y derivados'}, {nombre: 'Huevos'}, {nombre: 'Azucares y dulces varios'}, {nombre: 'Aceites y grasas'}, {nombre: 'Pescados'}, 
-  		{nombre: 'Embutidos'}];
+  		  	
+  	$scope.familias = ['Carne', 'Frutos secos', 'Cereales', 'Leguminosas', 
+  	'Tubérculos y hortalizas', 'Frutos frescos', 'Leche y derivados', 'Huevos', 
+  	'Azúcares y dulces varios', 'Aceites y grasas', 'Pescados', 'Embutidos'];
+
+  	$scope.estados = ['Crudo', 'Seco', 'Pochado', 'Marinado','Frito', 'Cocido'];
   		
-  		$scope.estados = [{nombre: 'Crudo'}, {nombre: 'Seco'}, {nombre: 'Pochado'}, {nombre: 'Marinado'},
-  		{nombre: 'Frito'}, {nombre: 'Cocido'}];
+  	$scope.alergenos = ['Cereales con gluten','Leche y derivados', 'Cacahuetes',
+  	'Huevo y derivados', 'Soja', 'Frutos de cascara', 'Apio y derivados', 'Mostaza y derivados', 
+  	 'Sesamo', 'Sulfitos','Pescado y derivados', 'Crustaceos', 'Ninguno'];
   		
-  		$scope.alergenos = [{nombre: 'Cereales con gluten'}, {nombre: 'Leche y derivados'}, {nombre: 'Cacahuetes'},
-  		{nombre: 'Huevo y derivados'}, {nombre: 'Soja'}, {nombre: 'Frutos de cascara'}, {nombre: 'Apio y derivados'}, {nombre: 'Mostaza y derivados'}, 
-  		{nombre: 'Sesamo'}, {nombre: 'Sulfitos'}, {nombre: 'Pescado y derivados'}, {nombre: 'Crustaceos'}, {nombre: 'Ninguno'}];
-  		
-  	$scope.filtering = {filterByField: null, filterCriteria: null};
-		$scope.sorting = {sortByField: 'nombre', sortCriteria: 'asc'};
 		$scope.busquedaNombre = '';
-		$scope.filtro = {};
+		
+		$scope.filtering = {};
+		$scope.sorting = {nombre: 'desc'};
+/*
 		$scope.search = function () {
 			if($scope.busquedaNombre === "") {
 				$scope.filtering['filterByField'] = null;
@@ -27,10 +28,10 @@ angular.module('chefExpressApp.ingredientes')
 			}
 			$scope.tablaIngredientes.reload();	
 		}
-
+*/
 		$scope.tablaIngredientes = new ngTableParams({
 			page: 1,
-			count: 20,
+			count: 20
 		}, {
 			data: $scope.ingredientes,
 			total: 0,
@@ -39,8 +40,8 @@ angular.module('chefExpressApp.ingredientes')
 				ingredientesAPI.getIngredientesPagina({
 					page: params.page() - 1, 
 					max: params.count(), 
-					sorting: $scope.sorting,
-					filtering: $scope.filtering
+					sort: $scope.sorting,
+					filter: $scope.filtering
 				}).then(function (result) {
 					$scope.ingredientes = result.data;
 					params.total(result.total);
@@ -61,22 +62,21 @@ angular.module('chefExpressApp.ingredientes')
 			});
 		}
 
-		$scope.filter = function (filterField, filterCriteria) {
-			var newFilter = null;
-			$scope.filtering['filterByField'] = filterField;
-			$scope.filtering['filterCriteria'] = filterCriteria;
+		$scope.filter = function () {
+			for (var key in $scope.filtering) {
+				if ($scope.filtering[key] === "" || $scope.filtering[key] === null) {
+					delete $scope.filtering[key];
+				}
+			}
 			$scope.tablaIngredientes.reload();
 		}
 
 		$scope.sort = function (inputField) {
-			var newOrder = null;
-			if($scope.sorting['sortCriteria'] === 'asc') {
-				var newOrder = 'desc';
+			if($scope.sorting[inputField] === 'asc') {
+				$scope.sorting[inputField] = 'desc';
 			} else {
-				var newOrder = 'asc';
+				$scope.sorting[inputField] = 'asc';
 			}
-			$scope.sorting[inputField] = inputField;
-			$scope.sorting['sortCriteria'] = newOrder;
 			$scope.tablaIngredientes.reload();
 		}
 
