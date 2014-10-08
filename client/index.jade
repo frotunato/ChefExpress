@@ -4,17 +4,23 @@ html(ng-app="chefExpressApp")
 		base(href="/")
 		link(rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css")
 		link(rel="stylesheet" href="bower_components/tables-min.css")
+		
+
 		<!--########################## ANGULAR CORE ###########################-->
 		script(src="bower_components/angular/angular.js")
 		script(src="bower_components/angular-route/angular-route.min.js")
 		<!--###################################################################-->
 		
 		<!--########################## APP MODULES ############################-->
-		script(src="app/app.js")
+		script(src="app/inicio/inicio.js")
 		script(src="app/ingredientes/ingredientes.js")
+		script(src="app/recetas/recetas.js")
+		script(src="app/app.js")
+
 		<!--################################################################## -->
 		
 		<!--######################## APP CONTROLLERS ##########################-->
+		script(src="app/inicio/inicio.controller.js")
 		script(src="app/ingredientes/ingredientes.controller.js")
 		<!--###################################################################-->
 		
@@ -35,6 +41,4 @@ html(ng-app="chefExpressApp")
 	
 
 	body
-		block content
-			div(ng-view="")
-			a(href="#/ingredientes") Ingredientes
+		div(ng-view="")

@@ -23,7 +23,6 @@ exports.index = function(req, res) {
     .sort(sorting)
     .exec(function (err, ingredientes) {
       if(err) { return handleError(res, err); }
-      //console.log('response', ingredientes);
       console.log(ingredientes.length)
       Ingrediente.count(filtering, function (err, c) {
         return res.status(200).json({data: ingredientes, total: c});        
@@ -31,107 +30,8 @@ exports.index = function(req, res) {
     });
 }
 
-
-/*
-exports.index = function(req, res) {
-  console.log(JSON.stringify(req.query))
-  var sorting = {};  
-  var filtering = {};
-  sorting[req.query.sortByField] = req.query.sortCriteria;
-  filtering[req.query.filterByField] = req.query.filterCriteria;
-  Ingrediente
-    if(filtering[req.query.filterByField] === 'nombre') {
-      console.log('FILTRANFO POR NOMBRE');
-    }
-    .find(filtering)
-    .limit(req.query.max)
-    .skip(req.query.max * req.query.page)
-    .sort(sorting)
-    .exec(function (err, ingredientes) {
-      if(err) { return handleError(res, err); }
-      //console.log('response', ingredientes);
-      console.log(ingredientes.length)
-      Ingrediente.count(function (err, c) {
-        return res.status(200).json({data: ingredientes, total: c});        
-      });
-  });
-}
-*/
-
-
-/*
-exports.pagination = sfunction (req, res) {
-  Ingrediente.find({}, function (err, ingredientes) {
-    if(err) return handleError(res, err);
-    if(!ingredientes) return res.send(404);
-    console.log(ingredientes[20])
-    var index = req.params.maxItems * req.params.page;
-    var bottom = ingredientes[index - 1];
-    var top = ingredientes[index + req.params.maxItems - 1];
-
-    var result = ingredientes.slice(bottom, top);
-    console.log(JSON.stringify(result), 'index ' + index, result.length, ingredientes.length)
-    return res.json(result);
-  });
-};
-*/
-
-/*
-exports.pagination = function (req, res) {
-  var sorting = {};
-  sorting[req.params.field] = req.params.order;
-  console.log(JSON.stringify(sorting))
-  Ingrediente
-  .find()
-  .where('estado')
-  .equals('Crudo')
-  .limit(req.params.maxItems)
-  .skip(req.params.maxItems * req.params.page)
-  .sort(sorting)
-  .exec(function (err, ingredientes) {
-    console.log(JSON.stringify(ingredientes))
-    Ingrediente.count(function (err, c) {
-      return res.json({data: ingredientes, total: c});
-    });
-  });
-};
-*/
-
-exports.pagination = function (req, res) {
-  var aa = JSON.stringify(req.params.max);
-  console.log(aa, 'yolo')
-  var sorting = {};
-  //sorting[req.params.field] = req.params.order;
-  //console.log(JSON.stringify(sorting))
-  Ingrediente
-  .find()
-  //.where('estado')
-  //equals('Crudo')
-  .limit(req.params.pagination.max)
-  .skip(req.params.pagination.max * req.params.pagination.page)
-  //.sort(sorting)
-  .exec(function (err, ingredientes) {
-    console.log(JSON.stringify(ingredientes))
-    Ingrediente.count(function (err, c) {
-      return res.json({data: ingredientes, total: c});
-    });
-  });
-};
-
-exports.showFiltered = function (req, res) {
-  console.log(req.params)
-  Ingrediente.find({ 'nombre': new RegExp('^' + req.params.nombre + '$', "i")}, function (err, ingredientes) {
-    if(err) { return handleError(res,err);}
-    if(!ingredientes) { return res.send(404);}
-    console.log('SOMETHING', ingredientes.length);
-    return res.json(ingredientes);
-  });
-};
-
-
 // Get a single Ingrediente
 exports.show = function(req, res) {
-  console.log('MOSTRANDO UNO POR ID')
   Ingrediente.findById(req.params.id, function (err, ingredientes) {
     if(err) { return handleError(res, err); }
     if(!ingredientes) { return res.send(404); }

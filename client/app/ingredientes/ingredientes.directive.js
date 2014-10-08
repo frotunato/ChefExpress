@@ -7,5 +7,5 @@ angular.module('chefExpressApp.ingredientes')
 			link: function (scope, elem, attr) {
 				elem[0].focus();
 			}
-		}
-	})
+		};
+	});

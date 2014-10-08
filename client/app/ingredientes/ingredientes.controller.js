@@ -3,32 +3,25 @@ angular.module('chefExpressApp.ingredientes')
 	.controller('ingredientesMainCtrl', function ($scope, ngTableParams, ingredientesAPI) {
 		$scope.ingredientes =  [];
   		  	
-  	$scope.familias = ['Carne', 'Frutos secos', 'Cereales', 'Leguminosas', 
-  	'Tubérculos y hortalizas', 'Frutos frescos', 'Leche y derivados', 'Huevos', 
-  	'Azúcares y dulces varios', 'Aceites y grasas', 'Pescados', 'Embutidos'];
+  	$scope.familias = ['Aceites y grasas','Agua guisos','Aves y Caza','Azucares y Dulces',
+    'Bebidas con Alcohol','Bebidas sin Alcohol','Bolleria y Pasteleria','Cafe, cacao e infusiones',
+    'Carnes','Cereales y derivados','Condimentos y Salsas','Congelados','Conservas de frutas',
+    'Despojos','Embutidos','Frutas','Frutos secos','Huevos','Lacteos y Derivados','Latas',
+    'Legumbres','Mantenimiento','Mariscos y Crustaceos','Pastas alimenticias','Patatas',
+    'Pescados','Precocinados','Sopas y Cremas','Verduras y hortalizas','Zumos frescos'];
 
   	$scope.estados = ['Crudo', 'Seco', 'Pochado', 'Marinado','Frito', 'Cocido'];
   		
   	$scope.alergenos = ['Cereales con gluten','Leche y derivados', 'Cacahuetes',
   	'Huevo y derivados', 'Soja', 'Frutos de cascara', 'Apio y derivados', 'Mostaza y derivados', 
-  	 'Sesamo', 'Sulfitos','Pescado y derivados', 'Crustaceos', 'Ninguno'];
-  		
-		$scope.busquedaNombre = '';
+  	'Sesamo', 'Sulfitos','Pescado y derivados', 'Crustaceos', 'Ninguno'];
 		
 		$scope.filtering = {};
-		$scope.sorting = {nombre: 'desc'};
-/*
-		$scope.search = function () {
-			if($scope.busquedaNombre === "") {
-				$scope.filtering['filterByField'] = null;
-				$scope.filtering['filterCriteria'] = null;
-			} else {
-				$scope.filtering['filterByField'] = 'nombre';
-				$scope.filtering['filterCriteria'] = $scope.busquedaNombre;
-			}
-			$scope.tablaIngredientes.reload();	
-		}
-*/
+		$scope.sorting = {nombre: 'asc'};
+
+		
+
+
 		$scope.tablaIngredientes = new ngTableParams({
 			page: 1,
 			count: 20
@@ -50,26 +43,24 @@ angular.module('chefExpressApp.ingredientes')
 			}
 		});
 		
-		//alert(JSON.stringify($scope.tablaIngredientes.settings()))
-
 		$scope.actualizarIngrediente = function (id, field, data) {
 			var res = {};
 			res[field] = data;
 
 			ingredientesAPI.updateIngrediente(id, res).then(function (data) {
-				console.log(data)
-				console.log($scope.ingredientes)
+				console.log(data);
+				console.log($scope.ingredientes);
 			});
-		}
+		};
 
 		$scope.filter = function () {
-			for (var key in $scope.filtering) {
-				if ($scope.filtering[key] === "" || $scope.filtering[key] === null) {
-					delete $scope.filtering[key];
-				}
-			}
+      for (var key in $scope.filtering) {
+        if ($scope.filtering[key] === "" || $scope.filtering[key] === null) {
+          delete $scope.filtering[key];
+        }
+      }
 			$scope.tablaIngredientes.reload();
-		}
+		};
 
 		$scope.sort = function (inputField) {
 			if($scope.sorting[inputField] === 'asc') {
@@ -78,11 +69,8 @@ angular.module('chefExpressApp.ingredientes')
 				$scope.sorting[inputField] = 'asc';
 			}
 			$scope.tablaIngredientes.reload();
-		}
+		};
 
-		$scope.a = function () {
-			alert('a')
-		}
 
 				/*
     $scope.chartObject = {
@@ -105,6 +93,8 @@ angular.module('chefExpressApp.ingredientes')
     };
 	*/
    
+
+ 
  
 
    });
