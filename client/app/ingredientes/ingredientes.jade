@@ -1,5 +1,4 @@
 h2 Ingredientes
-
 table(ng-table="tablaIngredientes" class="table table-condensed table-bordered")
 	thead
 		tr
@@ -8,7 +7,7 @@ table(ng-table="tablaIngredientes" class="table table-condensed table-bordered")
 		th(class="text-center sortable")
 			p
 				a(href="" ng-click="sort('nombre')") Nombre
-			input(type="text" ng-change="filter()" class="form-control input-sm" ng-model="$parent.filtering.nombre" ng-model-options="{debounce: 300}")
+			input(type="text" ng-change="filter()" class="form-control input-sm" ng-model="$parent.filtering.nombre" ng-model-options="{debounce: 150}")
 		th(class="text-center")
 			p
 				a(href="" ng-click="sort('familia')") Familia
@@ -55,7 +54,7 @@ table(ng-table="tablaIngredientes" class="table table-condensed table-bordered")
 			td(ng-dblclick="ingrediente.$editPrecio = true")
 				span(ng-if="!ingrediente.$editPrecio" ng-bind="ingrediente.precio")
 				div(ng-if="ingrediente.$editPrecio" style="width:80px;")
-					input(focus ng-blur="ingrediente.$editPrecio = false; actualizarIngrediente($parent.ingrediente._id, 'precio', ingrediente.precio)" tooltip="Precio del ingrediente por kg de producto." tooltip-delay="1000" placeholder="placeholder" class="form-control input-sm" type="number" ng-model="ingrediente.precio")
+					input(focus ng-blur="ingrediente.$editPrecio = false; actualizarIngrediente($parent.ingrediente._id, 'precio', ingrediente.precio)" tooltip="Precio del ingrediente por kg de producto." tooltip-delay="1000" class="form-control input-sm" type="number" ng-model="ingrediente.precio")
 						
 			td(ng-dblclick="ingrediente.$editComposicion = true")
 				span(ng-if="!ingrediente.$editComposicion" ng-bind="ingrediente.composicion.calorias")
@@ -82,8 +81,7 @@ table(ng-table="tablaIngredientes" class="table table-condensed table-bordered")
 				div(ng-if="ingrediente.$editAlergeno" style="width:180px;")
 					select(focus ng-blur="ingrediente.$editAlergeno = false; actualizarIngrediente($parent.ingrediente._id, 'alergeno', ingrediente.alergeno)" tooltip="Indicar si el ingrediente contiene algún alérgeno." tooltip-delay="1000" required class="form-control input-sm" ng-options="alergeno for alergeno in alergenos" ng-model="ingrediente.alergeno")
 
-a(href="" ng-click="creacionIngredienteModal") Añadir un nuevo ingrediente
-p.
+button(class="btn btn-primary" ng-click="showModal()") Crear ingrediente
+pre.
 	filtering: {{filtering}}
-p.
 	sorting: {{sorting}}

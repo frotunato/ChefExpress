@@ -1,6 +1,6 @@
 angular.module('chefExpressApp.ingredientes')
 	
-	.controller('ingredientesMainCtrl', function ($scope, ngTableParams, ingredientesAPI) {
+	.controller('ingredientesMainCtrl', function ($scope, $modal, ngTableParams, ingredientesAPI) {
 		$scope.ingredientes =  [];
   		  	
   	$scope.familias = ['Aceites y grasas','Agua guisos','Aves y Caza','Azucares y Dulces',
@@ -18,9 +18,6 @@ angular.module('chefExpressApp.ingredientes')
 		
 		$scope.filtering = {};
 		$scope.sorting = {nombre: 'asc'};
-
-		
-
 
 		$scope.tablaIngredientes = new ngTableParams({
 			page: 1,
@@ -53,7 +50,14 @@ angular.module('chefExpressApp.ingredientes')
 			});
 		};
 
-		$scope.filter = function () {
+		$scope.crearIngrediente = function (ingrediente) {
+      ingredientesAPI.addIngrediente(ingrediente).then(function (data) {
+        console.log(data);
+        $scope.tablaIngredientes.reload();
+      });
+    };
+
+    $scope.filter = function () {
       for (var key in $scope.filtering) {
         if ($scope.filtering[key] === "" || $scope.filtering[key] === null) {
           delete $scope.filtering[key];
@@ -72,7 +76,7 @@ angular.module('chefExpressApp.ingredientes')
 		};
 
 
-				/*
+	/*
     $scope.chartObject = {
     	type: 'PieChart',
     	data: [
@@ -93,8 +97,49 @@ angular.module('chefExpressApp.ingredientes')
     };
 	*/
    
-
+    $scope.showModal = function () {
+      $scope.opts = {
+        backdrop: true,
+        backdropClick: true,
+        dialogFade: false,
+        keyboard: true,
+        templateUrl: 'app/ingredientes/nuevoIngrediente',
+        controller: 'ingredientesModalCtrl',
+        size: 'md',
+        resolve: {
+          informacionIngrediente: function () {
+            return {estados: $scope.estados, alergenos: $scope.alergenos, familias: $scope.familias};
+          }
+        }
+      };
+                
+      var modalInstance = $modal.open($scope.opts);
+      modalInstance.result.then(
+        function (result) {
+          console.log('Modal accepted', JSON.stringify(result));
+          $scope.crearIngrediente(result);
+        }, 
+        function () {
+          console.log('Modal closed');
+        });
+    };
  
- 
+  //fin ingredientesMainCtrl
+  })
 
-   });
+  .controller('ingredientesModalCtrl', function ($scope, $modal, $modalInstance, informacionIngrediente) {
+    $scope.familias = informacionIngrediente.familias;
+    $scope.estados = informacionIngrediente.estados;
+    $scope.alergenos = informacionIngrediente.alergenos;
+
+    $scope.ingrediente = {};
+
+    $scope.cancel = function () {
+      $modalInstance.dismiss('cancel');
+    };
+
+    $scope.ok = function () {
+      $modalInstance.close($scope.ingrediente);
+    };
+
+  });
