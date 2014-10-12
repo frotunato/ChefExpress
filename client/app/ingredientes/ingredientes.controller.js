@@ -75,7 +75,6 @@ angular.module('chefExpressApp.ingredientes')
 			$scope.tablaIngredientes.reload();
 		};
 
-
 	/*
     $scope.chartObject = {
     	type: 'PieChart',
@@ -125,6 +124,7 @@ angular.module('chefExpressApp.ingredientes')
     };
  
   //fin ingredientesMainCtrl
+  
   })
 
   .controller('ingredientesModalCtrl', function ($scope, $modal, $modalInstance, informacionIngrediente) {

@@ -1,42 +1,50 @@
+style.
+	.mystyle input[type="text"] {
+	   height: 1220px;
+	   font-size: 10px;
+	   line-height: 10px;
+	}
+
 h2 Ingredientes
-table(ng-table="tablaIngredientes" class="table table-condensed table-bordered")
+table(ng-table="tablaIngredientes" class="table table-striped table-condensed table-bordered")
 	thead
 		tr
 			th(class="text-center" colspan="4") Información
 			th(class="text-center" colspan="5") Composición
 		
-		th(class="text-center sortable")
+		th(class="text-center col-md-3")
 			p
 				a(href="" ng-click="sort('nombre')") Nombre
 			input(type="text" ng-change="filter()" class="form-control input-sm" ng-model="$parent.filtering.nombre" ng-model-options="{debounce: 150}")
 		
-		th(class="text-center")
+		th(class="text-center col-md-2")
 			p
 				a(href="" ng-click="sort('familia')") Familia
 			select(class="form-control input-sm" ng-change="filter()" ng-options="familia for familia in familias" ng-model="$parent.filtering.familia")
 				option(selected value="") Todas
-		th(class="text-center")
+	
+		th(class="text-center col-md-1")
 			p
 				a(href="" ng-click="sort('estado')") Estado
 			select(class="form-control input-sm" ng-change="filter()" ng-options="estado for estado in estados" ng-model="$parent.filtering.estado")
 				option(value="") Todos
 		
-		th(class="text-center")
+		th(class="text-center col-md-1")
 			a(href="" ng-click="sort('precio')") Precio
 		
-		th(class="text-center")
+		th(class="text-center col-md-1")
 			a(href="" ng-click="sort('composicion.calorias')") Calorías
 		
-		th(class="text-center")
+		th(class="text-center col-md-1")
 			a(href="" ng-click="sort('composicion.carbohidratos')") Carbohidratos
 		
-		th(class="text-center")
+		th(class="text-center col-md-1")
 			a(href="" ng-click="sort('composicion.proteinas')") Proteínas
 		
-		th(class="text-center")
+		th(class="text-center col-md-1")
 			a(href="" ng-click="sort('composicion.grasas')") Grasas
 		
-		th(class="text-center")
+		th(class="text-center col-md-3")
 			p
 				a(href="" ng-click="sort('alergeno')") Alérgeno
 			select(class="form-control input-sm" ng-change="filter()" ng-options="alergeno for alergeno in alergenos" ng-model="$parent.filtering.alergeno")
@@ -48,8 +56,8 @@ table(ng-table="tablaIngredientes" class="table table-condensed table-bordered")
 			td(ng-click="ingrediente.$editNombre = true")
 				span(ng-if="!ingrediente.$editNombre" ng-bind="ingrediente.nombre")
 				div(ng-if="ingrediente.$editNombre")
-					input(focus value="ingrediente.nombre" ng-blur="ingrediente.$editNombre = false; actualizarIngrediente($parent.ingrediente._id, 'nombre', ingrediente.nombre)" class="form-control input-sm" tooltip="Nombre del ingrediente." tooltip-delay="1000" placeholder="Nombre" type="text" ng-model="ingrediente.nombre")
-			
+					input(focus value="ingrediente.nombre" ng-blur="ingrediente.$editNombre = false; actualizarIngrediente($parent.ingrediente._id, 'nombre', ingrediente.nombre)" class="form-control" tooltip="Nombre del ingrediente." tooltip-delay="1000" placeholder="Nombre" type="text" ng-model="ingrediente.nombre")
+		
 			td(ng-click="ingrediente.$editFamilia = true")
 				span(ng-if="!ingrediente.$editFamilia" ng-bind="ingrediente.familia")
 				div(ng-if="ingrediente.$editFamilia")
