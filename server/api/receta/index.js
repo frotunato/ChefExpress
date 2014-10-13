@@ -1,5 +1,5 @@
 var express = require('express');
-var controller = require('./ingrediente.controller');
+var controller = require('./receta.controller');
 
 var router = express.Router();
 

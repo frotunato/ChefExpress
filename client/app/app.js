@@ -1,4 +1,4 @@
-angular.module('chefExpressApp', ['ngRoute', 'chefExpressApp.ingredientes', 'chefExpressApp.inicio'])
+angular.module('chefExpressApp', ['ngRoute', 'chefExpressApp.ingredientes', 'chefExpressApp.inicio', 'chefExpressApp.recetas'])
 
 .config(function ($routeProvider) {
  $routeProvider

@@ -95,7 +95,7 @@ angular.module('chefExpressApp.ingredientes')
   		}
     };
 	*/
-   
+  
     $scope.showModal = function () {
       $scope.opts = {
         backdrop: true,
@@ -123,8 +123,8 @@ angular.module('chefExpressApp.ingredientes')
         });
     };
  
-  //fin ingredientesMainCtrl
-  
+ 
+    //fin ingredientesMainCtrl 
   })
 
   .controller('ingredientesModalCtrl', function ($scope, $modal, $modalInstance, informacionIngrediente) {

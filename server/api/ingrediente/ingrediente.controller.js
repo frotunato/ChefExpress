@@ -1,16 +1,12 @@
 //var _ = require('lodash');
 var Ingrediente = require('./ingrediente.model');
 
-// Get list of Ingredientes
 
 exports.index = function(req, res) {
-  console.log(JSON.stringify(req.query));
-  console.log('original', req.query.filter, 'sorting', req.query.sort);
   var sorting = {};  
   var filtering = {};
   filtering = JSON.parse(req.query.filter);
   sorting = JSON.parse(req.query.sort);
-  //filtering[req.query.filterByField] = req.query.filterCriteria;
   
   if(filtering['nombre']) {
     filtering['nombre'] = new RegExp(filtering['nombre'], "i");
@@ -30,7 +26,6 @@ exports.index = function(req, res) {
     });
 };
 
-// Get a single Ingrediente
 exports.show = function(req, res) {
   Ingrediente.findById(req.params.id, function (err, ingredientes) {
     if(err) { return handleError(res, err); }

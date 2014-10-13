@@ -1,10 +1,8 @@
-'use strict';
-
-
 module.exports = function(app) {
 
   // Insert routes below
   app.use('/api/ingredientes', require('./api/ingrediente'));
+  app.use('/api/recetas', require('./api/receta'));
  
  	// app.route('/:url(api|components|app|bower_components)/*')
 
