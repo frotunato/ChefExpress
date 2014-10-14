@@ -21,7 +21,7 @@ exports.index = function(req, res) {
     .exec(function (err, recetas) {
       if(err) { return handleError(res, err); }
       console.log(recetas.length);
-      Receta.count(function (err, c) {
+      Receta.count(filtering ,function (err, c) {
         return res.status(200).json({data: recetas, total: c});        
       });
     });
