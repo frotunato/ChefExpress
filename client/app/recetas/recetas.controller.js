@@ -22,14 +22,14 @@ angular.module('chefExpressApp.recetas')
       getResultsPage(newPage);
     };
 
-    function getResultsPage(pageNumber) {
+    function getResultsPage (pageNumber) {
       recetasAPI.getRecetas({
         page: pageNumber - 1,
         max: $scope.max,
         sort: $scope.sorting,
         filter: $scope.filtering
       }).then(function (result) {
-        console.log(result.total)
+        console.log(result.total);
         $scope.total = result.total;
         $scope.recetas = result.data;
       });

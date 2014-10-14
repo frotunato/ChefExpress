@@ -1,6 +1,6 @@
 angular.module('chefExpressApp.ingredientes')
 	
-	.controller('ingredientesMainCtrl', function ($scope, $modal, ngTableParams, ingredientesAPI) {
+	.controller('ingredientesMainCtrl', function ($scope, $modal, ingredientesAPI) {
 		$scope.ingredientes =  [];
   		  	
   	$scope.familias = ['Aceites y grasas','Agua guisos','Aves y Caza','Azucares y Dulces',
@@ -19,27 +19,31 @@ angular.module('chefExpressApp.ingredientes')
 		$scope.filtering = {};
 		$scope.sorting = {nombre: 'asc'};
 
-		$scope.tablaIngredientes = new ngTableParams({
-			page: 1,
-			count: 20
-		}, {
-			data: $scope.ingredientes,
-			total: 0,
-			counts: [10, 20, 35, 50, 80, 100],
-			getData: function ($defer, params) {		
-				ingredientesAPI.getIngredientesPagina({
-					page: params.page() - 1, 
-					max: params.count(), 
-					sort: $scope.sorting,
-					filter: $scope.filtering
-				}).then(function (result) {
-					$scope.ingredientes = result.data;
-					params.total(result.total);
-					$defer.resolve(result.data);
-				});
-			}
-		});
+		$scope.max = 20;
+    $scope.total = 0;
+
+    getResultsPage(1);
+
+    $scope.pagination = {
+      current: 1
+    };
+
+    $scope.pageChanged = function (newPage) {
+      getResultsPage(newPage);
+    };
 		
+    function getResultsPage (pageNumber) {
+      ingredientesAPI.getIngredientesPagina({
+        page: pageNumber - 1, 
+        max: $scope.max, 
+        sort: $scope.sorting,
+        filter: $scope.filtering
+      }).then(function (result) {
+        $scope.ingredientes = result.data;
+        $scope.total = result.total;
+      });
+    }
+
 		$scope.actualizarIngrediente = function (id, field, data) {
 			var res = {};
 			res[field] = data;
@@ -53,7 +57,7 @@ angular.module('chefExpressApp.ingredientes')
 		$scope.crearIngrediente = function (ingrediente) {
       ingredientesAPI.addIngrediente(ingrediente).then(function (data) {
         console.log(data);
-        $scope.tablaIngredientes.reload();
+        getResultsPage($scope.pagination.current);
       });
     };
 
@@ -63,7 +67,7 @@ angular.module('chefExpressApp.ingredientes')
           delete $scope.filtering[key];
         }
       }
-			$scope.tablaIngredientes.reload();
+      getResultsPage($scope.pagination.current);
 		};
 
 		$scope.sort = function (inputField) {
@@ -72,7 +76,7 @@ angular.module('chefExpressApp.ingredientes')
 			} else {
 				$scope.sorting[inputField] = 'asc';
 			}
-			$scope.tablaIngredientes.reload();
+      getResultsPage($scope.pagination.current);
 		};
 
 	/*
