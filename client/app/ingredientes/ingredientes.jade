@@ -9,7 +9,7 @@ table(class="table table-striped table-condensed table-bordered")
 		th(class="text-center col-md-3")
 			p
 				a(href="" ng-click="sort('nombre')") Nombre
-			input(type="text" ng-change="filter()" class="form-control input-sm" ng-model="filtering.nombre" ng-model-options="{debounce: 150}")
+			input(type="text" placeholder="Introduce un nombre para filtrar" ng-change="filter()" class="form-control input-sm" ng-model="filtering.nombre" ng-model-options="{debounce: 150}")
 		
 		th(class="text-center col-md-2")
 			p
@@ -50,7 +50,7 @@ table(class="table table-striped table-condensed table-bordered")
 			td(ng-click="ingrediente.$editNombre = true")
 				span(ng-if="!ingrediente.$editNombre" ng-bind="ingrediente.nombre")
 				div(ng-if="ingrediente.$editNombre")
-					input(focus value="ingrediente.nombre" ng-blur="ingrediente.$editNombre = false; actualizarIngrediente($parent.ingrediente._id, 'nombre', ingrediente.nombre)" class="form-control" tooltip="Nombre del ingrediente." tooltip-delay="1000" placeholder="Nombre" type="text" ng-model="ingrediente.nombre")
+					input(focus ng-blur="ingrediente.$editNombre = false; actualizarIngrediente($parent.ingrediente._id, 'nombre', ingrediente.nombre)" class="form-control" tooltip="Nombre del ingrediente." tooltip-delay="1000" placeholder="Nombre" type="text" ng-model="ingrediente.nombre")
 		
 			td(ng-click="ingrediente.$editFamilia = true")
 				span(ng-if="!ingrediente.$editFamilia" ng-bind="ingrediente.familia")

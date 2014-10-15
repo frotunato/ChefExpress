@@ -30,6 +30,7 @@ angular.module('chefExpressApp.ingredientes')
 
     $scope.pageChanged = function (newPage) {
       getResultsPage(newPage);
+      $scope.pagination.current = newPage;
     };
 		
     function getResultsPage (pageNumber) {
@@ -52,13 +53,15 @@ angular.module('chefExpressApp.ingredientes')
 				console.log(data);
 				console.log($scope.ingredientes);
 			});
-		};
+		
+    };
 
 		$scope.crearIngrediente = function (ingrediente) {
       ingredientesAPI.addIngrediente(ingrediente).then(function (data) {
         console.log(data);
         getResultsPage($scope.pagination.current);
       });
+    
     };
 
     $scope.filter = function () {
