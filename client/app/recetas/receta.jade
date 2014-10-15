@@ -2,13 +2,11 @@ style.
   .clickable {
     cursor: pointer;
   }
-  .dropdown-menu {
-    max-height: 250px;
-    overflow-y: auto;
+  .dropdown-menu{
+    cursor:pointer;
   }
-
 div(class="row")
-  div(id="tableContainer" class="col-md-8")
+  div(id="tableContainer" class="col-md-10")
     table(class="table table-striped table-condensed table-bordered")
       thead
         tr
@@ -27,10 +25,10 @@ div(class="row")
         tr(ng-repeat="ingredienteReceta in receta.ingredientes")
           td {{ingredienteReceta.nombre}}
           td {{ingredienteReceta.cantidad}}
-          td %
+          td {{ingredienteReceta.precio*2}}
           td Unidad
           td {{ingredienteReceta.precio}}
           td total
-input(type="text" ng-model="ch" typeahead="ingrediente.nombre for ingrediente in getIngredientes2($viewValue) | filter:$viewValue | limitTo:15" typeahead-wait-ms="80" class="form-control input-md")
-{{ch}}
-{{ingredientes}}
+div(class="row")
+  div(id="searchContainer" class="col-md-4")
+    input(type="text" placeholder="Búsqueda por nombre" ng-model="ingredienteSeleccionado" ng-change="getIngredientes(ingredienteSeleccionado)" ng-model-options="{debounce: 100}" typeahead="ingrediente.nombre for ingrediente in ingredientes | filter:{nombre:$viewValue} | limitTo:max" typeahead-on-select="add($item)" typeahead-wait-ms="120" class="form-control input-md")
