@@ -122,7 +122,7 @@ angular.module('chefExpressApp.recetas')
     };
   })
 
-  .controller('recetaMainCtrl', function ($scope, $routeParams, recetasAPI, ingredientesAPI) {
+  .controller('recetaMainCtrl', function ($scope, $q, $routeParams, recetasAPI, ingredientesAPI) {
     $scope.recetaId = $routeParams.recetaId;
 
     $scope.receta = null;
@@ -131,12 +131,13 @@ angular.module('chefExpressApp.recetas')
       $scope.receta = data;
     });
 
-    $scope.ingredientesReceta = [];
+    $scope.ingredientes = [];
+    $scope.ch = null;
+
     $scope.max = 5;
     $scope.total = 0;
-    $scope.totalReceta = $scope.ingredientesReceta.length;
     $scope.sorting = {nombre: 'asc'};
-    $scope.filtering = {};
+    $scope.filtering = {nombre: null};
     $scope.pagination = {
       current: 1
     };
@@ -153,14 +154,61 @@ angular.module('chefExpressApp.recetas')
       });
     }
 
-    $scope.add = function (ingrediente) {
-      console.log(JSON.stringify(ingrediente));
-      if($scope.ingredientesReceta.indexOf(ingrediente) === -1) {
-        $scope.ingredientesReceta.push(ingrediente);
-        console.log(JSON.stringify($scope.ingredientesReceta))
+    $scope.getIngredientes2 = function (value) {
+      ingredientesAPI.getIngredientesPagina({
+        page: 0,
+        max: 20,
+        sort: {},
+        filter: {nombre: value}
+      }).then( function (result) {
+        console.log(result);
+        $scope.ingredientes = result.data;
+      });
+      return $scope.ingredientes;
+    };
+
+    function checkIfExist (data, key, value, callback) {
+      var res = null;
+
+      if(data.length === 0) {
+        res = false;
       } else {
-        console.log('El ingrediente ya está añadido en la receta');
+        for (var i = data.length - 1; i >= 0; i--) {
+          if( data[i][key] === value ) {
+            res = true;
+            break; 
+          } else {
+            res = false;
+          }
+        }
       }
+      callback(res);
+    }
+
+    function resetSearch () {
+      $scope.filtering.nombre = null;
+      $scope.ingredientes = [];
+      $scope.total = 0;
+    } 
+   
+    /*
+    $scope.receta.ingredientes.push(ingrediente);
+    console.log(JSON.stringify($scope.receta.ingredientes));
+    resetSearch();
+    */
+    
+    $scope.add = function (ingrediente) {
+      
+        checkIfExist($scope.receta.ingredientes, '_id', ingrediente._id, function (exist) {
+          console.log(exist);
+          if (exist === true) {
+            console.log('El ingrediente ya existe');
+          } else {
+            $scope.receta.ingredientes.push(ingrediente);
+          }
+        });
+      
+   
     };
 
     $scope.pageChanged = function (newPage) {
@@ -168,10 +216,11 @@ angular.module('chefExpressApp.recetas')
       $scope.pagination.current = newPage;
     };
 
+
     $scope.filter = function () {
       for (var key in $scope.filtering) {
         if ($scope.filtering[key] === "" || $scope.filtering[key] === null) {
-          delete $scope.filtering[key];
+          //delete $scope.filtering[key];
         }
       }
       getIngredientes($scope.pagination.current);
