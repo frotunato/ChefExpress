@@ -11,6 +11,7 @@ table(class="table table-condensed table-bordered table-hover")
         p
           a(href="" ng-click="sort('nombre')") Nombre
         input(type="text" placeholder="Introduce un nombre para filtrar" ng-change="filter()" class="form-control input-md" ng-model="filtering.nombre" ng-model-options="{debounce: 100}")
+      
       th(class="text-center col-md-2")
         p
           a(href="" ng-click="sort('familia')") Familia

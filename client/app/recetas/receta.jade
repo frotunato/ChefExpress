@@ -7,7 +7,7 @@ style.
   }
 div(class="row")
   div(id="tableContainer" class="col-md-10")
-    table(class="table table-striped table-condensed table-bordered table-hover")
+    table(class="table table-striped table-condensed table-bordered")
       thead
         tr
           th(class="text-center" colspan="6") 
@@ -15,12 +15,12 @@ div(class="row")
               h4(ng-if="!receta.$editNombre" ng-click="receta.$editNombre = true") {{receta.nombre}}
             div(ng-if="receta.$editNombre")
               input(focus type="text" ng-model="receta.nombre" class="form-control text-center input-lg" ng-blur="receta.$editNombre = false; actualizarReceta($parent.receta._id, {nombre: receta.nombre})")
-        th Ingredientes
-        th Cantidad
-        th %
-        th Unidad
-        th Precio
-        th Total
+        th(class="text-center col-md-6") Ingredientes
+        th(class="text-center col-md-1") Cantidad
+        th(class="text-center col-sm-1") %
+        th(class="text-center col-md-1") Unidad
+        th(class="text-center col-md-1") Precio
+        th(class="text-center col-md-1") Total
       tbody
         tr(ng-repeat="ingredienteReceta in receta.ingredientes track by $index" )
           td {{ingredienteReceta.nombre}}
