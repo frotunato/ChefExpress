@@ -102,6 +102,12 @@ angular.module('chefExpressApp.recetas')
       }
     };
 
+    $scope.actualizarReceta = function (id, data) {
+      recetasAPI.updateReceta(id, data).then(function (result) {
+        console.log(result);
+      });
+    };  
+
     function checkIfExist (data, key, value, callback) {
       var res = null;
       if(data.length === 0) {
@@ -127,6 +133,7 @@ angular.module('chefExpressApp.recetas')
         } else {
           $scope.receta.ingredientes.push($item);
           $scope.ingredienteSeleccionado = "";
+          $scope.actualizarReceta($scope.receta._id, {ingredientes: $item._id});  
         }
       });
     };

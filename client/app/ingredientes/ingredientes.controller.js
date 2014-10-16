@@ -53,7 +53,6 @@ angular.module('chefExpressApp.ingredientes')
 				console.log(data);
 				console.log($scope.ingredientes);
 			});
-		
     };
 
 		$scope.crearIngrediente = function (ingrediente) {

@@ -3,7 +3,7 @@ style.
     cursor: pointer;
   }
 
-table(class="table table-striped table-condensed table-bordered")
+table(class="table table-condensed table-bordered table-hover")
   thead
     tr
       
@@ -29,10 +29,6 @@ table(class="table table-striped table-condensed table-bordered")
       
       th(class="text-center")
         p
-          a(href="" ng-click="sort('cantidad')") Cantidad
-      
-      th(class="text-center")
-        p
           a(href="" ng-click="sort('ambito')") Ámbito
         select(class="form-control input-sm" ng-change="filter()" ng-options="ambito for ambito in ambitos" ng-model="filtering.ambito")
           option(selected value="") Todos
@@ -55,8 +51,8 @@ table(class="table table-striped table-condensed table-bordered")
       td {{receta.familia}}
       td {{receta.categoria}}
       td {{receta.precio}}
-      td {{receta.cantidad}}
       td {{receta.ambito}}
       td {{receta.procedencia}}
       td {{receta.tipo}}
+
 dir-pagination-controls(on-page-change="pageChanged(newPageNumber)")

@@ -29,6 +29,13 @@ angular.module('chefExpressApp.recetas')
           deferred.resolve(data);
         });
         return deferred.promise;  
+      },
+      updateReceta: function (id, data) {
+        var deferred = $q.defer();
+        $http.put(this.apiUrl + '/' + id, data).success(function (data, status) {
+          deferred.resolve(data);
+        });
+        return deferred.promise;
       }
     };
   });

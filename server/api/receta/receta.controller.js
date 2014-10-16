@@ -63,10 +63,14 @@ exports.create = function(req, res) {
 };
 
 exports.update = function (req, res) {
+  var action = {};
+  action = {$set: req.body};
   if(req.body._id) { delete req.body._id; }
-  Receta.findByIdAndUpdate(req.params.id, { $set: req.body }, function (err, ingrediente) {
+  if(req.body.ingredientes) { action = { $addToSet: {ingredientes: req.body.ingredientes}}; }
+  Receta.findByIdAndUpdate(req.params.id, action, {safe: true, upsert: true},
+  function (err, receta) {
     if(err) { return handleError(res, err); }
-    return res.status(200).json(ingrediente);
+    return res.status(200).json(receta);
   });
 };
 
