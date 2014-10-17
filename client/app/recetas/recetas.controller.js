@@ -103,18 +103,19 @@ angular.module('chefExpressApp.recetas')
     };
 
     $scope.actualizarReceta = function (id, data) {
+      console.log(JSON.stringify(data));
       recetasAPI.updateReceta(id, data).then(function (result) {
-        console.log(result);
+        console.log(result.ingredientes);
       });
     };  
 
-    function checkIfExist (data, key, value, callback) {
+    function checkIfExist (data, key, subKey ,value, callback) {
       var res = null;
       if(data.length === 0) {
         res = false;
       } else {
         for (var i = data.length - 1; i >= 0; i--) {
-          if( data[i][key] === value ) {
+          if( data[i][key][subKey] === value ) {
             res = true;
             break; 
           } else {
@@ -126,15 +127,21 @@ angular.module('chefExpressApp.recetas')
     }
 
     $scope.add = function ($item) {
-      checkIfExist($scope.receta.ingredientes, '_id', $item._id, function (exist) {
+      console.log('aaa', $scope.receta.ingredientes);
+      $scope.actualizarReceta($scope.receta._id, {field: {ingrediente: $item._id}});  
+      $scope.receta.ingredientes.push({ingrediente: $item});
+      $scope.ingredienteSeleccionado = "";
+
+      checkIfExist($scope.receta.ingredientes, 'ingrediente', '_id', $item._id, function (exist) {
         console.log(exist);
+        /*
         if (exist === true) {
           console.log('El ingrediente ya existe');
         } else {
-          $scope.receta.ingredientes.push($item);
-          $scope.ingredienteSeleccionado = "";
-          $scope.actualizarReceta($scope.receta._id, {ingredientes: $item._id});  
+          $scope.actualizarReceta($scope.receta._id, {ingredientes: {ingrediente: $item._id}});  
         }
+        */
+
       });
     };
 

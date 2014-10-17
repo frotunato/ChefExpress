@@ -20,6 +20,7 @@ angular.module('chefExpressApp.recetas')
         var deferred = $q.defer();
         $http.get(this.apiUrl + '/' + id).success(function (data, status) {
           deferred.resolve(data);
+        //  console.log(JSON.stringify(data.ingredientes));
         });
         return deferred.promise;
       },

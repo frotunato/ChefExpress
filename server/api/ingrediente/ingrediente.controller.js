@@ -8,8 +8,8 @@ exports.index = function(req, res) {
   filtering = JSON.parse(req.query.filter);
   sorting = JSON.parse(req.query.sort);
   
-  if(filtering['nombre']) {
-    filtering['nombre'] = new RegExp(filtering['nombre'], "i");
+  if(filtering.nombre) {
+    filtering.nombre = new RegExp(filtering.nombre, "i");
   }
   
   Ingrediente
@@ -37,7 +37,7 @@ exports.show = function(req, res) {
 
 exports.create = function(req, res) {
   Ingrediente.create(req.body, function(err, ingredientes) {
-    console.log(req['body']);
+    console.log(req.body);
     if(err) { return handleError(res, err); }
     return res.status(201).json();
   });

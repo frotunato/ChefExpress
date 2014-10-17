@@ -14,7 +14,7 @@ div(class="row")
             b
               h4(ng-if="!receta.$editNombre" ng-click="receta.$editNombre = true") {{receta.nombre}}
             div(ng-if="receta.$editNombre")
-              input(focus type="text" ng-model="receta.nombre" class="form-control text-center input-lg" ng-blur="receta.$editNombre = false; actualizarReceta($parent.receta._id, {nombre: receta.nombre})")
+              input(focus type="text" ng-model="receta.nombre" class="form-control text-center input-lg" ng-blur="receta.$editNombre = false; actualizarReceta($parent.receta._id, {field: {nombre: receta.nombre}})")
         th(class="text-center col-md-6") Ingredientes
         th(class="text-center col-md-1") Cantidad
         th(class="text-center col-sm-1") %
@@ -23,15 +23,15 @@ div(class="row")
         th(class="text-center col-md-1") Total
       tbody
         tr(ng-repeat="ingredienteReceta in receta.ingredientes track by $index" )
-          td {{ingredienteReceta.nombre}}
+          td {{ingredienteReceta.ingrediente.nombre}}
           td(ng-click="ingredienteReceta.$editCantidad = true")
             span(ng-if="!ingredienteReceta.$editCantidad" ng-bind="ingredienteReceta.cantidad")
             div(ng-if="ingredienteReceta.$editCantidad")
-              input(focus ng-blur="ingredienteReceta.$editCantidad = false;" class="form-control input-sm" type="number" ng-model="ingredienteReceta.cantidad")
+              input(focus ng-blur="ingredienteReceta.$editCantidad = false; actualizarReceta($parent.receta._id, {field: {cantidad: ingredienteReceta.cantidad}, ingrediente: ingredienteReceta.ingrediente._id})" class="form-control input-sm" type="number" ng-model="ingredienteReceta.cantidad")
           td {{ingredienteReceta.precio*2}}
           td Unidad
           td {{ingredienteReceta.precio}}
           td total
 div(class="row")
-  div(id="searchContainer" class="col-md-4")
+  div(id="searchContainer" class="col-md-2")
     input(type="text" placeholder="Búsqueda por nombre" ng-model="ingredienteSeleccionado" ng-change="getIngredientes(ingredienteSeleccionado)" ng-model-options="{debounce: 100}" typeahead="ingrediente.nombre for ingrediente in ingredientes | filter:{nombre:$viewValue} | limitTo:max" typeahead-on-select="add($item)" typeahead-wait-ms="120" class="form-control input-md")

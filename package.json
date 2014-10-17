@@ -10,6 +10,7 @@
 		"mongoose": "latest",
 		"jade": "latest",
 		"socket.io": "latest",
-		"lodash": "latest"
+		"lodash": "latest",
+		"compression": "latest"
 	}
 }
