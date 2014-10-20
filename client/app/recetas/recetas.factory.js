@@ -4,6 +4,7 @@ angular.module('chefExpressApp.recetas')
     return {
       apiUrl: '/api/recetas',
       getRecetas: function (config) {
+        var a = Date.now();
         var deferred = $q.defer();
         $http.get(this.apiUrl + '/', { params: {
           page: config.page,
@@ -13,6 +14,8 @@ angular.module('chefExpressApp.recetas')
         }, cache: true
       }).success(function (data, status) {
           deferred.resolve(data);
+          var b = Date.now();
+          console.log('[FACTORIA] Datos de la tabla de recetas obtenidos del servidor en', b-a, 'ms');
         });
         return deferred.promise;
       },

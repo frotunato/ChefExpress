@@ -9,8 +9,8 @@ exports.index = function(req, res) {
   filtering = JSON.parse(req.query.filter);
   console.log(JSON.stringify(filtering));
   
-  if(filtering['nombre']) {
-    filtering['nombre'] = new RegExp(filtering['nombre'], "i");
+  if(filtering.nombre) {
+    filtering.nombre = new RegExp(filtering.nombre, "i");
   }
   
   Receta
@@ -132,7 +132,36 @@ exports.update = function (req, res) {
     });
 };
 */
+exports.update = function (req, res) {
+  console.log(JSON.stringify(req.body));
+  var reqField = req.body.field;
+  var reqValue = req.body.value;
+  Receta
+  .findById(req.params.id)
+  .exec(function (err, receta) {
+    if(reqField === 'ingrediente') {
+      receta.ingredientes.push({ingrediente: reqValue});
+      console.log('[ADDED] ', reqValue);
+    } else if(reqField === 'cantidad') {
+      for (var i = receta.ingredientes.length - 1; i >= 0; i--) {
+        if (receta.ingredientes[i].ingrediente == req.body.ref) {
+          receta.ingredientes[i].cantidad = reqValue;
+          break;
+        } else {
+          //console.log('no existe');
+        }
+      }
+    } else {
+      receta[reqField] = reqValue;
+    }
+    
+    receta.save(function (err) {
+      return res.status(200).json(receta);
+    });
+  });
+};
 
+/*
 exports.update = function (req, res) {
   console.log(JSON.stringify(req.body));
   var field = req.body.field;
@@ -156,7 +185,7 @@ exports.update = function (req, res) {
     });
   });
 };
-
+*/
 /*
 exports.update = function(req, res) {
   console.log(JSON.stringify(req.body));

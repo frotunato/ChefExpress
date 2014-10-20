@@ -2,7 +2,7 @@ angular.module('chefExpressApp.ingredientes')
 	
 	.controller('ingredientesMainCtrl', function ($scope, $modal, ingredientesAPI) {
 		$scope.ingredientes =  [];
-  		  	
+
   	$scope.familias = ['Aceites y grasas','Agua guisos','Aves y Caza','Azucares y Dulces',
     'Bebidas con Alcohol','Bebidas sin Alcohol','Bolleria y Pasteleria','Cafe, cacao e infusiones',
     'Carnes','Cereales y derivados','Condimentos y Salsas','Congelados','Conservas de frutas',
@@ -34,6 +34,7 @@ angular.module('chefExpressApp.ingredientes')
     };
 		
     function getResultsPage (pageNumber) {
+      //window.alert('EXECUTED');
       ingredientesAPI.getIngredientesPagina({
         page: pageNumber - 1, 
         max: $scope.max, 

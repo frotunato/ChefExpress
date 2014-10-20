@@ -3,6 +3,7 @@ var Ingrediente = require('./ingrediente.model');
 
 
 exports.index = function(req, res) {
+  var a = Date.now();
   var sorting = {};  
   var filtering = {};
   filtering = JSON.parse(req.query.filter);
@@ -19,8 +20,9 @@ exports.index = function(req, res) {
     .sort(sorting)
     .exec(function (err, ingredientes) {
       if(err) { return handleError(res, err); }
-      console.log(ingredientes.length);
       Ingrediente.count(filtering, function (err, c) {
+        var b = Date.now();
+        console.log(b-a);
         return res.status(200).json({data: ingredientes, total: c});        
       });
     });

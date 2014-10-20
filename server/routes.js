@@ -8,11 +8,17 @@ module.exports = function(app) {
 
 	app.route('/app/:directory/:file')
 		.get(function (req, res) {
-			res.render(req['params']['directory'] + '/' + req['params']['file']);
-		});
+      var a = Date.now();
+      res.render(req.params.directory + '/' + req.params.file);
+      var b = Date.now();
+      console.log('jade ', b-a);
+    });
 
- 	app.route('/*')
+ 	app.route('/')
  		.get(function (req, res) {
- 			res.render(app.get('appPath') + '/index.jade');
- 		});
+ 			var a = Date.now();
+      res.render(app.get('appPath') + '/index.jade');
+ 		  var b = Date.now();
+      console.log('index ', b-a);
+    });
 };

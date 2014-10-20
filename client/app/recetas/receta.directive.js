@@ -6,6 +6,7 @@ angular.module('chefExpressApp.recetas')
       scope: '@',
       link: function (scope, elem, attr) {
         elem[0].focus();
+        elem[0].select();
       }
     };
   });
