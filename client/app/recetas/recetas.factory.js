@@ -36,7 +36,8 @@ angular.module('chefExpressApp.recetas')
       updateReceta: function (id, data) {
         var deferred = $q.defer();
         $http.put(this.apiUrl + '/' + id, data).success(function (data, status) {
-          deferred.resolve(data);
+          console.log('[FACTORIA] Código de updateReceta', status, 'Datos', data);
+          deferred.resolve({data: data, code: status});
         });
         return deferred.promise;
       },

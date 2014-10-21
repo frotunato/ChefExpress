@@ -28,6 +28,7 @@ exports.index = function(req, res) {
 };
 
 function checkIfExist (data, key, value, callback) {
+  console.log(typeof data, typeof key, typeof value);
   var res = null;
   var index = null;
   if(data.length === 0) {
@@ -73,30 +74,40 @@ exports.create = function(req, res) {
 exports.update = function (req, res) {
   var reqField = req.body.field;
   var reqValue = req.body.value;
-  var ref = null || req.body.ref;
+  var ref = req.body.ref;
   console.log(reqField, reqValue, ref);
 
   Receta
   .findById(req.params.id)
+  //.populate('ingredientes.ingrediente')
   .exec(function (err, receta) {
-    if (reqField === 'ingrediente' || reqField === 'cantidad') {
-      checkIfExist(receta.ingredientes, 'ingrediente', ref, function (exist, index) {
-        if(exist && reqField === 'ingrediente' && reqValue === null) {
-          //delete an object from the object array
-          receta.ingredientes.splice(index, 1);
-        } else if (!exist && reqField === 'ingrediente' && reqValue !== null) {
-          //push an object to the object array 
-          receta.ingredientes.push({ingrediente: ref});
-        } else if (exist && reqField === 'cantidad') {
-          //modifies an object property of the object array
-          receta.ingredientes[index].cantidad = reqValue;
-        }
-      });
+    var resData = {};
+    console.log(receta.ingredientes.id(ref));
+    if (reqField === 'ingredientes' || 'cantidad') {        
+      var ingrediente = receta.ingredientes.id(ref);          
+      if(ingrediente !== null && reqField === 'ingredientes' && reqValue === 'remove') {
+        //delete an object from the object array
+        resData = ingrediente.remove();
+        console.log(JSON.stringify(ingrediente));
+      } else if (reqField === 'ingredientes' && reqValue === 'add') {
+        //push an object to the object array
+        var nuevoIngrediente = receta.ingredientes.addToSet({ingrediente: ref})[0];
+        resData = nuevoIngrediente._id;
+        console.log('pushed', JSON.stringify(nuevoIngrediente));
+          
+      } else if (reqField === 'cantidad') {
+        ingrediente.cantidad = reqValue;
+        //modifies an object property of the object array
+        //receta.ingredientes[index].cantidad = reqValue;
+      }
+    
     } else {
       receta[reqField] = reqValue;
     }
+    
     receta.save(function (err) {
-      return res.status(200).json(receta);
+      //console.log(JSON.stringify(receta[reqField]));
+      return res.status(200).json(resData);
     });
   });
 };
