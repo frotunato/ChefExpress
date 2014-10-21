@@ -24,20 +24,23 @@ div(class="row")
       tbody
         tr(ng-repeat="ingredienteReceta in receta.ingredientes track by $index" )
           td {{ingredienteReceta.ingrediente.nombre}}
+          
           td(ng-click="ingredienteReceta.$editCantidad = true")
             span(ng-if="!ingredienteReceta.$editCantidad" ng-bind="ingredienteReceta.cantidad")
             div(ng-if="ingredienteReceta.$editCantidad")
               input(focus ng-blur="ingredienteReceta.$editCantidad = false; actualizarReceta($parent.receta._id, {field: 'cantidad', value: ingredienteReceta.cantidad, ref: ingredienteReceta.ingrediente._id})" min="0" class="form-control input-sm" type="number" ng-model="ingredienteReceta.cantidad" ng-change="cantidadTotal()")
           td 
             b {{(ingredienteReceta.cantidad*100/receta.cantidad).toFixed(1)}}
+         
           td Unidad
+          
           td {{ingredienteReceta.ingrediente.precio}} €
             
           td 
             b {{(ingredienteReceta.cantidad*ingredienteReceta.ingrediente.precio).toFixed(2)}} €
   
   div(id="searchContainer" class="col-md-2")
-      input(type="text" placeholder="Búsqueda por nombre" ng-model="ingredienteSeleccionado" ng-change="getIngredientes(ingredienteSeleccionado)" ng-model-options="{debounce: 100}" typeahead="ingrediente.nombre for ingrediente in ingredientes | filter:{nombre:$viewValue} | limitTo:max" typeahead-on-select="add($item)" typeahead-wait-ms="120" class="form-control input-md")
+      input(type="text" placeholder="Búsqueda por nombre" ng-model="ingredienteSeleccionado" ng-change="getIngredientes(ingredienteSeleccionado)" ng-model-options="{debounce: 200}" typeahead="ingrediente.nombre for ingrediente in ingredientes | filter:{nombre:$viewValue} | limitTo:max" typeahead-on-select="addIngrediente($item)" typeahead-wait-ms="200" class="form-control input-md")
 
 div(class="row2")
   div(id="resumenWrapper" class="col-md-2")
@@ -52,8 +55,8 @@ div(class="row2")
             b Cantidad total
       tbody
         tr
-          td(class="text-center") 
+          td(class="text-center")
             b {{receta.precio.toFixed(2)}} €
-          td(class="text-center") 
-            b{{receta.cantidad}}
+          td(class="text-center")
+            b{{receta.cantidad.toFixed(2)}} KG
   

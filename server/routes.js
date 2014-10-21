@@ -11,7 +11,7 @@ module.exports = function(app) {
       var a = Date.now();
       res.render(req.params.directory + '/' + req.params.file);
       var b = Date.now();
-      console.log('jade ', b-a);
+      console.log('Time required to send ' + req.params.file + ':', b-a);
     });
 
  	app.route('/')
@@ -19,6 +19,6 @@ module.exports = function(app) {
  			var a = Date.now();
       res.render(app.get('appPath') + '/index.jade');
  		  var b = Date.now();
-      console.log('index ', b-a);
+      console.log('Time required to send index ', b-a);
     });
 };

@@ -204,40 +204,48 @@ angular.module('chefExpressApp.recetas')
 
     function checkIfExist (data, key, subKey ,value, callback) {
       var res = null;
+      var index = null;
       if(data.length === 0) {
         res = false;
       } else {
         for (var i = data.length - 1; i >= 0; i--) {
           if( data[i][key][subKey] === value ) {
             res = true;
+            index = i;
             break; 
           } else {
             res = false;
           }
         }
       }
-      callback(res);
+      callback(res, index);
     }
 
-    $scope.add = function ($item) {
-      console.log('aaa', $scope.receta.ingredientes);
-     $scope.actualizarReceta($scope.receta._id, {field: 'ingrediente', value: $item._id});
-      //$scope.actualizarReceta($scope.receta._id, {field: {ingrediente: $item._id}});  
-      $scope.receta.ingredientes.push({ingrediente: $item, cantidad: 0});
-      precioTotal();
-      $scope.ingredienteSeleccionado = "";
-    
+    $scope.addIngrediente = function ($item) {    
       checkIfExist($scope.receta.ingredientes, 'ingrediente', '_id', $item._id, function (exist) {
         console.log(exist);
-        /*
         if (exist === true) {
-          console.log('El ingrediente ya existe');
+          console.log('[CONTROLADOR] Ya existe el ingrediente ' + $item._id + ' en la receta');
         } else {
-          $scope.actualizarReceta($scope.receta._id, {ingredientes: {ingrediente: $item._id}});  
+        console.log('[CONTROLADOR] Añadido ingrediente ' + $item._id + ' a la receta');
+        $scope.actualizarReceta($scope.receta._id, {field: 'ingrediente', ref: $item._id});
+        $scope.receta.ingredientes.push({ingrediente: $item, cantidad: 0});
+        precioTotal();
+        $scope.ingredienteSeleccionado = "";
         }
-        */
-
       });
     };
+
+    $scope.removeIngrediente = function ($item) {
+      checkIfExist($scope.receta.ingredientes, 'ignrediente', '_id', $item_id, function (exist, index) {
+        if(exist) {
+          var removed = $scope.receta.ingredientes.splice(index, 1);
+          console.log(JSON.stringify(removed));
+        }
+      });
+    };
+
+
+  
 
   });
