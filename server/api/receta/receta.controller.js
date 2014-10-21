@@ -79,35 +79,22 @@ exports.update = function (req, res) {
   Receta
   .findById(req.params.id)
   .exec(function (err, receta) {
-    if(reqField === 'ingrediente' && reqValue !== null) {
-      checkIfExist(receta.ingredientes, 'ingrediente', ref, function (exist) {
-        console.log(exist);
-        if (!exist) {
-          receta.ingredientes.push({ingrediente: ref});
-        }
-      });
-    } else if (reqField === 'ingrediente' && reqValue === null) {
+    if (reqField === 'ingrediente' || reqField === 'cantidad') {
       checkIfExist(receta.ingredientes, 'ingrediente', ref, function (exist, index) {
-        console.log(exist);
-
-        if (exist) {
+        if(exist && reqField === 'ingrediente' && reqValue === null) {
+          //delete an object from the object array
           receta.ingredientes.splice(index, 1);
-        }
-      });
-    } else if(reqField === 'cantidad') {
-      checkIfExist(receta.ingredientes, 'ingrediente', ref, function (exist, index) {
-        console.log(exist);
-
-        if (exist) {
+        } else if (!exist && reqField === 'ingrediente' && reqValue !== null) {
+          //push an object to the object array 
+          receta.ingredientes.push({ingrediente: ref});
+        } else if (exist && reqField === 'cantidad') {
+          //modifies an object property of the object array
           receta.ingredientes[index].cantidad = reqValue;
-          console.log(receta.ingredientes[index].cantidad);
         }
       });
-
     } else {
       receta[reqField] = reqValue;
     }
-    
     receta.save(function (err) {
       return res.status(200).json(receta);
     });
