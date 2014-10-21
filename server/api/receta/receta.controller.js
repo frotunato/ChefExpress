@@ -83,7 +83,7 @@ exports.update = function (req, res) {
   .exec(function (err, receta) {
     var resData = {};
     console.log(receta.ingredientes.id(ref));
-    if (reqField === 'ingredientes' || 'cantidad') {        
+    if (reqField === 'ingredientes' || reqField ==='cantidad') {        
       var ingrediente = receta.ingredientes.id(ref);          
       if(ingrediente !== null && reqField === 'ingredientes' && reqValue === 'remove') {
         //delete an object from the object array
@@ -94,7 +94,6 @@ exports.update = function (req, res) {
         var nuevoIngrediente = receta.ingredientes.addToSet({ingrediente: ref})[0];
         resData = nuevoIngrediente._id;
         console.log('pushed', JSON.stringify(nuevoIngrediente));
-          
       } else if (reqField === 'cantidad') {
         ingrediente.cantidad = reqValue;
         //modifies an object property of the object array
@@ -102,6 +101,7 @@ exports.update = function (req, res) {
       }
     
     } else {
+      console.log('yolo');
       receta[reqField] = reqValue;
     }
     

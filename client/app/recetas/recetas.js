@@ -1,4 +1,4 @@
-angular.module('chefExpressApp.recetas', ['ngRoute', 'angularUtils.directives.dirPagination', 'chefExpressApp.ingredientes'])
+angular.module('chefExpressApp.recetas', ['ngRoute', 'chefExpressApp.ingredientes', 'angularUtils.directives.dirPagination'])
 
   .config(function ($routeProvider) {
     $routeProvider

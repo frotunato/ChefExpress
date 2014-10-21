@@ -155,15 +155,21 @@ angular.module('chefExpressApp.recetas')
     $scope.ingredientes = [];
     $scope.max = 15;
     $scope.receta = null;
-    
-    $scope.cantidadTotal = function() {
+    $scope.compTotal = {proteinas: 20, calorias: 0, grasas: 0, carbohidratos: 0};
+
+    $scope.calcularTotal = function() {
+      cantidadTotal();
+      precioTotal();
+      composicionTotal();
+    };
+
+    function cantidadTotal() {
       var res = 0;
       for (var i = $scope.receta.ingredientes.length - 1; i >= 0; i--) {
         res = res + $scope.receta.ingredientes[i].cantidad;
       }
       $scope.receta.cantidad = res;
-      precioTotal();
-    };
+    }
 
     function precioTotal () {
       var res = 0;
@@ -173,12 +179,24 @@ angular.module('chefExpressApp.recetas')
       $scope.receta.precio = res;
     }
 
+    function composicionTotal () {
+      var totalCalorias = 0, totalProteinas = 0, totalCarbohidratos = 0, totalGrasas = 0;
+      for (var i = $scope.receta.ingredientes.length - 1; i >= 0; i--) {
+        console.log($scope.receta.ingredientes[i].ingrediente.nombre);
+        totalCalorias += $scope.receta.ingredientes[i].ingrediente.composicion.calorias * $scope.receta.ingredientes[i].cantidad;
+        totalCarbohidratos += $scope.receta.ingredientes[i].ingrediente.composicion.carbohidratos * $scope.receta.ingredientes[i].cantidad;
+        totalGrasas += $scope.receta.ingredientes[i].ingrediente.composicion.grasas * $scope.receta.ingredientes[i].cantidad;
+        totalProteinas += $scope.receta.ingredientes[i].ingrediente.composicion.proteinas * $scope.receta.ingredientes[i].cantidad;
+      }
+      $scope.compTotal = {proteinas: totalProteinas, grasas: totalGrasas, carbohidratos: totalCarbohidratos, calorias: totalCalorias};
+      console.log('proteinas', $scope.compTotal.proteinas);
+    }
+
     $scope.ingredienteSeleccionado = "";
     
     recetasAPI.getReceta($routeParams.recetaId).then(function (data) {
       $scope.receta = data;
-      precioTotal();
-      $scope.cantidadTotal();
+      $scope.calcularTotal();
     });
 
     $scope.getIngredientes = function (value) {
@@ -195,19 +213,18 @@ angular.module('chefExpressApp.recetas')
       }
     };
 
-    $scope.actualizarReceta = function (id, data, $index) {
-      console.log(JSON.stringify(data));
-      recetasAPI.updateReceta(id, data).then(function (response) {
-        if(response.code === 200) {
-          $scope.receta.ingredientes[$index];
-        }        
-        $scope.receta.ingredientes[$index] = result;
-        console.log($scope.receta.ingredientes[$index]);
-      });
+    $scope.updateReceta = function (id, data, $index) {
+     console.log(JSON.stringify(data));
+     recetasAPI.updateReceta(id, data).then(function (response) {
+       if(response.code === 200) {
+         $scope.receta.ingredientes[data.field] = data.value;
+       }        
+       //$scope.receta.ingredientes[$index] = result;
+       //console.log($scope.receta.ingredientes[$index]);
+     });
     };  
 
     function checkIfExist (data, key, subKey ,value, callback) {
- 
       var res = null;
       var index = null;
       if(data.length === 0) {
@@ -245,20 +262,21 @@ angular.module('chefExpressApp.recetas')
     };
 
     $scope.removeIngrediente = function (ingrediente, $index) {
-      console.log(ingrediente);
-      
       recetasAPI.updateReceta($scope.receta._id, {field: 'ingredientes', value: 'remove', ref: ingrediente._id}).then(function (response) {
-        console.log(JSON.stringify(response.data));
-        console.log('[CONTROLADOR] Código de removeIngrediente', response.code);
         if(response.code === 200) {
           $scope.receta.ingredientes.splice($index, 1);
-          precioTotal();
-          $scope.cantidadTotal();
+          $scope.calcularTotal();     
         }
       });
     };
 
-
+    $scope.updateIngrediente = function (ingrediente, $index) {
+      var data = {field: 'cantidad', value: ingrediente.cantidad, ref: ingrediente._id};
+      recetasAPI.updateReceta($scope.receta._id, data).then(function (response) {
+        if(response.code === 200) {
+          $scope.receta.ingredientes[$index][data.field] = data.value;
+        }        
+      });
+    };
   
-
   });

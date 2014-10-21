@@ -81,27 +81,6 @@ angular.module('chefExpressApp.ingredientes')
 			}
       getResultsPage($scope.pagination.current);
 		};
-
-	/*
-    $scope.chartObject = {
-    	type: 'PieChart',
-    	data: [
-		    [ "Componente", "Cantidad" ],
-		    [ "Grasas", $scope.nuevoIngrediente.composicion.grasas ],
-		    [ "Proteinas", $scope.nuevoIngrediente.composicion.proteinas ],
-		    [ "Carbohidratos", $scope.nuevoIngrediente.composicion.carbohidratos ],
-		    [ "Calorias", $scope.nuevoIngrediente.composicion.calorias ]
-  		],
-  		options: {
-  			title: "Desglose",
-  			isStacked: "false",
-  			width: 600,
-  			height: 600,
-  			displayExactValues: true,
-  			is3D: false
-  		}
-    };
-	*/
   
     $scope.showModal = function () {
       $scope.opts = {
@@ -129,9 +108,7 @@ angular.module('chefExpressApp.ingredientes')
           console.log('Modal closed');
         });
     };
- 
- 
-    //fin ingredientesMainCtrl 
+  
   })
 
   .controller('ingredientesModalCtrl', function ($scope, $modal, $modalInstance, informacionIngrediente) {
