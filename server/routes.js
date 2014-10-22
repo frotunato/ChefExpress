@@ -1,4 +1,4 @@
-module.exports = function(app) {
+module.exports = function (app) {
 
   // Insert routes below
   app.use('/api/ingredientes', require('./api/ingrediente'));
@@ -11,7 +11,7 @@ module.exports = function(app) {
       var a = Date.now();
       res.render(req.params.directory + '/' + req.params.file);
       var b = Date.now();
-      console.log('Time required to send ' + req.params.file + ':', b-a);
+      console.log('Time required to send ' + req.params.directory + '/' + req.params.file + ':', b-a);
     });
 
  	app.route('/')

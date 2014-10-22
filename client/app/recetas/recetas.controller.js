@@ -199,6 +199,26 @@ angular.module('chefExpressApp.recetas')
       $scope.calcularTotal();
     });
 
+    $scope.familias = ['BASE', 'ARROCES', 'BEBIDA', 'CARNE', 'CEREALES', 'DESPOJOS',
+    'FECULANTES', 'FRUTA COCIDA', 'FRUTA CRUDA', 'HUEVOS', 'LÁCTEO', 'LEGUMBRE',
+    'PESCADO', 'SALSA', 'VERDURA COCIDA', 'VERDURA CRUDA'];
+    
+    $scope.categorias = ['BASE', 'BEBIDA', 'CEREAL', 
+    'ENTRANTE', 'GUARNICION', 'LÁCTEO', 'POSTRE', 
+    'RELLENO', 'SALSA', 'SEGUNDO'];
+    
+    $scope.procedencias = ['Arabe', 'China', 'Coreana', 'Francesa', 
+    'Griega', 'Indía', 'indonesia', 'Israeli', 'Italiana', 
+    'Malasia', 'Marroqui', 'Mexicana', 'Portuguesa', 'Tunesina', 
+    'Turca', 'Vietnamita', 'vegetariana'];
+    
+    $scope.ambitos = ['Hotel', 'bcacado entra', 'Hospital', 
+    'Empresa', 'Escolares', 'Cafetarias', 'Administración',
+    'Catering lujo', 'Catering avion', 'Super mercado'];
+    
+    $scope.tipos = ['Étnica', 'Vegetariana', 
+    'Mediterránea', 'Normal'];
+
     $scope.getIngredientes = function (value) {
       if(value !== "") {
         ingredientesAPI.getIngredientesPagina({

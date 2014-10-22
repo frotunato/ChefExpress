@@ -38,39 +38,39 @@ table(class="table table-striped table-condensed table-bordered table-hover")
   tbody
     tr(dir-paginate="ingrediente in ingredientes | itemsPerPage: max" total-items="total")     
       td(ng-click="ingrediente.$editNombre = true")
-        span(ng-if="!ingrediente.$editNombre" ng-bind="ingrediente.nombre")
+        span(ng-if="!ingrediente.$editNombre") {{::ingrediente.nombre}}
         div(ng-if="ingrediente.$editNombre")
           input(focus ng-blur="ingrediente.$editNombre = false; actualizarIngrediente($parent.ingrediente._id, 'nombre', ingrediente.nombre)" class="form-control" placeholder="Nombre" type="text" ng-model="ingrediente.nombre")    
       td(ng-click="ingrediente.$editFamilia = true")
-        span(ng-if="!ingrediente.$editFamilia" ng-bind="ingrediente.familia")
+        span(ng-if="!ingrediente.$editFamilia") {{::ingrediente.familia}}
         div(ng-if="ingrediente.$editFamilia")
           select(focus ng-blur="ingrediente.$editFamilia = false; actualizarIngrediente($parent.ingrediente._id, 'familia', ingrediente.familia)" required class="form-control input-sm" ng-options="familia for familia in familias" ng-model="ingrediente.familia")    
       td(ng-click="ingrediente.$editEstado = true")
-        span(ng-if="!ingrediente.$editEstado" ng-bind="ingrediente.estado")
+        span(ng-if="!ingrediente.$editEstado") {{::ingrediente.estado}}
         div(ng-if="ingrediente.$editEstado")
           select(focus ng-blur="ingrediente.$editEstado = false; actualizarIngrediente($parent.ingrediente._id, 'estado', ingrediente.estado)" required class="form-control input-sm" ng-options="estado for estado in estados" ng-model="ingrediente.estado")
       td(ng-click="ingrediente.$editPrecio = true")
-        span(ng-if="!ingrediente.$editPrecio" ng-bind="ingrediente.precio")
+        span(ng-if="!ingrediente.$editPrecio") {{::ingrediente.precio}}
         div(ng-if="ingrediente.$editPrecio")
           input(focus ng-blur="ingrediente.$editPrecio = false; actualizarIngrediente($parent.ingrediente._id, 'precio', ingrediente.precio)" class="form-control input-sm" type="number" ng-model="ingrediente.precio")            
       td(ng-click="ingrediente.$editComposicion = true")
-        span(ng-if="!ingrediente.$editComposicion" ng-bind="ingrediente.composicion.calorias")
+        span(ng-if="!ingrediente.$editComposicion") {{::ingrediente.composicion.calorias}}
         div(ng-if="ingrediente.$editComposicion")
           input(focus ng-blur="ingrediente.$editComposicion = false; actualizarIngrediente($parent.ingrediente._id, 'composicion.calorias', ingrediente.composicion.calorias)" placeholder="Calorías" class="form-control input-sm" type="number" ng-model="ingrediente.composicion.calorias")      
       td(ng-click="ingrediente.$editCarbohidratos = true")
-        span(ng-if="!ingrediente.$editCarbohidratos" ng-bind="ingrediente.composicion.carbohidratos")
+        span(ng-if="!ingrediente.$editCarbohidratos") {{::ingrediente.composicion.carbohidratos}}
         div(ng-if="ingrediente.$editCarbohidratos")
           input(focus ng-blur="ingrediente.$editCarbohidratos = false; actualizarIngrediente($parent.ingrediente._id, 'composicion.carbohidratos', ingrediente.composicion.carbohidratos)" placeholder="Carbohidratos" class="form-control input-sm" type="number" ng-model="ingrediente.composicion.carbohidratos")      
       td(ng-click="ingrediente.$editProteinas = true")
-        span(ng-if="!ingrediente.$editProteinas" ng-bind="ingrediente.composicion.proteinas")
+        span(ng-if="!ingrediente.$editProteinas") {{::ingrediente.composicion.proteinas}}
         div(ng-if="ingrediente.$editProteinas")
           input(focus ng-blur="ingrediente.$editProteinas = false; actualizarIngrediente($parent.ingrediente._id, 'composicion.proteinas', ingrediente.composicion.proteinas)" placeholder="Proteinas" class="form-control input-sm" type="number" ng-model="ingrediente.composicion.proteinas")      
       td(ng-click="ingrediente.$editGrasas = true")
-        span(ng-if="!ingrediente.$editGrasas" ng-bind="ingrediente.composicion.grasas")
+        span(ng-if="!ingrediente.$editGrasas") {{::ingrediente.composicion.grasas}}
         div(ng-if="ingrediente.$editGrasas")
           input(focus ng-blur="ingrediente.$editGrasas = false; actualizarIngrediente($parent.ingrediente._id, 'composicion.grasas', ingrediente.composicion.grasas)" placeholder="Grasas" class="form-control input-sm" type="number" ng-model="ingrediente.composicion.grasas")
       td(ng-click="ingrediente.$editAlergeno = true")
-        span(ng-if="!ingrediente.$editAlergeno" ng-bind="ingrediente.alergeno")
+        span(ng-if="!ingrediente.$editAlergeno") {{::ingrediente.alergeno}}
         div(ng-if="ingrediente.$editAlergeno")
           select(focus ng-blur="ingrediente.$editAlergeno = false; actualizarIngrediente($parent.ingrediente._id, 'alergeno', ingrediente.alergeno)" required class="form-control input-sm" ng-options="alergeno for alergeno in alergenos" ng-model="ingrediente.alergeno")
 dir-pagination-controls(on-page-change="pageChanged(newPageNumber)")
