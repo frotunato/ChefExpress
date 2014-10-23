@@ -1,7 +1,9 @@
 angular.module('chefExpressApp.ingredientes')
 	
-	.controller('ingredientesMainCtrl', function ($scope, $modal, ingredientesAPI) {
-		$scope.ingredientes =  [];
+	.controller('ingredientesMainCtrl', function ($scope, $modal, initialIngredientesData, ingredientesAPI) {
+		$scope.ingredientes =  initialIngredientesData.ingredientes;
+    console.log(initialIngredientesData);
+
 
   	$scope.familias = ['Aceites y grasas','Agua guisos','Aves y Caza','Azucares y Dulces',
     'Bebidas con Alcohol','Bebidas sin Alcohol','Bolleria y Pasteleria','Cafe, cacao e infusiones',
@@ -20,19 +22,14 @@ angular.module('chefExpressApp.ingredientes')
 		$scope.sorting = {nombre: 'asc'};
 
 		$scope.max = 20;
-    $scope.total = 0;
+    $scope.total = initialIngredientesData.total;
 
-    getResultsPage(1);
-
+    //getResultsPage(1);
+    console.log('Llamada desde controlador ' + Date.now());
     $scope.pagination = {
       current: 1
     };
 
-    $scope.pageChanged = function (newPage) {
-      getResultsPage(newPage);
-      $scope.pagination.current = newPage;
-    };
-		
     function getResultsPage (pageNumber) {
       //window.alert('EXECUTED');
       ingredientesAPI.getIngredientesPagina({
@@ -43,9 +40,15 @@ angular.module('chefExpressApp.ingredientes')
       }).then(function (result) {
         $scope.ingredientes = result.data;
         $scope.total = result.total;
+        //console.log(JSON.stringify(result.data));
       });
     }
 
+    $scope.pageChanged = function (newPage) {
+      getResultsPage(newPage);
+      $scope.pagination.current = newPage;
+    };
+		
 		$scope.actualizarIngrediente = function (id, field, data) {
 			var res = {};
 			res[field] = data;

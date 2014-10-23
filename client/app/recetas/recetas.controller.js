@@ -1,10 +1,13 @@
 angular.module('chefExpressApp.recetas')
 
-  .controller('recetasMainCtrl', function ($scope, $location, recetasAPI) {
-    $scope.recetas = [];
+  .controller('recetasMainCtrl', function ($scope, $location, recetasAPI, initialRecetasData) {
+    $scope.recetas = initialRecetasData.recetas;
+    $scope.total = initialRecetasData.total;
+    $scope.max = 20;
     $scope.filtering = {};
     $scope.sorting = {nombre: 'asc'};
-
+    $scope.pagination = {current: 1};
+    
     $scope.familias = ['BASE', 'ARROCES', 'BEBIDA', 'CARNE', 'CEREALES', 'DESPOJOS',
     'FECULANTES', 'FRUTA COCIDA', 'FRUTA CRUDA', 'HUEVOS', 'LÁCTEO', 'LEGUMBRE',
     'PESCADO', 'SALSA', 'VERDURA COCIDA', 'VERDURA CRUDA'];
@@ -25,14 +28,11 @@ angular.module('chefExpressApp.recetas')
     $scope.tipos = ['Étnica', 'Vegetariana', 
     'Mediterránea', 'Normal'];
 
-    $scope.max = 20;
-    $scope.total = 10000;
 
-    getResultsPage(1);
 
-    $scope.pagination = {
-      current: 1
-    };
+    //getResultsPage(1);
+
+   
 
     $scope.pageChanged = function (newPage) {
       getResultsPage(newPage);
@@ -58,7 +58,6 @@ angular.module('chefExpressApp.recetas')
     $scope.load = function (path) {
       console.log(JSON.stringify($location));
       $location.path('/recetas/' + path);
-      
     };
 
     $scope.filter = function () {
@@ -81,6 +80,7 @@ angular.module('chefExpressApp.recetas')
     console.log('[CONTROLADOR] Número total de elementos con bind', document.getElementsByClassName("ng-binding").length);
 
   })
+  /*
   .controller('dummyGenerator', function ($scope, recetasAPI, ingredientesAPI) {
     $scope.pool = [];
 /*
@@ -120,7 +120,7 @@ angular.module('chefExpressApp.recetas')
 
      }
    };
-   */
+   
    $scope.getIngredientes();
     
 
@@ -151,25 +151,12 @@ angular.module('chefExpressApp.recetas')
    
     };
   })
-
-  .controller('recetaMainCtrl', function ($scope, $q, $routeParams, recetasAPI, ingredientesAPI) {
-    recetasAPI.getReceta($routeParams.recetaId).then(function (data) {
-      console.log('INGREDIENTES', Date.now());
-      $scope.receta = data;
-      $scope.calcularTotal();
-    });
-
-    console.log('INITIAL', Date.now());
+  */
+  .controller('recetaMainCtrl', function ($scope, $q, $routeParams, recetasAPI, ingredientesAPI, initialRecetaData) {
+    $scope.receta = initialRecetaData.receta;
     $scope.ingredientes = [];
     $scope.max = 15;
-    $scope.receta = null;
     $scope.compTotal = {proteinas: 20, calorias: 0, grasas: 0, carbohidratos: 0};
-
-    $scope.calcularTotal = function() {
-      cantidadTotal();
-      precioTotal();
-      composicionTotal();
-    };
 
     function cantidadTotal() {
       var res = 0;
@@ -200,6 +187,19 @@ angular.module('chefExpressApp.recetas')
       console.log('proteinas', $scope.compTotal.proteinas);
     }
 
+    $scope.calcularTotal = function() {
+      cantidadTotal();
+      precioTotal();
+      composicionTotal();
+    };
+    
+    $scope.calcularTotal();
+
+
+
+  
+
+  
     $scope.ingredienteSeleccionado = "";
     
  
