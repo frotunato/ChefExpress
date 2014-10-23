@@ -26,7 +26,7 @@ angular.module('chefExpressApp.recetas')
     'Mediterránea', 'Normal'];
 
     $scope.max = 20;
-    $scope.total = 0;
+    $scope.total = 10000;
 
     getResultsPage(1);
 
@@ -78,6 +78,7 @@ angular.module('chefExpressApp.recetas')
       }
       getResultsPage($scope.pagination.current);
     };
+    console.log('[CONTROLADOR] Número total de elementos con bind', document.getElementsByClassName("ng-binding").length);
 
   })
   .controller('dummyGenerator', function ($scope, recetasAPI, ingredientesAPI) {
@@ -152,6 +153,13 @@ angular.module('chefExpressApp.recetas')
   })
 
   .controller('recetaMainCtrl', function ($scope, $q, $routeParams, recetasAPI, ingredientesAPI) {
+    recetasAPI.getReceta($routeParams.recetaId).then(function (data) {
+      console.log('INGREDIENTES', Date.now());
+      $scope.receta = data;
+      $scope.calcularTotal();
+    });
+
+    console.log('INITIAL', Date.now());
     $scope.ingredientes = [];
     $scope.max = 15;
     $scope.receta = null;
@@ -194,10 +202,7 @@ angular.module('chefExpressApp.recetas')
 
     $scope.ingredienteSeleccionado = "";
     
-    recetasAPI.getReceta($routeParams.recetaId).then(function (data) {
-      $scope.receta = data;
-      $scope.calcularTotal();
-    });
+ 
 
     $scope.familias = ['BASE', 'ARROCES', 'BEBIDA', 'CARNE', 'CEREALES', 'DESPOJOS',
     'FECULANTES', 'FRUTA COCIDA', 'FRUTA CRUDA', 'HUEVOS', 'LÁCTEO', 'LEGUMBRE',
@@ -233,7 +238,7 @@ angular.module('chefExpressApp.recetas')
       }
     };
 
-    $scope.updateReceta = function (id, data, $index) {
+    $scope.updateReceta = function (id, data) {
      console.log(JSON.stringify(data));
      recetasAPI.updateReceta(id, data).then(function (response) {
        if(response.code === 200) {
@@ -298,5 +303,5 @@ angular.module('chefExpressApp.recetas')
         }        
       });
     };
-  
+    console.log('[CONTROLADOR] Número total de elementos con bind', document.getElementsByClassName("ng-binding").length);
   });

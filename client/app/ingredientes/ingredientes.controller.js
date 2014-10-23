@@ -108,7 +108,8 @@ angular.module('chefExpressApp.ingredientes')
           console.log('Modal closed');
         });
     };
-  
+      console.log('[CONTROLADOR] Número total de elementos con bind', document.getElementsByClassName("ng-binding").length);
+
   })
 
   .controller('ingredientesModalCtrl', function ($scope, $modal, $modalInstance, informacionIngrediente) {

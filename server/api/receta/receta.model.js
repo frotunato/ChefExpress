@@ -13,7 +13,8 @@ var recetaSchema = new Schema({
     cantidad: {type: Number, required: false, default: 0, min: 0},
   }],
   precio: {type: Number, required: false},
-  cantidad: {type: Number, require: false}
+  cantidad: {type: Number, require: false},
+  raciones: {type: Number, require: false, default: 1, min: 1}
 });
 
 module.exports = mongoose.model('Receta', recetaSchema);

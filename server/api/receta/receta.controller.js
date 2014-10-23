@@ -82,7 +82,7 @@ exports.update = function (req, res) {
   //.populate('ingredientes.ingrediente')
   .exec(function (err, receta) {
     var resData = {};
-    console.log(receta.ingredientes.id(ref));
+    //console.log(receta.ingredientes.id(ref));
     if (reqField === 'ingredientes' || reqField ==='cantidad') {        
       var ingrediente = receta.ingredientes.id(ref);          
       if(ingrediente !== null && reqField === 'ingredientes' && reqValue === 'remove') {
@@ -101,12 +101,11 @@ exports.update = function (req, res) {
       }
     
     } else {
-      console.log('yolo');
+      console.log(JSON.stringify(receta));
       receta[reqField] = reqValue;
     }
     
     receta.save(function (err) {
-      //console.log(JSON.stringify(receta[reqField]));
       return res.status(200).json(resData);
     });
   });

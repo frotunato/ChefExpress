@@ -3,6 +3,8 @@ html(ng-app="chefExpressApp")
 	head
 		title ChefExpress
 		link(rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css")
+	body
+		div(ng-view="")
 		<!--########################## ANGULAR CORE ###########################-->
 		script(src="bower_components/angular/angular.min.js")
 		script(src="bower_components/angular-route/angular-route.min.js")
@@ -34,6 +36,3 @@ html(ng-app="chefExpressApp")
 		script(src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js")
 		script(src="bower_components/angular-utils-pagination/dirPagination.js")
 		<!--###################################################################-->
-
-	body
-		div(ng-view="")

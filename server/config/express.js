@@ -7,15 +7,20 @@ var path = require('path');
 var config = require('./config.js');
 
 module.exports = function(app) {
+  app.use(morgan('tiny'));
   app.use(compress());
-  app.use(morgan(':remote-addr :method :url'));
   app.set('view engine', 'jade');
   app.set('appPath', path.join(config.root, 'client'));
   app.set('json spaces', 0);
   app.set('views', path.join(app.get('appPath'), '/app/'));
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
-  app.use(express.static(app.get('appPath')));
+  app.use(express.static(app.get('appPath'), {
+    maxAge: '1d',
+    index: false,
+    etag: false,
+    lastModified: false
+  }));
   app.use(errorHandler());
 	
 };
