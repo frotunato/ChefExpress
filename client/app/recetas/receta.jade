@@ -9,23 +9,30 @@ style.
 div(class="row")
   div(id="ingredientesWrapper" class="col-md-8")
     table(class="table table-striped table-condensed table-bordered table-hover" )
-      thead
+      thead(class="text-center")
         tr
-          th(class="text-center" colspan="3") 
+          td(colspan="4") 
             b
               h4(ng-if="!receta.$editNombre" ng-click="receta.$editNombre = true") {{::receta.nombre}}
             div(ng-if="receta.$editNombre")
-              input(focus type="text" ng-model="receta.nombre" class="form-control text-center input-lg" ng-blur="receta.$editNombre = false; updateReceta($parent.receta._id, {field: 'nombre', value: receta.nombre})")
-          th(colspan="3")
-            input(type="text" placeholder="Búsqueda por nombre" ng-model="ingredienteSeleccionado" ng-change="getIngredientes(ingredienteSeleccionado)" ng-model-options="{debounce: 200}" typeahead="ingrediente.nombre for ingrediente in ingredientes | filter:{nombre:$viewValue} | limitTo:max" typeahead-on-select="addIngrediente($item)" typeahead-wait-ms="200" class="form-control input-md")
-        th(class="text-center col-md-6") Ingredientes
-        th(class="text-center col-md-1") Cantidad
-        th(class="text-center col-sm-1") %
-        th(class="text-center col-md-1") Unidad
-        th(class="text-center col-md-1") Precio
-        th(class="text-center col-md-1") Total
+              input(focus type="text" id="buscador" ng-model="receta.nombre" class="form-control text-center input-lg" ng-blur="receta.$editNombre = false; updateReceta($parent.receta._id, {field: 'nombre', value: receta.nombre})")
+          td(colspan="2")
+            b
+              input(type="text" placeholder="Búsqueda por nombre" ng-model="ingredienteSeleccionado" ng-change="getIngredientes(ingredienteSeleccionado)" ng-model-options="{debounce: 200}" typeahead="ingrediente.nombre for ingrediente in ingredientes | filter:{nombre:$viewValue} | limitTo:max" typeahead-on-select="addIngrediente($item)" typeahead-wait-ms="200" class="form-control input-md")
+        td(class="col-md-6") 
+          b Ingredientes
+        td(class="col-md-1") 
+          b Cantidad
+        td(class="col-sm-1")
+          b %
+        td(class="col-md-1") 
+          b Unidad
+        td(class="col-md-1") 
+          b Precio
+        td(class="col-md-1") 
+          b Total
       tbody(style="height:450px;overflow:auto;")
-        tr(ng-repeat="ingredienteReceta in receta.ingredientes track by $index" )
+        tr(ng-repeat="ingredienteReceta in receta.ingredientes")
           td(class="clickable" ng-click="removeIngrediente(ingredienteReceta, $index)") {{::ingredienteReceta.ingrediente.nombre}}
           
           td(class="clickable" ng-click="ingredienteReceta.$editCantidad = true")
@@ -37,49 +44,51 @@ div(class="row")
           td 
             b {{(ingredienteReceta.cantidad*100/receta.cantidad).toFixed(1)}}
          
-          td Unidad
+          td unidades
           
           td {{::ingredienteReceta.ingrediente.precio.toFixed(2)}} €
             
           td 
             b {{(ingredienteReceta.cantidad*ingredienteReceta.ingrediente.precio).toFixed(2)}} €
-    
-  
-  div(id="clasificacionWrapper" class="col-md-2")
-    table(class="table table-bordered table-condensed")
-      th(class="text-center")
-        h4 Clasificación
-      tr(class="text-center")
-        td
-          b Raciones 
-            input(class="form-control" ng-model="receta.raciones" ng-blur="updateReceta(receta._id, {field: 'raciones', value: receta.raciones})" type="number" min="1" placeholder="Nº raciones")
-      
-      tr(class="text-center")
-        td
-          b Ámbito
-            select(class="form-control input-sm" ng-model="receta.ambito" ng-options="ambito for ambito in ambitos" ng-change="updateReceta(receta._id, {field: 'ambito', value: receta.ambito})")
-              option(selected value="") Todos
-      tr(class="text-center")
-        td 
-          b Categoría
-            select(class="form-control input-sm" ng-options="categoria for categoria in categorias" ng-change="updateReceta(receta._id, {field: 'categoria', value: receta.categoria})" ng-model="receta.categoria")
-              option(selected value="") Todos
-      tr(class="text-center")
-        td 
-          b Familia
-            select(class="form-control input-sm" ng-options="familia for familia in familias" ng-change="updateReceta(receta._id, {field: 'familia', value: receta.familia})" ng-model="receta.familia")
-              option(selected value="") Todos
-      tr(class="text-center")
-        td 
-          b Procedencia
-            select(class="form-control input-sm" ng-options="procedencia for procedencia in procedencias" ng-change="updateReceta(receta._id, {field: 'procedencia', value: receta.procedencia})" ng-model="receta.procedencia")
-              option(selected value="") Todos
-      tr(class="text-center")
-        td 
-          b Tipo
-            select(class="form-control input-sm" ng-options="tipo for tipo in tipos" ng-change="updateReceta(receta._id, {field: 'tipo', value: receta.tipo})" ng-model="receta.tipo")
-              option(selected value="") Todos
 
+  
+  div(id="informacionWrapper" class="col-md-2")
+    table(class="table table-bordered table-condensed")
+      thead(class="text-center")
+        tr
+          td(colspan="2")
+            h4 Información
+      tbody(class="text-center")
+        tr
+          td
+            b Tratamiento
+              select(class="form-control input-sm" ng-model="receta.tratamiento" ng-options="tratamiento for tratamiento in tratamientos" ng-change="updateReceta(receta._id, {field: 'tratamiento', value: receta.tratamiento})")
+                option(selected value="") Ninguno
+          td
+            b Ámbito
+              select(class="form-control input-sm" ng-model="receta.ambito" ng-options="ambito for ambito in ambitos" ng-change="updateReceta(receta._id, {field: 'ambito', value: receta.ambito})")
+                option(selected value="") Todos      
+        tr
+          td 
+            b Familia
+              select(class="form-control input-sm" ng-options="familia for familia in familias" ng-change="updateReceta(receta._id, {field: 'familia', value: receta.familia})" ng-model="receta.familia")
+                option(selected value="") Todos
+          td 
+            b Categoría
+              select(class="form-control input-sm" ng-options="categoria for categoria in categorias" ng-change="updateReceta(receta._id, {field: 'categoria', value: receta.categoria})" ng-model="receta.categoria")
+                option(selected value="") Todos
+         
+          
+        tr(class="text-center")
+          td 
+            b Procedencia
+              select(class="form-control input-sm" ng-options="procedencia for procedencia in procedencias" ng-change="updateReceta(receta._id, {field: 'procedencia', value: receta.procedencia})" ng-model="receta.procedencia")
+                option(selected value="") Todos
+          td 
+            b Tipo
+              select(class="form-control input-sm" ng-options="tipo for tipo in tipos" ng-change="updateReceta(receta._id, {field: 'tipo', value: receta.tipo})" ng-model="receta.tipo")
+                option(selected value="") Todos
+          
 div(class="row2")
   
   div(id="peligrosWrapper" class="col-sm-8")
@@ -113,7 +122,31 @@ div(class="row2")
           tr
             td
               b Total
-            td {{receta.precio.toFixed(2)}} €
+            td(class="success") {{receta.precio.toFixed(2)}} €
             td(class="text-center")
               span(ng-if="receta.cantidad<1") {{receta.cantidad.toFixed(2)*1000}} g
               span(ng-if="receta.cantidad>=1") {{receta.cantidad.toFixed(2)}} kg
+  
+  div(id="composicionWrapper" class="col-sm-3")
+    table(class="table table-bordered table-condensed")
+      thead(class="text-center")
+        td 
+          b Calorías
+        td 
+          b Grasas
+        td 
+          b Proteínas
+        td 
+          b C. hidratos
+      tbody(class="text-center")
+        tr 
+          td
+            {{(compTotal.calorias/receta.raciones).toFixed(0)}}
+          td
+            {{(compTotal.grasas/receta.raciones).toFixed(0)}}
+          td
+            {{(compTotal.proteinas/receta.raciones).toFixed(0)}}
+          td
+            {{(compTotal.carbohidratos/receta.raciones).toFixed(0)}}
+  
+  {{receta.alergenos}}
