@@ -15,11 +15,7 @@ angular.module('chefExpressApp.ingredientes')
 			},
 			getIngredientesPagina: function (config) {
 				var a = Date.now();
-
 				var deferred = $q.defer();						
-				
-				//var data = JSON.stringify(config.filter)
-				//console.log(JSON.stringify(config));
 				$http.get(this.apiUrl + '/', { params: {
 						page: config.page,
 						max: config.max,
@@ -54,12 +50,6 @@ angular.module('chefExpressApp.ingredientes')
 				});
 				return deferred.promise;	
 			},
-			custom: function (data) {
-				var deferred = $q.defer();
-				$http.get(this.apiUrl, data).success(function (data, status) {
-					deferred.resolve(data);
-				});
-				return deferred.promise;
-			}
+		
 		};
 	});

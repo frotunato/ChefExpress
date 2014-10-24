@@ -2,9 +2,8 @@ angular.module('chefExpressApp.ingredientes')
 	
 	.controller('ingredientesMainCtrl', function ($scope, $modal, initialIngredientesData, ingredientesAPI) {
 		$scope.ingredientes =  initialIngredientesData.ingredientes;
-    console.log(initialIngredientesData);
-
-
+    $scope.total = initialIngredientesData.total;
+    
   	$scope.familias = ['Aceites y grasas','Agua guisos','Aves y Caza','Azucares y Dulces',
     'Bebidas con Alcohol','Bebidas sin Alcohol','Bolleria y Pasteleria','Cafe, cacao e infusiones',
     'Carnes','Cereales y derivados','Condimentos y Salsas','Congelados','Conservas de frutas',
@@ -22,16 +21,10 @@ angular.module('chefExpressApp.ingredientes')
 		$scope.sorting = {nombre: 'asc'};
 
 		$scope.max = 20;
-    $scope.total = initialIngredientesData.total;
 
-    //getResultsPage(1);
-    console.log('Llamada desde controlador ' + Date.now());
-    $scope.pagination = {
-      current: 1
-    };
+    var pagination = {current: 1};
 
     function getResultsPage (pageNumber) {
-      //window.alert('EXECUTED');
       ingredientesAPI.getIngredientesPagina({
         page: pageNumber - 1, 
         max: $scope.max, 
@@ -40,13 +33,12 @@ angular.module('chefExpressApp.ingredientes')
       }).then(function (result) {
         $scope.ingredientes = result.data;
         $scope.total = result.total;
-        //console.log(JSON.stringify(result.data));
       });
     }
 
     $scope.pageChanged = function (newPage) {
       getResultsPage(newPage);
-      $scope.pagination.current = newPage;
+      pagination.current = newPage;
     };
 		
 		$scope.actualizarIngrediente = function (id, field, data) {
@@ -62,7 +54,7 @@ angular.module('chefExpressApp.ingredientes')
 		$scope.crearIngrediente = function (ingrediente) {
       ingredientesAPI.addIngrediente(ingrediente).then(function (data) {
         console.log(data);
-        getResultsPage($scope.pagination.current);
+        getResultsPage(pagination.current);
       });
     
     };
@@ -73,16 +65,17 @@ angular.module('chefExpressApp.ingredientes')
           delete $scope.filtering[key];
         }
       }
-      getResultsPage($scope.pagination.current);
+      getResultsPage(pagination.current);
 		};
 
 		$scope.sort = function (inputField) {
-			if($scope.sorting[inputField] === 'asc') {
+			console.log('[CONTROLADOR] Filtrado por ' + JSON.stringify($scope.sorting));
+      if($scope.sorting[inputField] === 'asc') {
 				$scope.sorting[inputField] = 'desc';
 			} else {
 				$scope.sorting[inputField] = 'asc';
 			}
-      getResultsPage($scope.pagination.current);
+      getResultsPage(pagination.current);
 		};
   
     $scope.showModal = function () {
@@ -112,7 +105,6 @@ angular.module('chefExpressApp.ingredientes')
         });
     };
       console.log('[CONTROLADOR] Número total de elementos con bind', document.getElementsByClassName("ng-binding").length);
-
   })
 
   .controller('ingredientesModalCtrl', function ($scope, $modal, $modalInstance, informacionIngrediente) {

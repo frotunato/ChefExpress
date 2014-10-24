@@ -7,8 +7,8 @@ style.
   }
 
 div(class="row")
-  div(id="ingredientesWrapper" class="col-md-7")
-    table(class="table table-striped table-condensed table-bordered table-hover")
+  div(id="ingredientesWrapper" class="col-md-8")
+    table(class="table table-striped table-condensed table-bordered table-hover" )
       thead
         tr
           th(class="text-center" colspan="3") 
@@ -24,7 +24,7 @@ div(class="row")
         th(class="text-center col-md-1") Unidad
         th(class="text-center col-md-1") Precio
         th(class="text-center col-md-1") Total
-      tbody
+      tbody(style="height:450px;overflow:auto;")
         tr(ng-repeat="ingredienteReceta in receta.ingredientes track by $index" )
           td(class="clickable" ng-click="removeIngrediente(ingredienteReceta, $index)") {{::ingredienteReceta.ingrediente.nombre}}
           
@@ -39,7 +39,7 @@ div(class="row")
          
           td Unidad
           
-          td {{::ingredienteReceta.ingrediente.precio}} €
+          td {{::ingredienteReceta.ingrediente.precio.toFixed(2)}} €
             
           td 
             b {{(ingredienteReceta.cantidad*ingredienteReceta.ingrediente.precio).toFixed(2)}} €
@@ -81,29 +81,39 @@ div(class="row")
               option(selected value="") Todos
 
 div(class="row2")
-  div(id="resumenWrapper" class="col-sm-2 col-md-offset-6")
+  
+  div(id="peligrosWrapper" class="col-sm-8")
     table(class="table table-condensed table-bordered text-center")
       thead
-        td
-        td
-          b Precio
-        td
-          b Cantidad
+        th(class="text-center") Peligros acerca de los ingredientes
+        th(class="text-center") Peligros en el desarrollo
+        th(class="text-center") Medidas preventivas
       tbody
         tr
-          td 
-            b Ración
-          td 
-            {{(receta.precio/receta.raciones).toFixed(2)}} € 
+          td a
+          td b
+          td c
+  div(id="resumenWrapper" class="col-sm-2")
+      table(class="table table-condensed table-bordered text-center")
+        thead
           td
-            span(ng-if="receta.cantidad<1") {{(receta.cantidad/receta.raciones).toFixed(2)*1000}} g
-            span(ng-if="receta.cantidad>=1") {{(receta.cantidad/receta.raciones).toFixed(2)}} kg
-        tr
           td
-            b Total
-          td {{receta.precio.toFixed(2)}} €
-          td(class="text-center")
-            span(ng-if="receta.cantidad<1") {{receta.cantidad.toFixed(2)*1000}} g
-            span(ng-if="receta.cantidad>=1") {{receta.cantidad.toFixed(2)}} kg
-
-{{compTotal}}
+            b Precio
+          td
+            b Cantidad
+        tbody
+          tr
+            td 
+              b Ración
+            td 
+              {{(receta.precio/receta.raciones).toFixed(2)}} € 
+            td
+              span(ng-if="receta.cantidad/receta.raciones<1") {{(receta.cantidad/receta.raciones).toFixed(2)*1000}} g
+              span(ng-if="receta.cantidad/receta.raciones>=1") {{(receta.cantidad/receta.raciones).toFixed(2)}} kg
+          tr
+            td
+              b Total
+            td {{receta.precio.toFixed(2)}} €
+            td(class="text-center")
+              span(ng-if="receta.cantidad<1") {{receta.cantidad.toFixed(2)*1000}} g
+              span(ng-if="receta.cantidad>=1") {{receta.cantidad.toFixed(2)}} kg

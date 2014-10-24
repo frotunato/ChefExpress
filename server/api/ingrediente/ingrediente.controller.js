@@ -32,7 +32,7 @@ exports.show = function(req, res) {
   Ingrediente.findById(req.params.id, function (err, ingredientes) {
     if(err) { return handleError(res, err); }
     if(!ingredientes) { return res.send(404); }
-    console.log('response');
+    //console.log('response');
     return res.json(ingredientes);
   });
 };

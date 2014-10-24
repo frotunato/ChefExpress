@@ -20,7 +20,7 @@ exports.index = function(req, res) {
     .sort(sorting)
     .exec(function (err, recetas) {
       if(err) { return handleError(res, err); }
-      console.log(recetas.length);
+      //console.log(recetas.length);
       Receta.count(filtering ,function (err, c) {
         return res.status(200).json({data: recetas, total: c});        
       });
@@ -65,7 +65,7 @@ exports.show = function (req, res) {
 
 exports.create = function(req, res) {
   Receta.create(req.body, function (err, recetas) {
-    console.log(JSON.stringify(req.params));
+    //console.log(JSON.stringify(req.params));
     if(err) { return handleError(res, err); }
     return res.status(201).json();
   });
@@ -88,12 +88,12 @@ exports.update = function (req, res) {
       if(ingrediente !== null && reqField === 'ingredientes' && reqValue === 'remove') {
         //delete an object from the object array
         resData = ingrediente.remove();
-        console.log(JSON.stringify(ingrediente));
+        //console.log(JSON.stringify(ingrediente));
       } else if (reqField === 'ingredientes' && reqValue === 'add') {
         //push an object to the object array
         var nuevoIngrediente = receta.ingredientes.addToSet({ingrediente: ref})[0];
         resData = nuevoIngrediente._id;
-        console.log('pushed', JSON.stringify(nuevoIngrediente));
+        //console.log('pushed', JSON.stringify(nuevoIngrediente));
       } else if (reqField === 'cantidad') {
         ingrediente.cantidad = reqValue;
         //modifies an object property of the object array
@@ -101,7 +101,7 @@ exports.update = function (req, res) {
       }
     
     } else {
-      console.log(JSON.stringify(receta));
+      //console.log(JSON.stringify(receta));
       receta[reqField] = reqValue;
     }
     
