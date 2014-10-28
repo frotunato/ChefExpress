@@ -126,7 +126,9 @@ div(class="row2")
             td(class="text-center")
               span(ng-if="receta.cantidad<1") {{receta.cantidad.toFixed(2)*1000}} g
               span(ng-if="receta.cantidad>=1") {{receta.cantidad.toFixed(2)}} kg
-  
+  b Raciones 
+    input(class="form-control" ng-model="receta.raciones" ng-blur="updateReceta(receta._id, {field: 'raciones', value: receta.raciones})" type="number" min="1" required placeholder="Nº raciones")
+
   div(id="composicionWrapper" class="col-sm-3")
     table(class="table table-bordered table-condensed")
       thead(class="text-center")

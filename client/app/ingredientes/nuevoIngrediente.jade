@@ -12,14 +12,8 @@ div(id="modalWrapper")
       div(class="form-group")
         label(for="familiaNuevoIngrediente" class="col-sm-2 control-label") Familia
         div(class="col-sm-10")
-          select(required id="familiaNuevoIngrediente" class="form-control input-sm" ng-options="familia for familia in familias" ng-model="ingrediente.familia")
+          select(required id="familiaNuevoIngrediente" class="form-control input-sm" ng-options="familia.nombre for familia in familias" ng-model="ingrediente.familia")
             option(value="") -- Selecciona una familia --
-      div(class="form-group")  
-        label(for="estadoNuevoIngrediente" class="col-sm-2 control-label") Estado
-        div(class="col-sm-10")
-          select(required id="estadoNuevoIngrediente" class="form-control input-sm" ng-options="estado for estado in estados" ng-model="ingrediente.estado")
-            option(value="") -- Selecciona un estado --
-
       div(class="form-group")  
         label(for="precioNuevoIngrediente" class="col-sm-2 control-label") Precio
         div(class="col-sm-10")
@@ -48,7 +42,7 @@ div(id="modalWrapper")
       div(class="form-group")
         label(for="alergenoNuevoIngrediente" class="col-sm-2 control-label") Alérgeno
         div(class="col-sm-10")
-          select(required id="alergenoNuevoIngrediente" class="form-control input-sm" ng-options="alergeno for alergeno in alergenos" ng-model="ingrediente.alergeno")
+          select(required id="alergenoNuevoIngrediente" class="form-control input-sm" ng-options="alergeno.nombre for alergeno in alergenos" ng-model="ingrediente.alergeno")
             option(value="") -- Selecciona un alérgeno --
 
     div(class="modal-footer")

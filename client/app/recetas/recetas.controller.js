@@ -28,12 +28,6 @@ angular.module('chefExpressApp.recetas')
     $scope.tipos = ['Étnica', 'Vegetariana', 
     'Mediterránea', 'Normal'];
 
-
-
-    //getResultsPage(1);
-
-   
-
     $scope.pageChanged = function (newPage) {
       getResultsPage(newPage);
       $scope.pagination.current = newPage;
@@ -80,78 +74,7 @@ angular.module('chefExpressApp.recetas')
     console.log('[CONTROLADOR] Número total de elementos con bind', document.getElementsByClassName("ng-binding").length);
 
   })
-  /*
-  .controller('dummyGenerator', function ($scope, recetasAPI, ingredientesAPI) {
-    $scope.pool = [];
-/*
-   $scope.getIngredientes = function (value) {
-     if(value !== "") {
-       ingredientesAPI.getIngredientesPagina({
-         page: undefined,
-         max: 1317,
-         sort: {nombre: 'asc'},
-         filter: {}
-       }).then( function (result) {
-        $scope.pool = result.data;
-        for (var i = 0; i < 700; i++) {
-          var familiaR = $scope.familias[Math.floor(Math.random() * $scope.familias.length)];
-          var categoriaR = $scope.categorias[Math.floor(Math.random() * $scope.categorias.length)];
-          var procedenciaR = $scope.procedencias[Math.floor(Math.random() * $scope.procedencias.length)];
-          var tipoR = $scope.tipos[Math.floor(Math.random() * $scope.tipos.length)];
-          var ambitoR = $scope.ambitos[Math.floor(Math.random() * $scope.ambitos.length)];
-          var precioR = ("" + Math.random() * 10).substring(0,5);
-          var cantidadR = Math.floor(Math.random() * 15);
-          var nombreR = "Receta de prueba " + i;
-          var ingredientesR = [];
-          for (var k = 7; k >= 0; k--) {
-            ingredientesR.push({ingrediente: $scope.pool[Math.floor(Math.random() * 1317)]._id, cantidad: Math.floor(Math.random()*20)});
-          }
-          
-          //console.log(nombreR, familiaR, categoriaR, procedenciaR, ambitoR, tipoR, precioR, cantidadR, JSON.stringify(ingredientesR));
-          
-          var data = {nombre: nombreR, familia: familiaR, procedencia: procedenciaR, categoria: categoriaR,
-            ambito: ambitoR, tipo: tipoR, precio: precioR, cantidad: cantidadR, ingredientes: ingredientesR};
-          recetasAPI.addReceta(data);
-        }         
 
-       });
-       return $scope.ingredientes;
-  
-
-     }
-   };
-   
-   $scope.getIngredientes();
-    
-
-    $scope.familias = ['BASE', 'ARROCES', 'BEBIDA', 'CARNE', 'CEREALES', 'DESPOJOS',
-    'FECULANTES', 'FRUTA COCIDA', 'FRUTA CRUDA', 'HUEVOS', 'LÁCTEO', 'LEGUMBRE',
-    'PESCADO', 'SALSA', 'VERDURA COCIDA', 'VERDURA CRUDA'];
-  
-    $scope.categorias = ['BASE', 'BEBIDA', 'CEREAL', 
-    'ENTRANTE', 'GUARNICION', 'LÁCTEO', 'POSTRE', 
-    'RELLENO', 'SALSA', 'SEGUNDO'];
-  
-    $scope.procedencias = ['Arabe', 'China', 'Coreana', 'Francesa', 
-    'Griega', 'Indía', 'indonesia', 'Israeli', 'Italiana', 
-    'Malasia', 'Marroqui', 'Mexicana', 'Portuguesa', 'Tunesina', 
-    'Turca', 'Vietnamita', 'vegetariana'];
-  
-    $scope.ambitos = ['Hotel', 'bcacado entra', 'Hospital', 
-    'Empresa', 'Escolares', 'Cafetarias', 'Administración',
-    'Catering lujo', 'Catering avion', 'Super mercado'];
-  
-    $scope.tipos = ['Étnica', 'Vegetariana', 
-    'Mediterránea', 'Normal'];
-  
-    $scope.dummy = function () {
-      
-     // console.log(familiaR, categoriaR, procedenciaR, ambitoR, tipoR, precioR, cantidadR);
-      
-   
-    };
-  })
-  */
   .controller('recetaMainCtrl', function ($scope, $q, $routeParams, recetasAPI, ingredientesAPI, initialRecetaData) {
     $scope.receta = initialRecetaData.receta;
     $scope.ingredientes = [];

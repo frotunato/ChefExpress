@@ -10,7 +10,6 @@ angular.module('chefExpressApp.inicio', ['chefExpressApp.ingredientes', 'chefExp
           initialIngredientesData: function (ingredientesAPI, $q) {
             var deferred = $q.defer();
             var res = {};
-            console.log('Llamada desde config ' + Date.now());
             ingredientesAPI.
               getIngredientesPagina({
                 page: 0, 
@@ -23,7 +22,36 @@ angular.module('chefExpressApp.inicio', ['chefExpressApp.ingredientes', 'chefExp
                 deferred.resolve(res);
               });
             return deferred.promise;
-          }}
+          },
+          initialAlergenos: function (alergenosIngredienteAPI, $q) {
+            var deferred = $q.defer();
+            var res = {};
+            alergenosIngredienteAPI.getAlergenos().then(
+              function (data) {
+                res = data;
+                console.log('alergenos', JSON.stringify(res));
+                deferred.resolve(res);
+              },
+              function (err) {
+                deferred.reject(err);
+            });
+            return deferred.promise;
+          },
+          initialFamilias: function (familiasIngredienteAPI, $q) {
+            var deferred = $q.defer();
+            var res = {};
+            familiasIngredienteAPI.getFamilias().then(
+              function (data) {
+                res = data;
+                console.log('alergenos', JSON.stringify(res));
+                deferred.resolve(res);
+              },
+              function (err) {
+                deferred.reject(err);
+            });
+            return deferred.promise;
+          }
+        }
       })
 
       .when('/recetas', {

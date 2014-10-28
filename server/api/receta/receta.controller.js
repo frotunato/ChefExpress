@@ -15,9 +15,11 @@ exports.index = function(req, res) {
   
   Receta
     .find(filtering)
+    .select('nombre familia categoria precio ambito procedencia tipo')
     .limit(req.query.max)
     .skip(req.query.max * req.query.page)
     .sort(sorting)
+    .lean()
     .exec(function (err, recetas) {
       if(err) { return handleError(res, err); }
       //console.log(recetas.length);
@@ -51,6 +53,7 @@ exports.show = function (req, res) {
   Receta
     .findById(req.params.id)
     .populate('ingredientes.ingrediente')
+    .lean()
     .exec(function (err, recetas) {
       if (err) {
         return handleError(res, err);
@@ -79,7 +82,8 @@ exports.update = function (req, res) {
 
   Receta
   .findById(req.params.id)
-  //.populate('ingredientes.ingrediente')
+  .populate('ingredientes.ingrediente')
+  .lean()
   .exec(function (err, receta) {
     var resData = {};
     //console.log(receta.ingredientes.id(ref));

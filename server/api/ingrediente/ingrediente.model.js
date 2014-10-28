@@ -1,19 +1,21 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
-
 var ingredienteSchema = new Schema({
-  nombre: {type: String, required: true},
-  estado: {type: String, required: false},
-  familia: {type: String, default: 'Desconocido'},
-  alergeno: {type: String, default: 'Ninguno', required: false},
+  nombre: {index: true, type: String, required: true},
+  familia: {type: Schema.Types.ObjectId, ref: 'FamiliaIngrediente', required: false},
+  alergenos: [{
+    alergeno: {type: Schema.Types.ObjectId, ref: 'AlergenoIngrediente', required: false}
+  }],
   precio: {type: Number, min: 0, default: 0},
-  composicion: {
-    calorias: {type: Number, default: 0, min: 0},
-    proteinas: {type: Number, default: 0, min: 0},
-    grasas: {type: Number, default: 0, min: 0},
-    carbohidratos: {type: Number, default: 0, min: 0}
-  }
+  perecedero: {type: String, default: 'No'},
+  unidad: {type: String},
+  pcons: {type: Number, max: 1, min: 0, default: 1},
+  conversionKg: {type:Number, min: 0, default: 1},
+  calorias: {type: Number, default: 0, min: 0},
+  proteinas: {type: Number, default: 0, min: 0},
+  grasas: {type: Number, default: 0, min: 0},
+  carbohidratos: {type: Number, default: 0, min: 0}
 });
 
 
