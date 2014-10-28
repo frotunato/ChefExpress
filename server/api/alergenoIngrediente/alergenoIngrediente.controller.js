@@ -3,6 +3,7 @@ var AlergenoIngrediente = require('./alergenoIngrediente.model');
 exports.index = function (req, res) {
   AlergenoIngrediente
     .find()
+    .select('-__v')
     .lean()
     .exec(function (err, alergenosIngrediente) {
       if(err) {

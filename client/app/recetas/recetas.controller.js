@@ -169,9 +169,7 @@ angular.module('chefExpressApp.recetas')
     $scope.updateReceta = function (id, data) {
      console.log(JSON.stringify(data));
      recetasAPI.updateReceta(id, data).then(function (response) {
-       if(response.code === 200) {
-         $scope.receta.ingredientes[data.field] = data.value;
-       }        
+        $scope.receta.ingredientes[data.field] = data.value;
      });
     };  
 
@@ -200,12 +198,10 @@ angular.module('chefExpressApp.recetas')
           console.log('[CONTROLADOR] Ya existe el ingrediente ' + $item._id + ' en la receta');
         } else {
           recetasAPI.updateReceta($scope.receta._id, {field: 'ingredientes', value: 'add', ref: $item._id}).then(function (response) {
-            if(response.code === 200) {
-              $scope.receta.ingredientes.push({ingrediente: $item, cantidad: 0, _id: response.data});
-              $scope.ingredienteSeleccionado = "";
-              console.log('[CONTROLADOR] Añadido ingrediente ' + $item._id + ' a la receta');
-              alergenosTotal();
-            }
+            $scope.receta.ingredientes.push({ingrediente: $item, cantidad: 0, _id: response.data});
+            $scope.ingredienteSeleccionado = "";
+            console.log('[CONTROLADOR] Añadido ingrediente ' + $item._id + ' a la receta');
+            alergenosTotal();
           });
         }
       });
@@ -213,20 +209,16 @@ angular.module('chefExpressApp.recetas')
 
     $scope.removeIngrediente = function (ingrediente, $index) {
       recetasAPI.updateReceta($scope.receta._id, {field: 'ingredientes', value: 'remove', ref: ingrediente._id}).then(function (response) {
-        if(response.code === 200) {
-          console.log('array', $scope.receta.ingredientes, 'index', $index);
-          $scope.receta.ingredientes.splice($index, 1);
-          $scope.calcularTotal();
-        }
+        console.log('array', $scope.receta.ingredientes, 'index', $index);
+        $scope.receta.ingredientes.splice($index, 1);
+        $scope.calcularTotal();
       });
     };
 
     $scope.updateIngrediente = function (ingrediente, $index) {
       var data = {field: 'cantidad', value: ingrediente.cantidad, ref: ingrediente._id};
       recetasAPI.updateReceta($scope.receta._id, data).then(function (response) {
-        if(response.code === 200) {
-          $scope.receta.ingredientes[$index][data.field] = data.value;
-        }        
+        $scope.receta.ingredientes[$index][data.field] = data.value;
       });
     };
   });

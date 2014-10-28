@@ -14,10 +14,11 @@ exports.index = function(req, res) {
   
   Ingrediente
     .find(filtering)
+    .select('-__v')
     .skip(req.query.max * req.query.page)
     .limit(req.query.max)
     .sort(sorting)
-    .populate('alergenos.alergeno familia')
+    .populate('alergenos familia')
     .lean()
     .exec(function (err, ingredientes) {
       if(err) { return handleError(res, err); }
@@ -30,7 +31,7 @@ exports.index = function(req, res) {
 exports.show = function(req, res) {
   Ingrediente
     .findById(req.params.id)
-    .populate('alergenos.alergeno')
+    .populate('alergenos')
     .lean()
     .exec(function (err, ingrediente) {
       if(err) { return handleError(res, err); }
@@ -67,7 +68,6 @@ exports.update = function(req, res) {
   });
 };
 */
-/*
 exports.update = function (req, res) {
   if(req.body._id) { delete req.body._id; }
   Ingrediente.findByIdAndUpdate(req.params.id, { $set: req.body }, function (err, ingrediente) {
@@ -75,26 +75,25 @@ exports.update = function (req, res) {
     return res.status(200).json(ingrediente);
   });
 };
-*/
-
+/*
 exports.update = function (req, res) {
   var reqField = req.body.field;
   var reqValue = req.body.value;
   var ref = req.body.ref;
-
+  
   Ingrediente
     .findById(req.params.id)
     .exec(function (err, ingrediente) {
       if (err) {
         return handleError(res, err);
       }
-      if(reqField = 'alergenos') {
-
-      }
-
+      ingrediente.alergenos = req.body.alergenos;
+      ingrediente.save(function () {
+        return res.status(200).json();
+      });
     });
 };
-
+*/
 exports.destroy = function(req, res) {
   Ingrediente.findById(req.params.id, function (err, ingredientes) {
     if(err) { return handleError(res, err); }

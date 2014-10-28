@@ -31,7 +31,7 @@ angular.module('chefExpressApp.ingredientes')
 			},
 			getIngrediente: function (id) {
 				var deferred = $q.defer();
-				$http.get(this.apiUrl + id).success(function (data, status) {
+				$http.get(this.apiUrl +  '/' + id).success(function (data, status) {
 					deferred.resolve(data);
 				});
 				return deferred.promise;
@@ -44,9 +44,9 @@ angular.module('chefExpressApp.ingredientes')
 				return deferred.promise;
 			},
 			addIngrediente: function (data) {
-					var deferred = $q.defer();
-					$http.post(this.apiUrl, data).success(function (data, status) {
-						deferred.resolve(data);
+				var deferred = $q.defer();
+				$http.post(this.apiUrl, data).success(function (data, status) {
+					deferred.resolve(data);
 				});
 				return deferred.promise;	
 			},
@@ -60,23 +60,14 @@ angular.module('chefExpressApp.ingredientes')
 			getAlergenos: function () {
 				var deferred = $q.defer();
 				$http.get(this.apiUrl, {cache: true}).success(function (data, status) {
-					console.log(status);
-					if (status === 200) {
-						deferred.resolve(data);
-					} else {
-						deferred.reject('[FACTORIA_INGREDIENTES_ALERGENOS] Error al realizar getAlergenos: ' + status);
-					}
+					deferred.resolve(data);
 				});
 				return deferred.promise;
 			},
 			addAlergeno: function (alergeno) {
 				var deferred = $q.defer();
 				$http.post(this.apiUrl, alergeno).success(function (data, status) {
-					if (status === 201) {
-						deferred.resolve(data);
-					} else {
-						deferred.reject('[FACTORIA_INGREDIENTES_ALERGENOS] Error al realizar addAlergeno: ' + status);
-					}
+					deferred.resolve(data);
 				});
 				return deferred.promise;
 			}
@@ -89,22 +80,14 @@ angular.module('chefExpressApp.ingredientes')
 			getFamilias: function () {
 				var deferred = $q.defer();
 				$http.get(this.apiUrl, {cache: true}).success(function (data, status) {
-					if (status === 200) {
-						deferred.resolve(data);
-					} else {
-						deferred.reject('[FACTORIA_INGREDIENTES_FAMILIAS] Error al realizar getFamilias: ' + status);
-					}
+					deferred.resolve(data);
 				});
 				return deferred.promise;
 			},
 			addFamilia: function (familia) {
 				var deferred = $q.defer();
 				$http.post(this.apiUrl, familia).success(function (data, status) {
-					if (status === 201) {
-						deferred.resolve(data);
-					} else {
-						deferred.reject('[FACTORIA_INGREDIENTES_FAMILIAS] Error al realizar addFamilia: ' + status);
-					}
+					deferred.resolve(data);
 				});
 				return deferred.promise;
 			}
