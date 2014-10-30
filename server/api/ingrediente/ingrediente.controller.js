@@ -7,7 +7,7 @@ exports.index = function(req, res) {
   var filtering = {};
   filtering = JSON.parse(req.query.filter);
   sorting = JSON.parse(req.query.sort);
-  
+  console.log(JSON.stringify(req.query));
   if(filtering.nombre) {
     filtering.nombre = new RegExp(filtering.nombre, "i");
   }

@@ -4,9 +4,7 @@ var mongoose = require('mongoose'),
 var ingredienteSchema = new Schema({
   nombre: {index: true, type: String, required: true},
   familia: {type: Schema.Types.ObjectId, ref: 'FamiliaIngrediente', required: false},
-  alergenos: [
-    {type: Schema.Types.ObjectId, ref: 'AlergenoIngrediente', required: false}
-  ],
+  alergenos: [{type: Schema.Types.ObjectId, ref: 'AlergenoIngrediente', required: false}],
   precio: {type: Number, min: 0, default: 0},
   perecedero: {type: String, default: 'No'},
   unidad: {type: String},

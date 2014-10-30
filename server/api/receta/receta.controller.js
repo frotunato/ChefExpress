@@ -16,7 +16,7 @@ exports.index = function(req, res) {
   Receta
     .find(filtering)
     
-    .select('-__v nombre familia categoria precio ambito procedencia tipo')
+    .select('nombre familia categoria precio ambito procedencia tipo')
     .limit(req.query.max)
     .skip(req.query.max * req.query.page)
     .sort(sorting)

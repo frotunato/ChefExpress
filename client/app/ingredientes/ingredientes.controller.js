@@ -5,7 +5,7 @@ angular.module('chefExpressApp.ingredientes')
     $scope.total = initialIngredientesData.total;
   	$scope.familias = initialFamilias;
     $scope.alergenos = initialAlergenos;
-		
+		$scope.loading = true;
     $scope.filtering = {};
 		$scope.sorting = {nombre: 'asc'};
 
@@ -13,41 +13,54 @@ angular.module('chefExpressApp.ingredientes')
 
     var pagination = 0;
 
-    function getResultsPage () {
+    function getResultsPage (newPage) {
+      $scope.loading = true;
       ingredientesAPI.getIngredientesPagina({
-        page: pagination, 
+        page: newPage, 
         max: $scope.max, 
         sort: $scope.sorting,
         filter: $scope.filtering
       }).then(function (result) {
         $scope.ingredientes = result.data;
         $scope.total = result.total;
+        pagination = newPage;
+        $scope.loading = false;
       });
     }
 
     $scope.pageChanged = function (newPage) {
-      pagination = newPage;
-      getResultsPage(newPage);
+      //pagination = newPage - 1;
+      getResultsPage(newPage - 1);
     };
 
+    $scope.$on('onRepeatLast', function () {
+
+    });
+
     $scope.updateIngrediente = function (id, data) {
-      console.log(data.hasOwnProperty('grasas'));
-      if (data.hasOwnProperty('alergenos')) {
+      console.log('DATA ' + JSON.stringify(data));
+      
+      if (data.hasOwnProperty('familia')) {
+        data = {familia: data.familia._id};
         console.log(data);
-        data.alergenos = data.alergenos.map(function (alergeno) {
-          return alergeno._id;
-        });
-        
       }
-      ingredientesAPI.updateIngrediente(id, data).then( function (result) {
+      
+      ingredientesAPI.updateIngrediente(id, data).then(function (result) {
         console.log('[CONTROLADOR_INGREDIENTES] updateIngrediente: ' + JSON.stringify(data));
       }); 
     };
 
 		$scope.crearIngrediente = function (ingrediente) {
-      ingredientesAPI.addIngrediente(ingrediente).then( function (data) {
+      if (ingrediente.hasOwnProperty('familia') && ingrediente.hasOwnProperty('alergenos')) {
+        delete(ingrediente.familia.nombre);
+        ingrediente.alergenos.forEach(function (value, index) {
+          console.log(value);
+        });
+      }
+      
+      ingredientesAPI.addIngrediente(ingrediente).then(function (data) {
         console.log(data);
-        getResultsPage(pagination.current);
+        getResultsPage(pagination);
       });
     
     };
@@ -82,13 +95,19 @@ angular.module('chefExpressApp.ingredientes')
       console.log('a');
     };
 
+    $scope.objectArrayToString = function (array, prop) {
+      return array.map(function (e) {
+        return e[prop];
+      }).join(separator=', ');
+    };
+
     $scope.filter = function () {
       for (var key in $scope.filtering) {
         if ($scope.filtering[key] === "" || $scope.filtering[key] === null) {
           delete $scope.filtering[key];
         }
       }
-      getResultsPage(pagination.current);
+      getResultsPage(pagination);
 		};
 
 		$scope.sort = function (inputField) {
@@ -98,7 +117,7 @@ angular.module('chefExpressApp.ingredientes')
 			} else {
 				$scope.sorting[inputField] = 'asc';
 			}
-      getResultsPage(pagination.current);
+      getResultsPage(pagination);
 		};
   
     $scope.showModal = function () {
