@@ -179,7 +179,7 @@ table(class="table table-striped table-condensed table-bordered")
                 class="form-control input-sm" 
                 ng-model-options="{updateOn: 'blur'}" 
                 ng-change="updateIngrediente($parent.ingrediente._id, {alergenos: ingrediente.alergenos});" 
-                ng-options="alergeno._id as alergeno.nombre for alergeno in alergenos" 
+                ng-options="alergeno as alergeno.nombre for alergeno in alergenos" 
                 ng-model="ingrediente.alergenos")
 
 dir-pagination-controls(on-page-change="pageChanged(newPageNumber)")

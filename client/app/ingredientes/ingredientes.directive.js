@@ -15,9 +15,9 @@ angular.module('chefExpressApp.ingredientes')
 				});
 			}
 		};
-	})
+	});
 
-
+	/*
   .directive('onLastRepeat', function () {
   	return {
   		restrict: 'A',
@@ -39,3 +39,4 @@ angular.module('chefExpressApp.ingredientes')
   		}
   	};
   });
+  */

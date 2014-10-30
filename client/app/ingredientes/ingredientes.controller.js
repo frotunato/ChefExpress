@@ -5,7 +5,6 @@ angular.module('chefExpressApp.ingredientes')
     $scope.total = initialIngredientesData.total;
   	$scope.familias = initialFamilias;
     $scope.alergenos = initialAlergenos;
-		$scope.loading = true;
     $scope.filtering = {};
 		$scope.sorting = {nombre: 'asc'};
 
@@ -14,7 +13,6 @@ angular.module('chefExpressApp.ingredientes')
     var pagination = 0;
 
     function getResultsPage (newPage) {
-      $scope.loading = true;
       ingredientesAPI.getIngredientesPagina({
         page: newPage, 
         max: $scope.max, 
@@ -24,7 +22,6 @@ angular.module('chefExpressApp.ingredientes')
         $scope.ingredientes = result.data;
         $scope.total = result.total;
         pagination = newPage;
-        $scope.loading = false;
       });
     }
 
@@ -33,16 +30,16 @@ angular.module('chefExpressApp.ingredientes')
       getResultsPage(newPage - 1);
     };
 
-    $scope.$on('onRepeatLast', function () {
-
-    });
-
     $scope.updateIngrediente = function (id, data) {
       console.log('DATA ' + JSON.stringify(data));
       
       if (data.hasOwnProperty('familia')) {
-        data = {familia: data.familia._id};
-        console.log(data);
+        data.familia = data.familia._id;
+      } else if (data.hasOwnProperty('alergenos')) {
+        valores = data.alergenos.map(function (e) {
+          return e._id;
+        });
+        data.alergenos = valores;
       }
       
       ingredientesAPI.updateIngrediente(id, data).then(function (result) {
