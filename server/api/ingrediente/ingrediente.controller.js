@@ -7,14 +7,13 @@ exports.index = function(req, res) {
   var filtering = {};
   filtering = JSON.parse(req.query.filter);
   sorting = JSON.parse(req.query.sort);
-  console.log(JSON.stringify(req.query));
+  console.log(JSON.stringify(req.body));
   if(filtering.nombre) {
     filtering.nombre = new RegExp(filtering.nombre, "i");
   }
   
   Ingrediente
     .find(filtering)
-    .select('-__v')
     .skip(req.query.max * req.query.page)
     .limit(req.query.max)
     .sort(sorting)

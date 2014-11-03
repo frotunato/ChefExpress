@@ -26,7 +26,6 @@ angular.module('chefExpressApp.ingredientes')
     }
 
     $scope.pageChanged = function (newPage) {
-      //pagination = newPage - 1;
       getResultsPage(newPage - 1);
     };
 
@@ -36,8 +35,8 @@ angular.module('chefExpressApp.ingredientes')
       if (data.hasOwnProperty('familia')) {
         data.familia = data.familia._id;
       } else if (data.hasOwnProperty('alergenos')) {
-        valores = data.alergenos.map(function (e) {
-          return e._id;
+        valores = data.alergenos.map(function (alergeno) {
+          return alergeno._id;
         });
         data.alergenos = valores;
       }
