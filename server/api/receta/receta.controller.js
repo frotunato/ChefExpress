@@ -15,11 +15,11 @@ exports.index = function(req, res) {
   
   Receta
     .find(filtering)
-    
     .select('nombre familia categoria precio ambito procedencia tipo')
     .limit(req.query.max)
     .skip(req.query.max * req.query.page)
     .sort(sorting)
+    .populate('familia')
     .lean()
     .exec(function (err, recetas) {
       if(err) { return handleError(res, err); }
