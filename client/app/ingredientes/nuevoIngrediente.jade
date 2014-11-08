@@ -19,7 +19,7 @@ div(id="modalWrapper")
         div(class="form-group")  
           label(for="precioNuevoIngrediente" class="col-sm-2 control-label") Precio
           div(class="col-sm-10")
-            input(required id="precioNuevoIngrediente" class="form-control input-sm" min="0" max="10000" type="number" ng-model="ingrediente.precio")
+            input(required id="precioNuevoIngrediente" class="form-control input-sm" min="0" max="10000" type="number" step="any" ng-model="ingrediente.precio")
         
         div(class="form-group")
           label(for="unidadNuevoIngrediente" class="col-sm-2 control-label") Unidad
@@ -42,12 +42,12 @@ div(id="modalWrapper")
         div(class="form-group")  
           label(for="precioNuevoIngrediente" class="col-sm-2 control-label") % Cons
           div(class="col-sm-10")
-            input(required id="pconsNuevoIngrediente" class="form-control input-sm" min="0" max="1" step="0.01" type="number" ng-model="ingrediente.pcons")
+            input(required id="pconsNuevoIngrediente" class="form-control input-sm" min="0" max="1" type="number" step="any" ng-model="ingrediente.pcons")
         
         div(class="form-group")  
           label(for="precioNuevoIngrediente" class="col-sm-2 control-label") Conv kg
           div(class="col-sm-10")
-            input(required id="conversionKgNuevoIngrediente" class="form-control input-sm" min="0" max="100" step="0.1" type="number" ng-model="ingrediente.conversionKg")
+            input(required id="conversionKgNuevoIngrediente" class="form-control input-sm" min="0" max="100" type="number" step="any" ng-model="ingrediente.conversionKg")
       
 
       fieldset
@@ -56,27 +56,27 @@ div(id="modalWrapper")
       div(class="form-group")  
         label(for="caloriasNuevoIngrediente" class="col-sm-2 control-label") Calorias
         div(class="col-sm-10")
-          input(required id="caloriasNuevoIngrediente" class="form-control input-sm" min="0" max="10000" type="number" ng-model="ingrediente.calorias")
+          input(required id="caloriasNuevoIngrediente" class="form-control input-sm" min="0" max="10000" type="number" step="any" ng-model="ingrediente.calorias")
       
       div(class="form-group")  
         label(for="proteinasNuevoIngrediente" class="col-sm-2 control-label") Proteinas
         div(class="col-sm-10")
-          input(required id="proteinasNuevoIngrediente" class="form-control input-sm" min="0" max="10000" type="number" ng-model="ingrediente.proteinas")
+          input(required id="proteinasNuevoIngrediente" class="form-control input-sm" min="0" max="10000" type="number" step="any" ng-model="ingrediente.proteinas")
       
       div(class="form-group")  
         label(for="carbohidratosNuevoIngrediente" class="col-sm-2 control-label") Carbohidratos
         div(class="col-sm-10")
-          input(required id="carbohidratosNuevoIngrediente" class="form-control input-sm" min="0" max="10000" type="number" ng-model="ingrediente.carbohidratos")
+          input(required id="carbohidratosNuevoIngrediente" class="form-control input-sm" min="0" max="10000" type="number" step="any" ng-model="ingrediente.carbohidratos")
       
       div(class="form-group")  
         label(for="grasasNuevoIngrediente" class="col-sm-2 control-label") Grasas
         div(class="col-sm-10")
-          input(required id="grasasNuevoIngrediente" class="form-control input-sm" min="0" max="10000" type="number" ng-model="ingrediente.grasas")
+          input(required id="grasasNuevoIngrediente" class="form-control input-sm" min="0" max="10000" type="number" step="any" ng-model="ingrediente.grasas")
      
       div(class="form-group")
         label(for="alergenoNuevoIngrediente" class="col-sm-2 control-label") Alérgeno
         div(class="col-sm-10")
-          select(multiple required id="alergenoNuevoIngrediente" class="form-control input-sm" ng-options="alergeno._id as alergeno.nombre for alergeno in alergenos" ng-model="ingrediente.alergenos")
+          select(multiple id="alergenoNuevoIngrediente" class="form-control input-sm" ng-options="alergeno._id as alergeno.nombre for alergeno in alergenos" ng-model="ingrediente.alergenos")
             option(value="") -- Selecciona un alérgeno --
 
     div(class="modal-footer")

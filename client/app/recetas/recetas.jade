@@ -49,11 +49,12 @@ table(class="table table-striped table-condensed table-bordered table-hover")
   tbody
     tr(class="clickable" ng-click="load(receta._id)" dir-paginate="receta in recetas | itemsPerPage: max" total-items="total")
       td {{::receta.nombre}}
-      td {{::receta.familia}}
-      td {{::receta.categoria}}
+      td {{::receta.familia.nombre}}
+      td {{::receta.categoria.nombre}}
       td {{::receta.precio}}
-      td {{::receta.ambito}}
-      td {{::receta.procedencia}}
-      td {{::receta.tipo}}
+      td {{::receta.ambito.nombre}}
+      td {{::receta.procedencia.nombre}}
+      td {{::receta.tipo.nombre}}
 
 dir-pagination-controls(on-page-change="pageChanged(newPageNumber)")
+button(ng-click="aa()") CARGAR INGREDIENTES

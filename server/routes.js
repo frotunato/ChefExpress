@@ -5,14 +5,14 @@ module.exports = function (app) {
   app.use('/api/familiasIngrediente', require('./api/familiaIngrediente'));
   app.use('/api/ingredientes', require('./api/ingrediente'));
   app.use('/api/recetas', require('./api/receta'));
- 	app.use('/api/ambitosRecetas', require('./api/ambitoReceta'));
-  app.use('/api/familiasRecetas', require('./api/familiaReceta'));
-  app.use('/api/tiposRecetas', require('./api/tipoReceta'));
-  app.use('/api/medidasPreventivasRecetas', require('./api/medidaPreventivaReceta'));
-  app.use('/api/peligrosDesarrollosRecetas', require('./api/peligroDesarrolloReceta'));
-  app.use('/api/peligrosIngredientesRecetas', require('./api/peligroIngredienteReceta'));
-  app.use('/api/categoriasRecetas', require('./api/categoriaReceta'));
-
+ 	app.use('/api/ambitosReceta', require('./api/ambitoReceta'));
+  app.use('/api/familiasReceta', require('./api/familiaReceta'));
+  app.use('/api/tiposReceta', require('./api/tipoReceta'));
+  app.use('/api/medidasPreventivasReceta', require('./api/medidaPreventivaReceta'));
+  app.use('/api/peligrosDesarrolloReceta', require('./api/peligroDesarrolloReceta'));
+  app.use('/api/peligrosIngredientesReceta', require('./api/peligroIngredienteReceta'));
+  app.use('/api/categoriasReceta', require('./api/categoriaReceta'));
+  app.use('/api/procedenciasReceta', require('./api/procedenciaReceta'));
   // app.route('/:url(api|components|app|bower_components)/*')
 
 	app.route('/app/:directory/:file')

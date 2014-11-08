@@ -2,7 +2,7 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var recetaSchema = new Schema({
-  nombre: {index:true, type: String, required: true},
+  nombre: {index:true, type: String, required: true, trim: true},
   categoria: {type: Schema.Types.ObjectId, ref: 'CategoriaReceta', required: false},
   familia: {type: Schema.Types.ObjectId, ref: 'FamiliaReceta', required: false},
   ambito: {type: Schema.Types.ObjectId, ref: 'AmbitoReceta', required: false},

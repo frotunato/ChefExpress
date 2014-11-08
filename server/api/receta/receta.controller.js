@@ -19,7 +19,7 @@ exports.index = function(req, res) {
     .limit(req.query.max)
     .skip(req.query.max * req.query.page)
     .sort(sorting)
-    .populate('familia')
+    .populate('familia categoria ambito tipo procedencia')
     .lean()
     .exec(function (err, recetas) {
       if(err) { return handleError(res, err); }
@@ -69,8 +69,9 @@ exports.show = function (req, res) {
 
 exports.create = function(req, res) {
   Receta.create(req.body, function (err, recetas) {
-    //console.log(JSON.stringify(req.params));
+    //console.log(JSON.stringify(req.body));
     if(err) { return handleError(res, err); }
+    console.log(err);
     return res.status(201).json();
   });
 };
@@ -84,7 +85,7 @@ exports.update = function (req, res) {
   Receta
   .findById(req.params.id)
   .populate('ingredientes.ingrediente')
-  .lean()
+  //.lean()
   .exec(function (err, receta) {
     var resData = {};
     //console.log(receta.ingredientes.id(ref));
@@ -97,6 +98,7 @@ exports.update = function (req, res) {
       } else if (reqField === 'ingredientes' && reqValue === 'add') {
         //push an object to the object array
         var nuevoIngrediente = receta.ingredientes.addToSet({ingrediente: ref})[0];
+        console.log(nuevoIngrediente._id);
         resData = nuevoIngrediente._id;
         //console.log('pushed', JSON.stringify(nuevoIngrediente));
       } else if (reqField === 'cantidad') {

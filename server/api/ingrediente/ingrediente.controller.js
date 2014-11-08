@@ -17,6 +17,7 @@ exports.index = function(req, res) {
     .skip(req.query.max * req.query.page)
     .limit(req.query.max)
     .sort(sorting)
+    //.select('nombre _id')
     .populate('alergenos familia')
     .lean()
     .exec(function (err, ingredientes) {
@@ -34,18 +35,18 @@ exports.show = function(req, res) {
     .lean()
     .exec(function (err, ingrediente) {
       if(err) { return handleError(res, err); }
-      if(!ingrediente) { return res.send(404); }
+      if(!ingrediente) { return res.status(404); }
       //console.log('response');
       console.log(JSON.stringify(ingrediente));
-      return res.json(ingrediente);   
+      return res.status(200).json(ingrediente);   
     });   
 };
 
 exports.create = function(req, res) {
+  console.log(JSON.stringify(req.body));
   Ingrediente.create(req.body, function(err, ingredientes) {
     //console.log(req.body);
     if(err) { 
-      console.log(req.body);
       return handleError(res, err); 
     }
     return res.status(201).json();

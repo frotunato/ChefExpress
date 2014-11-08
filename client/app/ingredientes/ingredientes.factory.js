@@ -21,11 +21,16 @@ angular.module('chefExpressApp.ingredientes')
 						max: config.max,
 						sort: config.sort,
 						filter: config.filter
+						//page: 0,
+						//max: 200000,
+						//sort: {},
+						//filter: {}
 				}, cache: true
 			}).success(function (data) {
 					var b = Date.now();
 					deferred.resolve(data);
 					console.log(b-a);
+					console.log(JSON.stringify(data));
 				});
 				return deferred.promise;
 			},
