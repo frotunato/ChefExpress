@@ -18,8 +18,15 @@ exports.index = function(req, res) {
     .skip(req.query.max * req.query.page)
     .limit(req.query.max)
     .sort(sorting)
-    //.select('nombre _id')
-    .populate('alergenos familia')
+    //.select('nombre _id proteinas carbohidratos grasas calorias')
+    .populate('alergenos familia intolerancias')
+    /*
+    .populate([
+      {path: 'familia', select: '-__v', model: 'FamiliaIngrediente'},
+      {path: 'alergenos', select: '-__v', model: 'AlergenoIngrediente'},
+      {path: 'intolerancias', select: '-__v', model: 'IntoleranciaIngrediente'}
+    ])
+    */
     .exec(function (err, ingredientes) {
       if(err) { return handleError(res, err); }
       Ingrediente.count(filtering, function (err, c) {
@@ -31,8 +38,9 @@ exports.index = function(req, res) {
 exports.show = function(req, res) {
   Ingrediente
     .findById(req.params.id)
-    .populate('alergenos intolerancias')
     .lean()
+    .populate('alergenos intolerancias')
+    .select('-__v')
     .exec(function (err, ingrediente) {
       if(err) { return handleError(res, err); }
       if(!ingrediente) { return res.status(404); }

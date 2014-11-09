@@ -5,13 +5,12 @@ angular.module('chefExpressApp.ingredientes')
 			restrict: 'A',
 			scope: '=',
 			link: function (scope, elem, attr) {
-				console.log(scope.ingrediente);
-				elem[0].focus();
+        elem[0].focus();
 				var act = attr.updateOnFocus;
 				
 				elem.bind('blur', function () {
 					scope.ingrediente[act] = false;
-					elem.unbind('blur');
+          elem.unbind('blur');
 				});
 			}
 		};

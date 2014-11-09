@@ -2,29 +2,30 @@ div(id="modalWrapper")
   div(class="modal-header")
     h3(class="modal-title text-center") Nuevo ingrediente
   div(class="modal-body")
+    
     form(id="nuevoIngredienteForm" ng-submit="ok()" class="form-horizontal")
       fieldset
         legend Información
         div(class="form-group")
           label(for="nombreNuevoIngrediente" class="col-sm-2 control-label") Nombre
           div(class="col-sm-10")
-            input(required id="nombreNuevoIngrediente" ng-model="ingrediente.nombre" class="form-control input-sm" type="text")
+            input(required id="nombreNuevoIngrediente" ng-model="data.ingrediente.nombre" class="form-control input-sm" type="text")
         
         div(class="form-group")
           label(for="familiaNuevoIngrediente" class="col-sm-2 control-label") Familia
           div(class="col-sm-10")
-            select(required id="familiaNuevoIngrediente" class="form-control input-sm" ng-options="familia._id as familia.nombre for familia in familias" ng-model="ingrediente.familia")
+            select(required id="familiaNuevoIngrediente" class="form-control input-sm" ng-options="familia._id as familia.nombre for familia in data.familias" ng-model="data.ingrediente.familia")
               option(value="") -- Selecciona una familia --
         
         div(class="form-group")  
           label(for="precioNuevoIngrediente" class="col-sm-2 control-label") Precio
           div(class="col-sm-10")
-            input(required id="precioNuevoIngrediente" class="form-control input-sm" min="0" max="10000" type="number" step="any" ng-model="ingrediente.precio")
+            input(required id="precioNuevoIngrediente" class="form-control input-sm" min="0" max="10000" type="number" step="any" ng-model="data.ingrediente.precio")
         
         div(class="form-group")
           label(for="unidadNuevoIngrediente" class="col-sm-2 control-label") Unidad
           div(class="col-sm-10")
-            select(class="form-control input-sm" ng-model="ingrediente.unidad")
+            select(class="form-control input-sm" ng-model="data.ingrediente.unidad")
               option(value="") -- Selecciona una unidad --
               option(value="KG") KG
               option(value="LT") LT
@@ -34,7 +35,7 @@ div(id="modalWrapper")
         div(class="form-group")
           label(for="perecederoNuevoIngrediente" class="col-sm-2 control-label") Perecedero
           div(class="col-sm-10")
-            select(class="form-control input-sm" ng-model="ingrediente.perecedero" required)
+            select(class="form-control input-sm" ng-model="data.ingrediente.perecedero" required)
               option(value="") -- Selecciona un valor --
               option(value="Si") Si
               option(value="No") No
@@ -42,46 +43,46 @@ div(id="modalWrapper")
         div(class="form-group")  
           label(for="precioNuevoIngrediente" class="col-sm-2 control-label") % Cons
           div(class="col-sm-10")
-            input(required id="pconsNuevoIngrediente" class="form-control input-sm" min="0" max="1" type="number" step="any" ng-model="ingrediente.pcons")
+            input(required id="pconsNuevoIngrediente" class="form-control input-sm" min="0" max="1" type="number" step="any" ng-model="data.ingrediente.pcons")
         
         div(class="form-group")  
           label(for="precioNuevoIngrediente" class="col-sm-2 control-label") Conv kg
           div(class="col-sm-10")
-            input(required id="conversionKgNuevoIngrediente" class="form-control input-sm" min="0" max="100" type="number" step="any" ng-model="ingrediente.conversionKg")
+            input(required id="conversionKgNuevoIngrediente" class="form-control input-sm" min="0" max="100" type="number" step="any" ng-model="data.ingrediente.conversionKg")
       
 
       fieldset
         legend Composición
         
-      div(class="form-group")  
-        label(for="caloriasNuevoIngrediente" class="col-sm-2 control-label") Calorias
-        div(class="col-sm-10")
-          input(required id="caloriasNuevoIngrediente" class="form-control input-sm" min="0" max="10000" type="number" step="any" ng-model="ingrediente.calorias")
-      
-      div(class="form-group")  
-        label(for="proteinasNuevoIngrediente" class="col-sm-2 control-label") Proteinas
-        div(class="col-sm-10")
-          input(required id="proteinasNuevoIngrediente" class="form-control input-sm" min="0" max="10000" type="number" step="any" ng-model="ingrediente.proteinas")
-      
-      div(class="form-group")  
-        label(for="carbohidratosNuevoIngrediente" class="col-sm-2 control-label") Carbohidratos
-        div(class="col-sm-10")
-          input(required id="carbohidratosNuevoIngrediente" class="form-control input-sm" min="0" max="10000" type="number" step="any" ng-model="ingrediente.carbohidratos")
-      
-      div(class="form-group")  
-        label(for="grasasNuevoIngrediente" class="col-sm-2 control-label") Grasas
-        div(class="col-sm-10")
-          input(required id="grasasNuevoIngrediente" class="form-control input-sm" min="0" max="10000" type="number" step="any" ng-model="ingrediente.grasas")
-     
-      div(class="form-group")
-        label(for="intoleranciaNuevoIngrediente" class="col-sm-2 control-label") Intolerancias
-        div(class="col-sm-10")
-          select(multiple id="intoleranciaNuevoIngrediente" class="form-control input-sm" ng-options="intolerancia._id as intolerancia.nombre for intolerancia in intolerancias" ng-model="ingrediente.intolerancias")
+        div(class="form-group")  
+          label(for="caloriasNuevoIngrediente" class="col-sm-2 control-label") Calorias
+          div(class="col-sm-10")
+            input(required id="caloriasNuevoIngrediente" class="form-control input-sm" min="0" max="10000" type="number" step="any" ng-model="data.ingrediente.calorias")
+        
+        div(class="form-group")  
+          label(for="proteinasNuevoIngrediente" class="col-sm-2 control-label") Proteinas
+          div(class="col-sm-10")
+            input(required id="proteinasNuevoIngrediente" class="form-control input-sm" min="0" max="10000" type="number" step="any" ng-model="data.ingrediente.proteinas")
+        
+        div(class="form-group")  
+          label(for="carbohidratosNuevoIngrediente" class="col-sm-2 control-label") Carbohidratos
+          div(class="col-sm-10")
+            input(required id="carbohidratosNuevoIngrediente" class="form-control input-sm" min="0" max="10000" type="number" step="any" ng-model="data.ingrediente.carbohidratos")
+        
+        div(class="form-group")  
+          label(for="grasasNuevoIngrediente" class="col-sm-2 control-label") Grasas
+          div(class="col-sm-10")
+            input(required id="grasasNuevoIngrediente" class="form-control input-sm" min="0" max="10000" type="number" step="any" ng-model="data.ingrediente.grasas")
        
-       div(class="form-group")
-         label(for="alergenoNuevoIngrediente" class="col-sm-2 control-label") Alérgenos
-         div(class="col-sm-10")
-           select(multiple id="alergenoNuevoIngrediente" class="form-control input-sm" ng-options="alergeno._id as alergeno.nombre for alergeno in alergenos" ng-model="ingrediente.alergenos")
+        div(class="form-group")
+          label(for="intoleranciaNuevoIngrediente" class="col-sm-2 control-label") Intolerancias
+          div(class="col-sm-10")
+            select(multiple id="intoleranciaNuevoIngrediente" class="form-control input-sm" ng-options="intolerancia._id as intolerancia.nombre for intolerancia in data.intolerancias" ng-model="data.ingrediente.intolerancias")
+         
+         div(class="form-group")
+           label(for="alergenoNuevoIngrediente" class="col-sm-2 control-label") Alérgenos
+           div(class="col-sm-10")
+             select(multiple id="alergenoNuevoIngrediente" class="form-control input-sm" ng-options="alergeno._id as alergeno.nombre for alergeno in data.alergenos" ng-model="data.ingrediente.alergenos")
 
     div(class="modal-footer")
       input(class="btn btn-primary" form="nuevoIngredienteForm" type="submit" value="Aceptar")

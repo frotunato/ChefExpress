@@ -3,7 +3,7 @@ var IntoleranciaIngrediente = require('./intoleranciaIngrediente.model');
 exports.index = function (req, res) {
   IntoleranciaIngrediente
     .find()
-    .select('-__v')
+    //.select('-__v')
     .lean()
     .exec(function (err, intoleranciasIngrediente) {
       if(err) {

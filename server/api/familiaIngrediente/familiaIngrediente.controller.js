@@ -3,7 +3,6 @@ var FamiliaIngrediente = require('./familiaIngrediente.model');
 exports.index = function (req, res) {
   FamiliaIngrediente
     .find()
-    .select('-__v')
     .lean()
     .exec(function (err, familiasIngrediente) {
       if(err) {

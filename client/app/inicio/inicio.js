@@ -25,6 +25,7 @@ angular.module('chefExpressApp.inicio', ['chefExpressApp.ingredientes', 'chefExp
             });
             
             promises.intolerancias = intoleranciasIngredienteAPI.getIntolerancias().then(function (response) {
+              console.log(response.data)
               return response.data;
             });
 
