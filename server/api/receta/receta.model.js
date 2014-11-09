@@ -8,9 +8,9 @@ var recetaSchema = new Schema({
   ambito: {type: Schema.Types.ObjectId, ref: 'AmbitoReceta', required: false},
   tipo: {type: Schema.Types.ObjectId, ref: 'TipoReceta', required: false},
   elaboracion: {type: String, required: false},
-  medidasPreventivas: [{type: Schema.Types.ObjectId, ref: 'MedidasPreventivasReceta', required: false}],
-  peligrosIngredientes: [{type: Schema.Types.ObjectId, ref: 'PeligrosIngredientesReceta', required: false}],
-  peligrosDesarrollo: [{type: Schema.Types.ObjectId, ref: 'PeligrosDesarrolloReceta', required: false}],
+  medidasPreventivas: [{type: Schema.Types.ObjectId, ref: 'MedidaPreventivaReceta', required: false}],
+  peligrosIngredientes: [{type: Schema.Types.ObjectId, ref: 'PeligroIngredienteReceta', required: false}],
+  peligrosDesarrollo: [{type: Schema.Types.ObjectId, ref: 'PeligroDesarrolloReceta', required: false}],
   procedencia: {type: Schema.Types.ObjectId, ref:'ProcedenciaReceta', required: false},
   tratamiento: {type: String, required: false},
   ingredientes: [{

@@ -14,87 +14,59 @@ angular.module('chefExpressApp.ingredientes')
 				return deferred.promise;
 			},
 			getIngredientesPagina: function (config) {
-				var a = Date.now();
-				var deferred = $q.defer();						
-				$http.get(this.apiUrl + '/', { params: {
-						page: config.page,
-						max: config.max,
-						sort: config.sort,
-						filter: config.filter
-						//page: 0,
-						//max: 200000,
-						//sort: {},
-						//filter: {}
-				}, cache: true
-			}).success(function (data) {
-					var b = Date.now();
-					deferred.resolve(data);
-					console.log(b-a);
-					console.log(JSON.stringify(data));
+				return $http.get(this.apiUrl + '/', { params: {
+					page: config.page,
+					max: config.max,
+					sort: config.sort,
+					filter: config.filter
+					}, cache: false
 				});
-				return deferred.promise;
 			},
 			getIngrediente: function (id) {
-				var deferred = $q.defer();
-				$http.get(this.apiUrl +  '/' + id).success(function (data, status) {
-					deferred.resolve(data);
-				});
-				return deferred.promise;
+				return $http.get(this.apiUrl +  '/' + id);
 			},
 			updateIngrediente: function (id, data) {
-				var deferred = $q.defer();
-				$http.put(this.apiUrl + '/' + id, data).success(function (data, status) {
-					deferred.resolve(data);
-				});
-				return deferred.promise;
+				return $http.put(this.apiUrl + '/' + id, data);
 			},
 			addIngrediente: function (data) {
-				var deferred = $q.defer();
-				$http.post(this.apiUrl, data).success(function (data, status) {
-					deferred.resolve(data);
-				});
-				return deferred.promise;	
+				return $http.post(this.apiUrl, data);
 			},
 		
 		};
 	})
 
-	.factory('alergenosIngredienteAPI', function ($http, $q) {
+	.factory('alergenosIngredienteAPI', function ($http) {
 		return {
 			apiUrl: '/api/alergenosIngrediente',
 			getAlergenos: function () {
-				var deferred = $q.defer();
-				$http.get(this.apiUrl, {cache: true}).success(function (data, status) {
-					deferred.resolve(data);
-				});
-				return deferred.promise;
+				return	$http.get(this.apiUrl, {cache: true});
 			},
 			addAlergeno: function (alergeno) {
-				var deferred = $q.defer();
-				$http.post(this.apiUrl, alergeno).success(function (data, status) {
-					deferred.resolve(data);
-				});
-				return deferred.promise;
+				return $http.post(this.apiUrl, alergeno);
 			}
 		};
 	})
 
-	.factory('familiasIngredienteAPI', function ($http, $q) {
+	.factory('familiasIngredienteAPI', function ($http) {
 		return {
 			apiUrl: '/api/familiasIngrediente',
 			getFamilias: function () {
-				var deferred = $q.defer();
-				$http.get(this.apiUrl, {cache: true}).success(function (data, status) {
-					deferred.resolve(data);
-				});
-				return deferred.promise;
+				return $http.get(this.apiUrl, {cache: true});
 			},
 			addFamilia: function (familia) {
-				var deferred = $q.defer();
-				$http.post(this.apiUrl, familia).success(function (data, status) {
-					deferred.resolve(data);
-				});
-				return deferred.promise;
+				return $http.post(this.apiUrl, familia);
+			}
+		};
+	})
+
+	.factory('intoleranciasIngredienteAPI', function ($http) {
+		return {
+			apiUrl: '/api/intoleranciasIngrediente',
+			getIntolerancias: function () {
+				return $http.get(this.apiUrl, {cache: true});
+			},
+			addIntolerancia: function (intolerancia) {
+				return $http.post(this.apiUrl, intolerancia);
 			}
 		};
 	});

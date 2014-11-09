@@ -74,10 +74,14 @@ div(id="modalWrapper")
           input(required id="grasasNuevoIngrediente" class="form-control input-sm" min="0" max="10000" type="number" step="any" ng-model="ingrediente.grasas")
      
       div(class="form-group")
-        label(for="alergenoNuevoIngrediente" class="col-sm-2 control-label") Alérgeno
+        label(for="intoleranciaNuevoIngrediente" class="col-sm-2 control-label") Intolerancias
         div(class="col-sm-10")
-          select(multiple id="alergenoNuevoIngrediente" class="form-control input-sm" ng-options="alergeno._id as alergeno.nombre for alergeno in alergenos" ng-model="ingrediente.alergenos")
-            option(value="") -- Selecciona un alérgeno --
+          select(multiple id="intoleranciaNuevoIngrediente" class="form-control input-sm" ng-options="intolerancia._id as intolerancia.nombre for intolerancia in intolerancias" ng-model="ingrediente.intolerancias")
+       
+       div(class="form-group")
+         label(for="alergenoNuevoIngrediente" class="col-sm-2 control-label") Alérgenos
+         div(class="col-sm-10")
+           select(multiple id="alergenoNuevoIngrediente" class="form-control input-sm" ng-options="alergeno._id as alergeno.nombre for alergeno in alergenos" ng-model="ingrediente.alergenos")
 
     div(class="modal-footer")
       input(class="btn btn-primary" form="nuevoIngredienteForm" type="submit" value="Aceptar")

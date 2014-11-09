@@ -4,50 +4,133 @@ angular.module('chefExpressApp.recetas')
     return {
       apiUrl: '/api/recetas',
       getRecetas: function (config) {
-        //var a = Date.now();
-        var deferred = $q.defer();
-        $http.get(this.apiUrl + '/', { params: {
+        return $http.get(this.apiUrl + '/', { params: {
           page: config.page,
           max: config.max,
           sort: config.sort,
           filter: config.filter
-        }, cache: true
-      }).success(function (data, status) {
-          deferred.resolve(data);
-          //var b = Date.now();
-          //console.log('[FACTORIA] Datos de la tabla de recetas obtenidos del servidor en', b-a, 'ms');
-        //console.log(JSON.stringify(data))
-        });
-        return deferred.promise;
+        }, cache: false });
+        //return deferred.promise;
       },
       getReceta: function (id) {
-        var deferred = $q.defer();
-        $http.get(this.apiUrl + '/' + id, {cache: true}).success(function (data, status) {
-          deferred.resolve(data);
-        });
-        return deferred.promise;
+        return $http.get(this.apiUrl + '/' + id, {cache: false});
       },
       addReceta: function (data) {
-        var deferred = $q.defer();
-        $http.post(this.apiUrl, data).success(function (data, status) {
-          deferred.resolve(data);
-        });
-        return deferred.promise;  
+        return $http.post(this.apiUrl, data);
       },
       updateReceta: function (id, data) {
-        var deferred = $q.defer();
-        $http.put(this.apiUrl + '/' + id, data).success(function (data, status) {
-          console.log('[FACTORIA] Código de updateReceta', status, 'Datos', data);
-          deferred.resolve({data: data, code: status});
-        });
-        return deferred.promise;
+        return $http.put(this.apiUrl + '/' + id, data);
       },
       removeReceta: function (id) {
-        var deferred = $q.defer();
-        $http.delete(this.apiUrl + '/' + id).success(function (data, status) {
-          deferred.resolve(data);
-        });
-        return deferred.promise;
+        return $http.delete(this.apiUrl + '/' + id);
+      }
+    };
+  })
+
+  .factory('familiasRecetasAPI', function ($http, $q) {
+    return {
+      apiUrl: '/api/familiasReceta',
+      getFamilias: function () {
+        return $http.get(this.apiUrl, {cache: true});
+      },
+      addFamilia: function (familia) {
+        return $http.post(this.apiUrl, familia);
+      }
+    };
+  })
+
+  .factory('categoriasRecetasAPI', function ($http, $q) {
+    return {
+      apiUrl: '/api/categoriasReceta',
+      getCategorias: function () {
+        return $http.get(this.apiUrl, {cache: true});
+      },
+      addCategoria: function (familia) {
+        return $http.post(this.apiUrl, familia);
+      }
+    };
+  })
+
+  .factory('tiposRecetasAPI', function ($http, $q) {
+    return {
+      apiUrl: '/api/tiposReceta',
+      getTipos: function () {
+        return $http.get(this.apiUrl, {cache: true});
+      },
+      addTipo: function (familia) {
+        return $http.post(this.apiUrl, familia);
+      }
+    };
+  })
+
+  .factory('ambitosRecetasAPI', function ($http, $q) {
+    return {
+      apiUrl: '/api/ambitosReceta',
+      getAmbitos: function () {
+        return $http.get(this.apiUrl, {cache: true});
+      },
+      addAmbito: function (familia) {
+        return $http.post(this.apiUrl, familia);
+      }
+    };
+  })
+
+  .factory('medidasPreventivasRecetasAPI', function ($http, $q) {
+    return {
+      apiUrl: '/api/medidasPreventivasReceta',
+      getMedidasPreventivas: function () {
+        return $http.get(this.apiUrl, {cache: true});
+      },
+      addMedidasPreventiva: function (familia) {
+        return $http.post(this.apiUrl, familia);
+      }
+    };
+  })
+
+  .factory('peligrosIngredientesRecetasAPI', function ($http, $q) {
+    return {
+      apiUrl: '/api/peligrosIngredientesReceta',
+      getPeligrosIngredientes: function () {
+        return $http.get(this.apiUrl, {cache: true});
+      },
+      addPeligrosIngrediente: function (familia) {
+        return $http.post(this.apiUrl, familia);
+      }
+    };
+  })
+
+  .factory('peligrosDesarrolloRecetasAPI', function ($http, $q) {
+    return {
+      apiUrl: '/api/peligrosDesarrolloReceta',
+      getPeligrosDesarrollo: function () {
+        return $http.get(this.apiUrl, {cache: true});
+      },
+      addPeligroDesarrollo: function (familia) {
+        return $http.post(this.apiUrl, familia);
+      }
+    };
+  })
+
+  .factory('procedenciasRecetasAPI', function ($http, $q) {
+    return {
+      apiUrl: '/api/procedenciasReceta',
+      getProcedencias: function () {
+        return $http.get(this.apiUrl, {cache: true});
+      },
+      addProcedencia: function (familia) {
+        return $http.post(this.apiUrl, familia);
+      }
+    };
+  })
+
+  .service('propCompartidasReceta', function () {
+    var prop = {};
+    return {
+      getPropCompartidas: function () {
+        return prop;
+      },
+      setPropCompartidas: function (data) {
+        prop = data;
       }
     };
   });

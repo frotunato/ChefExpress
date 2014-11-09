@@ -8,7 +8,7 @@ style.
 
 div(class="row")
   div(id="ingredientesWrapper" class="col-md-8")
-    table(class="table table-striped table-condensed table-bordered table-hover" )
+    table(class="table table-condensed table-bordered table-hover" )
       thead(class="text-center")
         tr
           td(colspan="4") 
@@ -21,6 +21,8 @@ div(class="row")
               input(type="text" placeholder="Búsqueda por nombre" ng-model="ingredienteSeleccionado" ng-change="getIngredientes(ingredienteSeleccionado)" ng-model-options="{debounce: 200}" typeahead="ingrediente.nombre for ingrediente in ingredientes | filter:{nombre:$viewValue} | limitTo:max" typeahead-on-select="addIngrediente($item)" typeahead-wait-ms="200" class="form-control input-md")
         td(class="col-md-6") 
           b Ingredientes
+          &nbsp
+          span(class="badge") {{receta.ingredientes.length}}
         td(class="col-md-1") 
           b Cantidad
         td(class="col-sm-1")
@@ -35,20 +37,20 @@ div(class="row")
         tr(ng-repeat="ingredienteReceta in receta.ingredientes")
           td(class="clickable" ng-click="removeIngrediente(ingredienteReceta, $index)") {{::ingredienteReceta.ingrediente.nombre}}
           
-          td(class="clickable" ng-click="ingredienteReceta.$editCantidad = true")
+          td(class="clickable text-center" ng-click="ingredienteReceta.$editCantidad = true")
             div(ng-if="!ingredienteReceta.$editCantidad") 
               span(ng-if="ingredienteReceta.cantidad<1") {{::(ingredienteReceta.cantidad*1000).toFixed(0)}} g
               span(ng-if="ingredienteReceta.cantidad>=1") {{::ingredienteReceta.cantidad}} kg
             div(ng-if="ingredienteReceta.$editCantidad")
               input(focus ng-blur="ingredienteReceta.$editCantidad = false; updateIngrediente(ingredienteReceta, $index)" ng-model="$parent.ingredienteReceta.cantidad" step="0.01" min="0" class="form-control input-sm" type="number" ng-change="calcularTotal()")
-          td 
+          td(class="text-center")
             b {{(ingredienteReceta.cantidad*100/receta.cantidad).toFixed(1)}}
          
-          td unidades
+          td(class="text-center") {{::ingredienteReceta.ingrediente.unidad}}
           
-          td {{::ingredienteReceta.ingrediente.precio.toFixed(2)}} €
+          td(class="text-center") {{::ingredienteReceta.ingrediente.precio.toFixed(2)}} €
             
-          td 
+          td(class="text-center") 
             b {{(ingredienteReceta.cantidad*ingredienteReceta.ingrediente.precio).toFixed(2)}} €
 
   
@@ -91,17 +93,51 @@ div(class="row")
           
 div(class="row2")
   
-  div(id="peligrosWrapper" class="col-sm-8")
-    table(class="table table-condensed table-bordered text-center")
+  div(class="col-sm-2")
+    table(class="table table table-condensed")
       thead
-        th(class="text-center") Peligros acerca de los ingredientes
-        th(class="text-center") Peligros en el desarrollo
-        th(class="text-center") Medidas preventivas
+        td
+          b Medidas preventivas
+          &nbsp
+          span(class="badge") {{receta.medidasPreventivas.length}}
       tbody
-        tr
-          td a
-          td b
-          td c
+        tr(ng-repeat="medidaPreventiva in receta.medidasPreventivas")
+          td
+            {{medidaPreventiva.nombre}} 
+  div(class="col-sm-2")  
+    table(class="table table table-condensed")
+      thead
+        td
+          b Peligros desarrollo
+          &nbsp
+          span(class="badge") {{receta.peligrosDesarrollo.length}}
+      tbody
+        tr(ng-repeat="peligroDesarrollo in receta.peligrosDesarrollo")
+          td
+            {{peligroDesarrollo.nombre}} 
+  div(class="col-sm-2")
+    table(class="table table table-condensed")
+      thead
+        td
+          b Peligros ingredientes
+          &nbsp
+          span(class="badge") {{receta.peligrosIngredientes.length}}
+      tbody
+        tr(ng-repeat="peligroIngredientes in receta.peligrosIngredientes")
+          td
+            {{peligroIngredientes.nombre}} 
+  div(class="col-sm-2")
+    table(class="table table table-condensed")
+      thead
+        td
+          b Alérgenos
+          &nbsp
+          span(class="badge") {{receta.alergenos.length}}
+      tbody
+        tr(ng-repeat="alergeno in receta.alergenos")
+          td
+            {{alergeno}} 
+  
   div(id="resumenWrapper" class="col-sm-2")
       table(class="table table-condensed table-bordered text-center")
         thead
@@ -139,7 +175,7 @@ div(class="row2")
         td 
           b Proteínas
         td 
-          b C. hidratos
+          b Carbohidratos
       tbody(class="text-center")
         tr 
           td
@@ -150,5 +186,3 @@ div(class="row2")
             {{(compTotal.proteinas/receta.raciones).toFixed(0)}}
           td
             {{(compTotal.carbohidratos/receta.raciones).toFixed(0)}}
-  
-  {{receta.alergenos}}

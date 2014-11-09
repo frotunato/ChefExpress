@@ -2,6 +2,7 @@ module.exports = function (app) {
 
   // Insert routes below
   app.use('/api/alergenosIngrediente', require('./api/alergenoIngrediente'));
+  app.use('/api/intoleranciasIngrediente', require('./api/intoleranciaIngrediente'));
   app.use('/api/familiasIngrediente', require('./api/familiaIngrediente'));
   app.use('/api/ingredientes', require('./api/ingrediente'));
   app.use('/api/recetas', require('./api/receta'));

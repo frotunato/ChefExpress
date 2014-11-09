@@ -7,50 +7,33 @@ angular.module('chefExpressApp.inicio', ['chefExpressApp.ingredientes', 'chefExp
         templateUrl: 'app/ingredientes/ingredientes',
         controller: 'ingredientesMainCtrl',
         resolve: {
-          initialIngredientesData: function (ingredientesAPI, $q) {
-            var deferred = $q.defer();
-            var res = {};
-            ingredientesAPI.
-              getIngredientesPagina({
-                page: 0, 
-                max: 20, 
-                sort: {nombre: 'asc'},
-                filter: {}
-              }).then(function (result) {
-                console.log({ingredientes: result.data, total: result.total});
-                res =  {ingredientes: result.data, total: result.total};
-                deferred.resolve(res);
-              });
-            return deferred.promise;
-          },
-          initialAlergenos: function (alergenosIngredienteAPI, $q) {
-            var deferred = $q.defer();
-            var res = {};
-            alergenosIngredienteAPI.getAlergenos().then(
-              function (data) {
-                res = data;
-                console.log('alergenos', JSON.stringify(res));
-                deferred.resolve(res);
-              },
-              function (err) {
-                deferred.reject(err);
+          initialData: function (ingredientesAPI, alergenosIngredienteAPI, familiasIngredienteAPI,intoleranciasIngredienteAPI, $q) {
+            var promises = {};
+            
+            promises.ingredientes = ingredientesAPI.getIngredientesPagina({
+              page: 0, 
+              max: 20, 
+              sort: {nombre: 'asc'},
+              filter: {}
+            }).then(function (response) {
+              console.log(response);
+              return {data: response.data.ingredientes, total: response.data.total};
             });
-            return deferred.promise;
-          },
-          initialFamilias: function (familiasIngredienteAPI, $q) {
-            var deferred = $q.defer();
-            var res = {};
-            familiasIngredienteAPI.getFamilias().then(
-              function (data) {
-                res = data;
-                console.log('alergenos', JSON.stringify(res));
-                deferred.resolve(res);
-              },
-              function (err) {
-                deferred.reject(err);
+
+            promises.alergenos = alergenosIngredienteAPI.getAlergenos().then(function (response) {
+              return response.data;                
             });
-            return deferred.promise;
-          }
+            
+            promises.intolerancias = intoleranciasIngredienteAPI.getIntolerancias().then(function (response) {
+              return response.data;
+            });
+
+            promises.familias = familiasIngredienteAPI.getFamilias().then(function (response) {
+              return response.data;
+            });
+            
+            return $q.all(promises);
+          }    
         }
       })
 
@@ -58,20 +41,54 @@ angular.module('chefExpressApp.inicio', ['chefExpressApp.ingredientes', 'chefExp
         templateUrl: 'app/recetas/recetas',
         controller: 'recetasMainCtrl',
         resolve: {
-          initialRecetasData: function (recetasAPI, $q) {
-            var deferred = $q.defer();
-            var res = {};
-            recetasAPI.getRecetas({
+          initialData: function (recetasAPI, familiasRecetasAPI, tiposRecetasAPI, ambitosRecetasAPI, categoriasRecetasAPI, medidasPreventivasRecetasAPI, peligrosIngredientesRecetasAPI, peligrosDesarrolloRecetasAPI, procedenciasRecetasAPI, $q) {
+            var promises = {};
+
+            promises.recetas = recetasAPI.getRecetas({
               page: 0,
               max: 20,
               sort: {nombre: 'asc'},
               filter: {}
-            }).then(function (result) {
-              res = {recetas: result.data, total: result.total};
-              deferred.resolve(res);
+            }).then(function (response) {
+              return {data: response.data.recetas, total: response.data.total};
             });
-            return deferred.promise;
+          
+            promises.familias = familiasRecetasAPI.getFamilias().then(function (response) {
+              return response.data;
+            });
+
+            promises.ambitos = ambitosRecetasAPI.getAmbitos().then(function (response) {
+              return response.data;
+            });
+
+            promises.procedencias = procedenciasRecetasAPI.getProcedencias().then(function (response) {
+              return response.data;
+            });
+
+            promises.tipos = tiposRecetasAPI.getTipos().then(function (response) {
+              return response.data;
+            });
+            
+            promises.categorias = categoriasRecetasAPI.getCategorias().then(function (response) {
+              return response.data;
+            });
+
+            /*
+            promises.peligrosIngredientes = peligrosIngredientesRecetasAPI.getPeligrosIngredientes().then(function (response) {
+              return response.data;
+            });
+
+            promises.peligrosDesarrollo = peligrosDesarrolloRecetasAPI.getPeligrosDesarrollo().then(function (response) {
+              return response.data;
+            });
+
+            promises.medidasPreventivas = medidasPreventivasRecetasAPI.getMedidasPreventivas().then(function (response) {
+              return response.data;
+            });
+            */
+            return $q.all(promises);
           }
+ 
         }
       });
     

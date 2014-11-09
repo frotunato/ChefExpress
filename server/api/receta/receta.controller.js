@@ -25,7 +25,7 @@ exports.index = function(req, res) {
       if(err) { return handleError(res, err); }
       //console.log(recetas.length);
       Receta.count(filtering ,function (err, c) {
-        return res.status(200).json({data: recetas, total: c});        
+        return res.status(200).json({recetas: recetas, total: c});        
       });
     });
 };
@@ -53,9 +53,18 @@ function checkIfExist (data, key, value, callback) {
 exports.show = function (req, res) {
   Receta
     .findById(req.params.id)
-    .populate('ingredientes.ingrediente')
+    .populate('ingredientes.ingrediente familia ambito tipo medidasPreventivas peligrosIngredientes peligrosDesarrollo procedencia')
     .lean()
     .exec(function (err, recetas) {
+      //nested population inside ingrediente
+      var options = [{
+        path: 'ingredientes.ingrediente.alergenos',
+        model: 'AlergenoIngrediente'
+      }, {
+        path: 'ingredientes.ingrediente.intolerancias',
+        model: 'IntoleranciaIngrediente'
+      }];
+
       if (err) {
         return handleError(res, err);
       }
@@ -63,7 +72,10 @@ exports.show = function (req, res) {
         return res.send(404);
       }
       //console.log(JSON.stringify(recetas));
-      return res.status(201).json(recetas);
+      Receta.populate(recetas, options, function (err, receta) {
+        console.log(JSON.stringify(receta.ingredientes));
+        return res.status(201).json(receta);
+      });
     });
 };
 

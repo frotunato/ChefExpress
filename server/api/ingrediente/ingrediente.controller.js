@@ -14,16 +14,16 @@ exports.index = function(req, res) {
   
   Ingrediente
     .find(filtering)
+    .lean()
     .skip(req.query.max * req.query.page)
     .limit(req.query.max)
     .sort(sorting)
     //.select('nombre _id')
     .populate('alergenos familia')
-    .lean()
     .exec(function (err, ingredientes) {
       if(err) { return handleError(res, err); }
       Ingrediente.count(filtering, function (err, c) {
-        return res.status(200).json({data: ingredientes, total: c});        
+        return res.status(200).json({ingredientes: ingredientes, total: c});        
       });
     });
 };
@@ -31,7 +31,7 @@ exports.index = function(req, res) {
 exports.show = function(req, res) {
   Ingrediente
     .findById(req.params.id)
-    .populate('alergenos')
+    .populate('alergenos intolerancias')
     .lean()
     .exec(function (err, ingrediente) {
       if(err) { return handleError(res, err); }
