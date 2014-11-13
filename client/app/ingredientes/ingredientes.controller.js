@@ -36,7 +36,7 @@ angular.module('chefExpressApp.ingredientes')
       },
       pagination: {
         page: 1,
-        max: 20,
+        max: 40,
         getResultsPage: function (newPage) {
           ingredientesAPI.getIngredientesPagina({
             page: newPage - 1, 
@@ -63,7 +63,7 @@ angular.module('chefExpressApp.ingredientes')
         }
 
         ingredientesAPI.updateIngrediente(id, data).then(function (response) {
-          console.log('[CONTROLADOR_INGREDIENTES] updateIngrediente: ' + JSON.stringify(data));
+          console.log('[CONTROLADOR_INGREDIENTES] updateIngrediente: ' + JSON.stringify(data), id);
         });
       },
       //tratamiento en submit

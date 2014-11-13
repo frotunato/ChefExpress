@@ -3,7 +3,71 @@ multiselect .dropdown-menu{
     padding-right: 5px;
 }
 
-multiselect .dropdown-menu > li > a {
+multiselect .dropdown > li > a {
     padding: 3px 10px;
     cursor:pointer;
+}
+
+.enabled {
+  border-radius: 1px;
+  padding-left: 5px; 
+  padding-right: 5px;
+  cursor: pointer;
+  color:white;
+  font: bold;
+  background: #428BCA;
+}
+.disabled {
+  border-radius: 1px;
+  padding-left: 5px; 
+  padding-right: 5px;
+  cursor: pointer;
+  background: default;
+}
+.disabled:hover {
+  background: #DEDEDE;
+  color:black;
+  font: bold;
+  opacity: 0.9;
+}
+.enabled:hover {
+  background: #309EC9;
+  color: white;
+  font: bold;
+}
+.dropdown {
+  width: 100%;
+}
+.table-condensed>thead>tr>th, .table-condensed>tbody>tr>th, .table-condensed>tfoot>tr>th, .table-condensed>thead>tr>td, .table-condensed>tbody>tr>td, .table-condensed>tfoot>tr>td {
+   padding: 1px;
+}
+.dropdownOptions {
+  width: inherit;
+  border: 1px solid #7F9DB9;
+  background: white;
+  border-radius: 1px;
+  list-style-type: none; 
+  text-align: left; 
+  position:absolute;
+  z-index: 10;
+  margin: 0;
+  padding: 0;
+}
+.dropdownIcon {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  float: right;
+  margin-right: 2%;
+  margin-top: 5px;
+  border-top: 4px solid #333;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+  border-bottom: 0 dotted;
+}
+
+.form-control {
+  height: 20px;
+  padding: 0px 0px;
+  width: 100%;
 }

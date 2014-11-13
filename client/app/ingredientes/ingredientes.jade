@@ -4,7 +4,7 @@ style.
     opacity: 0.5;
   }
   .loading-container .loading:before, .loading-container .loading:after {
-    content: " ";
+    content:"";
     position: absolute;
     top: 0;
     left: 0;
@@ -27,11 +27,11 @@ table(class="table table-striped table-condensed table-bordered")
     th(class="text-center col-md-2")
       p
         a(href="" ng-click="table.sorting.sort('nombre')") Nombre
-      input(type="text" placeholder="Introduce un nombre para filtrar" ng-change="table.filtering.filter()" class="form-control input-sm" ng-model="table.filtering.value.nombre" ng-model-options="{debounce: 150}")
-    th(class="text-center col-md-2")
+      input(type="text" placeholder="Introduce un nombre para filtrar" ng-change="table.filtering.filter()" class="form-control" ng-model="table.filtering.value.nombre" ng-model-options="{debounce: 150}")
+    th(class="text-center col-md-1")
       p
         a(href="" ng-click="table.sorting.sort('familia')") Familia
-      select(class="form-control input-sm" ng-change="table.filtering.filter()" ng-options="familia._id as familia.nombre for familia in data.familias" ng-model="table.filtering.value.familia")
+      select(class="form-control" ng-change="table.filtering.filter()" ng-options="familia._id as familia.nombre for familia in data.familias" ng-model="table.filtering.value.familia")
         option(selected value="") Todas  
     th(class="text-center") Un
     th(class="text-center") P
@@ -42,7 +42,7 @@ table(class="table table-striped table-condensed table-bordered")
     th(class="text-center")
       a(href="" ng-click="table.sorting.sort('calorias')") Calorías    
     th(class="text-center")
-      a(href="" ng-click="table.sorting.sort('carbohidratos')") Carbohidratos    
+      a(href="" ng-click="table.sorting.sort('carbohidratos')") C.Hidratos    
     th(class="text-center")
       a(href="" ng-click="table.sorting.sort('proteinas')") Proteínas    
     th(class="text-center")
@@ -50,15 +50,15 @@ table(class="table table-striped table-condensed table-bordered")
     th(class="text-center")
       p
         a(href="" ng-click="table.sorting.sort('alergeno')") Alérgenos
-      select(class="form-control input-sm" ng-change="table.filtering.filter()" ng-options="alergeno._id as alergeno.nombre for alergeno in data.alergenos" ng-model="table.filtering.value.alergenos")
+      select(class="form-control" ng-change="table.filtering.filter()" ng-options="alergeno._id as alergeno.nombre for alergeno in data.alergenos" ng-model="table.filtering.value.alergenos")
         option(value="") Todos
     th(class="text-center")
       p
         a(href="" ng-click="table.sorting.sort('intolerancia')") Intolerancias
-      select(class="form-control input-sm" ng-change="table.filtering.filter()" ng-options="intolerancia._id as intolerancia.nombre for intolerancia in data.intolerancias" ng-model="table.filtering.value.intolerancias")
+      select(class="form-control" ng-change="table.filtering.filter()" ng-options="intolerancia._id as intolerancia.nombre for intolerancia in data.intolerancias" ng-model="table.filtering.value.intolerancias")
         option(value="") Todos
 
-  tbody(class="text-center")
+  tbody
     tr(dir-paginate="ingrediente in data.ingredientes.listaIngredientes | itemsPerPage: table.pagination.max track by ingrediente._id" total-items="data.ingredientes.totalIngredientes")     
       
       td(ng-click="ingrediente.$editNombre = true")
@@ -78,11 +78,11 @@ table(class="table table-striped table-condensed table-bordered")
           select(update-on-focus="$editFamilia" 
                 ng-model-options="{updateOn: 'blur'}" 
                 ng-change="crudIngrediente.update($parent.ingrediente._id, {familia: ingrediente.familia._id})" 
-                class="form-control input-sm" 
+                class="form-control" 
                 ng-options="familia as familia.nombre for familia in data.familias track by familia.nombre" 
                 ng-model="ingrediente.familia")
       
-      td(ng-click="ingrediente.$editUnidad = true")
+      td(ng-click="ingrediente.$editUnidad = true" class="text-center")
         span(ng-if="!ingrediente.$editUnidad") {{::ingrediente.unidad}}
         div(ng-if="ingrediente.$editUnidad")
           select(update-on-focus="$editUnidad" 
@@ -95,109 +95,94 @@ table(class="table table-striped table-condensed table-bordered")
             option(value="MAN") MAN
             option(value="UN") UN
    
-      td(ng-click="ingrediente.$editPerecedero = true")
+      td(ng-click="ingrediente.$editPerecedero = true" class="text-center")
         span(ng-if="!ingrediente.$editPerecedero") {{::ingrediente.perecedero}}
         div(ng-if="ingrediente.$editPerecedero")
           select(update-on-focus="$editPerecedero" 
                 ng-model-options="{updateOn: 'blur'}" 
                 ng-change="crudIngrediente.update($parent.ingredediente._id, {perecedero: ingrediente.perecedero})" 
-                class="form-control input-sm" 
+                class="form-control" 
                 ng-model="ingrediente.perecedero")
             option(value="Si") Si
             option(value="No") No      
       
-      td(ng-click="ingrediente.$editPcons = true")
+      td(ng-click="ingrediente.$editPcons = true" class="text-center")
         span(ng-if="!ingrediente.$editPcons") {{::ingrediente.pcons}}
         div(ng-if="ingrediente.$editPcons")
           input(update-on-focus="$editPcons" 
                 ng-model-options="{updateOn: 'blur'}" 
                 ng-change="ingrediente.$editPcons = false; crudIngrediente.update($parent.ingrediente._id, {pcons: ingrediente.pcons})" 
-                class="form-control input-sm" 
+                class="form-control" 
                 type="number" 
                 ng-model="ingrediente.pcons")            
       
-      td(ng-click="ingrediente.$editConversionKg = true")
+      td(ng-click="ingrediente.$editConversionKg = true" class="text-center")
         span(ng-if="!ingrediente.$editConversionKg") {{::ingrediente.conversionKg}}
         div(ng-if="ingrediente.$editConversionKg")
           input(update-on-focus="$editConversionKg" 
                 ng-model-options="{updateOn: 'blur'}" 
                 ng-change="crudIngrediente.update($parent.ingrediente._id, {conversionKg: ingrediente.conversionKg})" 
-                class="form-control input-sm" 
+                class="form-control" 
                 type="number" 
                 ng-model="ingrediente.conversionKg")
       
-      td(ng-click="ingrediente.$editPrecio = true")
+      td(ng-click="ingrediente.$editPrecio = true" class="text-center")
         span(ng-if="!ingrediente.$editPrecio") {{::ingrediente.precio}}
         div(ng-if="ingrediente.$editPrecio")
           input(update-on-focus="$editPrecio" 
                 ng-model-options="{updateOn: 'blur'}" 
                 ng-change="crudIngrediente.update($parent.ingrediente._id, {precio: ingrediente.precio})" 
-                class="form-control input-sm" 
+                class="form-control" 
                 type="number" 
                 ng-model="ingrediente.precio")            
       
-      td(ng-click="ingrediente.$editCalorias = true")
+      td(ng-click="ingrediente.$editCalorias = true" class="text-center")
         span(ng-if="!ingrediente.$editCalorias") {{::ingrediente.calorias}}
         div(ng-if="ingrediente.$editCalorias")
           input(update-on-focus="$editCalorias" 
                 ng-model-options="{updateOn: 'blur'}" 
                 ng-change="crudIngrediente.update($parent.ingrediente._id, {calorias: ingrediente.calorias})" 
-                class="form-control input-sm" 
+                class="form-control" 
                 type="number" 
                 ng-model="ingrediente.calorias")      
      
-      td(ng-click="ingrediente.$editCarbohidratos = true")
+      td(ng-click="ingrediente.$editCarbohidratos = true" class="text-center")
         span(ng-if="!ingrediente.$editCarbohidratos") {{::ingrediente.carbohidratos}}
         div(ng-if="ingrediente.$editCarbohidratos")
           input(update-on-focus="$editCarbohidratos" 
                 ng-change="crudIngrediente.update($parent.ingrediente._id, {carbohidratos: ingrediente.carbohidratos})" 
                 ng-model-options="{updateOn: 'blur'}" 
-                class="form-control input-sm" 
+                class="form-control" 
                 type="number" 
                 ng-model="ingrediente.carbohidratos")      
       
-      td(ng-click="ingrediente.$editProteinas = true")
+      td(ng-click="ingrediente.$editProteinas = true" class="text-center")
         span(ng-if="!ingrediente.$editProteinas") {{::ingrediente.proteinas}}
         div(ng-if="ingrediente.$editProteinas")
           input(update-on-focus="$editProteinas" 
                 ng-change="crudIngrediente.update($parent.ingrediente._id, {proteinas: ingrediente.proteinas})" 
                 ng-model-options="{updateOn: 'blur'}" 
-                class="form-control input-sm" 
+                class="form-control" 
                 type="number" 
                 ng-model="ingrediente.proteinas")      
      
-      td(ng-click="ingrediente.$editGrasas = true")
+      td(ng-click="ingrediente.$editGrasas = true" class="text-center")
         span(ng-if="!ingrediente.$editGrasas") {{::ingrediente.grasas}}
         div(ng-if="ingrediente.$editGrasas")
           input(update-on-focus="$editGrasas" 
                 ng-change="crudIngrediente.update($parent.ingrediente._id, {grasas: ingrediente.grasas})" 
                 ng-model-options="{updateOn: 'blur'}" 
-                class="form-control input-sm" 
+                class="form-control" 
                 type="number" 
                 ng-model="ingrediente.grasas")
     
-      td(ng-click="ingrediente.$editAlergenos")
-        multi-selector(selector-data="data.alergenos" selector-model="ingrediente.alergenos")
+      td(ng-click="ingrediente.$editAlergenos = true")
         span(ng-if="!ingrediente.$editAlergenos") {{::objectArrayToString(ingrediente.alergenos, 'nombre')}}
         div(ng-if="ingrediente.$editAlergenos")     
-          select(ng-multiple="true"
-                update-on-focus="$editAlergenos" 
-                multiple 
-                class="form-control input-sm" 
-                ng-model-options="{updateOn: 'blur'}" 
-                ng-change="crudIngrediente.update($parent.ingrediente._id, {alergenos: ingrediente.alergenos});" 
-                ng-options="alergeno as alergeno.nombre for alergeno in data.alergenos track by alergeno.nombre" 
-                ng-model="ingrediente.alergenos")
-        
+          multiselector(selector-data="data.alergenos" selector-model="ingrediente.alergenos" selector-on-change="crudIngrediente.update(ingrediente._id, {alergenos: ingrediente.alergenos})" selector-on-blur="ingrediente.$editAlergenos = false" track-by="_id")
+          
       td(ng-click="ingrediente.$editIntolerancias = true") 
         span(ng-if="!ingrediente.$editIntolerancias") {{::objectArrayToString(ingrediente.intolerancias, 'nombre')}}
-        div(ng-if="ingrediente.$editIntolerancias")
-          select(ng-multiple="true"
-                update-on-focus="$editIntolerancias" 
-                multiple 
-                class="form-control input-sm" 
-                ng-model-options="{updateOn: 'blur'}" 
-                ng-change="crudIngrediente.update($parent.ingrediente._id, {intolerancias: ingrediente.intolerancias});" 
-                ng-options="intolerancia as intolerancia.nombre for intolerancia in data.intolerancias track by intolerancia.nombre" 
-                ng-model="ingrediente.intolerancias")
+        div(style="position: relative;" ng-if="ingrediente.$editIntolerancias")
+          multiselector(selector-data="data.intolerancias" selector-model="ingrediente.intolerancias" selector-on-blur="ingrediente.$editIntolerancias = false;" selector-on-change="crudIngrediente.update($parent.ingrediente._id, {intolerancias: ingrediente.intolerancias})" track-by="_id")
 dir-pagination-controls(on-page-change="table.pagination.getResultsPage(newPageNumber)")

@@ -40,140 +40,111 @@ angular.module('chefExpressApp.ingredientes')
   });
   */
 
-  .directive('multiSelector', function ($parse) {
+  .directive('multiselector', function ($compile, $parse) {
     return {
+      restrict: 'E',
       replace: true,
       scope: {
         selectorData: '=',
         selectorModel: '='
       },
-      template: '<div> {{selectorModel}}' +
-                '  <ul>' +
-                '    <li ng-click="toggle($index)" ng-class="option.checked ? \'lead\' : \'lead\'" ng-repeat="option in options">' +
-                '      {{option.nombre}} {{option.checked}} {{$index}}' +
-                '    </li>' +
+      link: function (scope, elem, attrs) {
+        var dropdown = angular.element('<multiselector-dropdown></multiselector-dropdown>');
+        scope.trackBy = attrs.trackBy;
+        scope.selectorOnBlur = attrs.selectorOnBlur;
+        scope.selectorOnChange = attrs.selectorOnChange;
+        scope.isModded = false;
+        elem.append($compile(dropdown)(scope));
+        scope.options = [];
+      
+        scope.toggle = function (item) {
+          var index = depthIndexOf(scope.options, scope.trackBy, item[scope.trackBy]);
+          if (scope.options[index].check === true) {
+            scope.selectorModel.splice(depthIndexOf(scope.selectorModel, scope.trackBy, item[scope.trackBy]), 1);
+            scope.options[index].check = false;
+            scope.isModded = true;
+          } else {
+            scope.selectorModel.push(item);
+            scope.options[index].check = true;
+            scope.isModded = true;
+          }
+          console.log('MODEL ->', JSON.stringify(scope.selectorModel), scope.options[index].check, index);
+        };
+        
+        scope.$watch('selectorModel', function () {
+          
+          scope.options = angular.copy(scope.selectorData);
+          angular.forEach(scope.options, function (option) {
+            option.check = false;
+            if (depthIndexOf(scope.selectorModel, scope.trackBy, option[scope.trackBy]) !== -1) {
+              option.check = true;
+            }
+          });
+
+        });
+            
+        function depthIndexOf (array, field, value) {
+          var res = -1;
+          for (var i = array.length - 1; i >= 0; i--) {
+            if (array[i][field] === value) {
+              res = i;
+              break;
+            }
+          }
+          return res;
+        }
+      
+      }
+    };
+  })
+
+  .directive('multiselectorDropdown', function ($document, $parse, $timeout) {
+    return {
+      template: '<div class=\'dropdown\' style="position:relative">' +
+                '  <button class="form-control" style="text-align: left;" ng-click="toggleDropdown()" > {{objectArrayToString(selectorModel, \'nombre\')}} <div class="dropdownIcon"></div></button>' +
+                '  <ul class="dropdownOptions" ng-show="isVisible">' +
+                '    <li ng-click="toggle(option)" ng-class="option.check ? \'enabled\' : \'disabled\'" ng-repeat="option in options">' +
+                '      {{option.nombre}} <span ng-if="option.check" style="float:right;" class="glyphicon glyphicon-ok"></span>' +
+                '    </li>' + 
                 '  </ul>' +
                 '</div>',
       restrict :'E',
-      link: function (scope, elem, attrs) {
-        //console.log(scope.selectorModel)
-        scope.options = [];
-        
-        angular.copy(scope.selectorData, scope.options);
-
-        scope.toggle = function (index) {
-          scope.options[index].checked = !scope.options[index].checked; 
-          if (scope.options[index].checked === true && checkIfExist(scope.selectorModel, {_id: scope.options[index]._id}) === -1) {
-            scope.selectorModel.push(scope.options[index]);
-          } else if (scope.options[index].checked === false && checkIfExist(scope.selectorModel, {_id: scope.options[index]._id}) !== -1){
-            scope.selectorModel.splice(checkIfExist(scope.selectorModel, {_id: scope.options[index]._id}), 1);
-          }
-          console.log(JSON.stringify(scope.selectorModel));
-          
-        };
-
-        scope.$watch('selectorModel', function () {
-          for (var i = scope.options.length - 1; i >= 0; i--) {
-            if (checkIfExist(scope.selectorModel, {_id: scope.options[i]._id}) !== -1) {
-              scope.options[i].checked = true;
-              break;
-            } else {
-              scope.options[i].checked = false;
-            }
-          }
+      replace: true,
+      link: function (scope, element, attrs) {
+        var isFirst = true;
+        scope.isVisible = false;
+        $timeout(function() {
+          element.children()[0].click();
         });
-        
-        function checkIfExist(array, data) {
-          var res = -1;
-          var field = Object.keys(data)[0];
-          for (var i = array.length - 1; i >= 0; i--) {
-            if (array[i][field] === data[field]) {
-              res = i;
-              break;
-            }
-          }
-          return res;
-        }
-       
-        /*
-        scope.$watch('selectorData', function () {
-          angular.forEach(scope.selectorData, function (option) {
-           // console.log(option)
-            option.checked = false;
-            if (checkIfExist(scope.selectorModel, {_id: option._id}) !== -1) {
-              option.checked = true;
-            }
-          });          
-        });
-
-        function checkIfExist(array, data) {
-          var res = -1;
-          var field = Object.keys(data)[0];
-          for (var i = array.length - 1; i >= 0; i--) {
-            if (array[i][field] === data[field]) {
-              res = i;
-              break;
-            }
-          }
-          return res;
-        }
-        
-        scope.toggle = function (index, option) {
-          option.checked = !option.checked;
-        };
-        */
-        /*
-
-        var trackBy = "";
-        scope.model = $parse(attrs.selectorModel)(scope);
-        scope.options = [];
-        
-        function checkIfExist(array, data) {
-          var res = -1;
-          var field = Object.keys(data)[0];
-          for (var i = array.length - 1; i >= 0; i--) {
-            if (array[i][field] === data[field]) {
-              res = i;
-              break;
-            }
-          }
-          return res;
-        }
-
-        (function parseOptions(input) {
-          var rawOptions = input;
-          if(rawOptions.indexOf('track by') !== -1) {
-            var temp = rawOptions.split('track by');
-            console.log(scope.$parent)
-            scope.options = $parse(temp[0])(scope);
-            trackBy = temp[1].trim();
-          } else {
-            scope.options = $parse(rawOptions)(scope);
-          }
-        })(attrs.selectorData);
-
-        scope.toggle = function(index, option) {
-          option.checked = !option.checked;
+        scope.objectArrayToString = function (array, prop) {
+          return array.map(function (e) {
+            return e[prop];
+          }).join(separator=', ');
         };
 
-        scope.$watch('model', function () {
-          angular.forEach(scope.options, function (option) {
-            option.checked = false;
-            if (checkIfExist(scope.model, {_id: option._id}) !== -1) {
-              option.checked = true;
-              console.log(option.checked);
+        scope.toggleDropdown = function () {
+          scope.isVisible = !scope.isVisible;
+          $document.bind('click', function (event) {
+            if (event.target.tagName === 'LI' || isFirst) {
+              isFirst = false;
+              return;
             }
+           
+            scope.$apply(function () {
+              $document.unbind('click');
+              scope.isVisible = false;
+              isFirst = true;
+             
+              if (scope.isModded === true) {
+                $parse(scope.selectorOnChange)(scope.$parent);
+              }
+              $parse(scope.selectorOnBlur)(scope.$parent);              
+            });
+
+           
           });
-        
-         
-        });
 
-        scope.$watch('option', function () {
-          console.log('yolo', scope.model);
-        });
-      
-
-*/
+        };
       }
     };
   });
