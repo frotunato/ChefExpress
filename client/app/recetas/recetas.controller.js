@@ -1,117 +1,153 @@
 angular.module('chefExpressApp.recetas')
 
   .controller('recetasMainCtrl', function ($scope, $location, recetasAPI, initialData, ingredientesAPI) {
-    console.log(JSON.stringify(initialData));
-    console.log(Object.keys(initialData))
-    $scope.recetas = initialData.recetas.data;
-    $scope.total = initialData.recetas.total;
-    $scope.familias = initialData.familias.data;
-    $scope.categorias = initialData.categorias.data;
-    $scope.ambitos = initialData.ambitos.data;
-    $scope.tipos = initialData.tipos.data;
-    $scope.procedencias = initialData.procedencias.datas;
-
-    $scope.max = 20;
-    $scope.filtering = {};
-    $scope.sorting = {nombre: 'asc'};
-    $scope.pagination = {current: 1};
-    
-    $scope.pageChanged = function (newPage) {
-      getResultsPage(newPage);
-      $scope.pagination.current = newPage;
+    console.log(initialData);
+    $scope.data = {
+      recetas: initialData.recetas.data,
+      totalRecetas: initialData.recetas.total,
+      familias: initialData.familias,
+      categorias: initialData.categorias,
+      ambitos: initialData.ambitos,
+      tipos: initialData.tipos,
+      procedencias: initialData.procedencias
     };
 
-    function getResultsPage (pageNumber) {
-      var a = Date.now();
-      recetasAPI.getRecetas({
-        page: pageNumber - 1,
-        max: $scope.max,
-        sort: $scope.sorting,
-        filter: $scope.filtering
-      }).then(function (result) {
-        //console.log(result.total);
-        $scope.total = result.total;
-        $scope.recetas = result.data;
-        var b = Date.now();
-        console.log('[CONTROLADOR] Datos de la tabla de recetas obtenidos del servidor en', b-a, 'ms');
-      });
-    }
- 
+    $scope.table = {
+      filtering: {
+        value: {},
+        filter: function () {
+          for (var key in this.value) {
+            if (this.value[key] === "" || this.value[key] === null) {
+              delete this.value[key];
+            }
+          }
+          $scope.table.pagination.getResultsPage($scope.table.pagination.page);
+        }
+
+      },
+      sorting: {
+        value: {nombre: 'asc'},
+        sort: function (inputField) {
+          if(this.value[inputField] === 'asc') {
+            this.value[inputField] = 'desc';
+          } else {
+            this.value[inputField] = 'asc';
+          }
+          $scope.table.pagination.getResultsPage($scope.table.pagination.page);
+        }
+      },
+      pagination: {
+        max: 20,
+        page: 1,
+        getResultsPage: function (newPage) {
+          recetasAPI.getRecetas({
+            page: newPage - 1,
+            max: this.max,
+            sort: $scope.table.sorting.value,
+            filter: $scope.table.filtering.value
+          }).then(function (response) {
+            $scope.data.recetas = response.data.recetas;
+            $scope.data.totalRecetas = response.data.total;
+            this.page = newPage - 1;
+          });
+        }
+      }
+    };
+
     $scope.load = function (path) {
       console.log(JSON.stringify($location));
       $location.path('/recetas/' + path);
     };
 
-    $scope.filter = function () {
-      for (var key in $scope.filtering) {
-        if ($scope.filtering[key] === "" || $scope.filtering[key] === null) {
-          delete $scope.filtering[key];
-        }
-      }
-      getResultsPage($scope.pagination.current);
-    };
-
-    $scope.sort = function (inputField) {
-      if($scope.sorting[inputField] === 'asc') {
-        $scope.sorting[inputField] = 'desc';
-      } else {
-        $scope.sorting[inputField] = 'asc';
-      }
-      getResultsPage($scope.pagination.current);
-    };
-    console.log('[CONTROLADOR] Número total de elementos con bind', document.getElementsByClassName("ng-binding").length);
-
   })
 
-  .controller('recetaMainCtrl', function ($scope, $q, $routeParams, recetasAPI, ingredientesAPI, initialData2) {
-    console.log(initialData2)
-    $scope.receta = initialData.receta;
-    $scope.ingredientes = [];
-    $scope.max = 15;
-    $scope.compTotal = {proteinas: 0, calorias: 0, grasas: 0, carbohidratos: 0};
-    $scope.receta.alergenos = [];
+  .controller('recetaMainCtrl', function ($scope, $q, $routeParams, recetasAPI, ingredientesAPI, initialData) {
+    $scope.data = {
+      receta: initialData,
+      alergenos: [],
+      familias: null,
+      categorias: null,
+      procedencias: null,
+      ambitos: null,
+      tipos: null,
+      tratamientos: null,
+      composicionTotal: {proteinas: 0, calorias: 0, carbohidratos: 0, grasas: 0}
+    };
+
+    $scope.typeahead = {
+      ingredientes: [],
+      ingredienteSeleccionado: "",
+      max: 15,
+      getIngredientes: function (value) {
+        if(value !== "") {
+          ingredientesAPI.getIngredientesPagina({
+            page: undefined,
+            max: this.max,
+            sort: {nombre: 'asc'},
+            filter: {nombre: value}
+          }).then( function (response) {
+            $scope.typeahead.ingredientes = response.data.ingredientes;
+          });
+          return this.ingredientes;
+        }
+      },
+      addIngrediente: function ($item) {
+        checkIfExist($scope.data.receta.ingredientes, 'ingrediente', '_id', $item._id, function (exist) {
+          if (exist === true) {
+            console.log('[CONTROLADOR] Ya existe el ingrediente ' + $item._id + ' en la receta');
+          } else {
+            recetasAPI.updateReceta($scope.data.receta._id, {field: 'ingredientes', value: 'add', ref: $item._id}).then(function (response) {
+              $scope.data.receta.ingredientes.push({ingrediente: $item, cantidad: 0, _id: response.data});
+              this.ingredienteSeleccionado = "";
+              console.log('[CONTROLADOR] Añadido ingrediente ' + $item._id + ' a la receta');
+              alergenosTotal();
+            });
+          }
+        });
+      }
+    };
 
     function cantidadTotal() {
       var res = 0;
-      for (var i = $scope.receta.ingredientes.length - 1; i >= 0; i--) {
-        res = res + $scope.receta.ingredientes[i].cantidad;
+      for (var i = $scope.data.receta.ingredientes.length - 1; i >= 0; i--) {
+        res = res + $scope.data.receta.ingredientes[i].cantidad;
       }
-      $scope.receta.cantidad = res;
+      $scope.data.receta.cantidad = res;
     }
 
     function precioTotal () {
       var res = 0;
-      for (var i = $scope.receta.ingredientes.length - 1; i >= 0; i--) {
-        res = res + $scope.receta.ingredientes[i].ingrediente.precio * $scope.receta.ingredientes[i].cantidad;
+      for (var i = $scope.data.receta.ingredientes.length - 1; i >= 0; i--) {
+        res = res + $scope.data.receta.ingredientes[i].ingrediente.precio * $scope.data.receta.ingredientes[i].cantidad;
       }
-      $scope.receta.precio = res;
+      $scope.data.receta.precio = res;
     }
 
     function alergenosTotal () {
       var res = [];
 
-      for (var i = $scope.receta.ingredientes.length - 1; i >= 0; i--) {
-        for (var k = $scope.receta.ingredientes[i].ingrediente.alergenos.length - 1; k >= 0; k--) {
-          console.log(res.indexOf($scope.receta.ingredientes[i].ingrediente.alergenos[k].nombre === -1))
-          if (res.indexOf($scope.receta.ingredientes[i].ingrediente.alergenos[k].nombre) === -1) {
-            console.log($scope.receta.ingredientes[i].ingrediente.alergenos[k].nombre)
-            res.push($scope.receta.ingredientes[i].ingrediente.alergenos[k].nombre);
+      for (var i = $scope.data.receta.ingredientes.length - 1; i >= 0; i--) {
+        for (var k = $scope.data.receta.ingredientes[i].ingrediente.alergenos.length - 1; k >= 0; k--) {
+          console.log(res.indexOf($scope.data.receta.ingredientes[i].ingrediente.alergenos[k].nombre === -1))
+          if (res.indexOf($scope.data.receta.ingredientes[i].ingrediente.alergenos[k].nombre) === -1) {
+            console.log($scope.data.receta.ingredientes[i].ingrediente.alergenos[k].nombre)
+            res.push($scope.data.receta.ingredientes[i].ingrediente.alergenos[k].nombre);
           } else {
             console.log('no existe')
           }
         }
-      };
+      }
 
-      $scope.receta.alergenos = res;
+      $scope.data.receta.alergenos = res;
     }
 
     function composicionTotal () {
       var totalCalorias = 0, totalProteinas = 0, totalCarbohidratos = 0, totalGrasas = 0;
-      for (var i = $scope.receta.ingredientes.length - 1; i >= 0; i--) {
-        totalCalorias += ($scope.receta.ingredientes[i].cantidad*10)*($scope.receta.ingredientes[i].ingrediente.calorias);
-        totalCarbohidratos += ($scope.receta.ingredientes[i].cantidad*10)*($scope.receta.ingredientes[i].ingrediente.carbohidratos);
-        totalGrasas += ($scope.receta.ingredientes[i].cantidad*10)*($scope.receta.ingredientes[i].ingrediente.grasas);
-        totalProteinas += ($scope.receta.ingredientes[i].cantidad*10)*($scope.receta.ingredientes[i].ingrediente.proteinas);
+      for (var i = $scope.data.receta.ingredientes.length - 1; i >= 0; i--) {
+        totalCalorias += ($scope.data.receta.ingredientes[i].cantidad*10)*($scope.data.receta.ingredientes[i].ingrediente.calorias);
+        totalCarbohidratos += ($scope.data.receta.ingredientes[i].cantidad*10)*($scope.data.receta.ingredientes[i].ingrediente.carbohidratos);
+        totalGrasas += ($scope.data.receta.ingredientes[i].cantidad*10)*($scope.data.receta.ingredientes[i].ingrediente.grasas);
+        totalProteinas += ($scope.data.receta.ingredientes[i].cantidad*10)*($scope.data.receta.ingredientes[i].ingrediente.proteinas);
       }
       $scope.compTotal = {proteinas: totalProteinas, grasas: totalGrasas, carbohidratos: totalCarbohidratos, calorias: totalCalorias};
       console.log('proteinas', $scope.compTotal.proteinas);
@@ -125,54 +161,17 @@ angular.module('chefExpressApp.recetas')
     };
     
     $scope.calcularTotal();
-    $scope.ingredienteSeleccionado = "";
     
-    $scope.familias = ['BASE', 'null', 'BEBIDA', 'CARNE', 'CEREALES', 'DESPOJOS',
-    'FECULANTES', 'FRUTA COCIDA', 'FRUTA CRUDA', 'HUEVOS', 'LÁCTEO', 'LEGUMBRE',
-    'PESCADO', 'SALSA', 'VERDURA COCIDA', 'VERDURA CRUDA'];
-    
-    $scope.categorias = ['BASE', 'BEBIDA', 'CEREAL', 
-    'ENTRANTE', 'GUARNICION', 'LÁCTEO', 'POSTRE', 
-    'RELLENO', 'SALSA', 'SEGUNDO'];
-    
-    $scope.procedencias = ['Arabe', 'China', 'Coreana', 'Francesa', 
-    'Griega', 'Indía', 'indonesia', 'Israeli', 'Italiana', 
-    'Malasia', 'Marroqui', 'Mexicana', 'Portuguesa', 'Tunesina', 
-    'Turca', 'Vietnamita', 'vegetariana'];
-    
-    $scope.ambitos = ['Hotel', 'bcacado entra', 'Hospital', 
-    'Empresa', 'Escolares', 'Cafetarias', 'Administración',
-    '545bdd1db7546a7c13890194 lujo', '545bdd1db7546a7c13890194 avion', 'Super mercado'];
-    
-    $scope.tipos = ['Étnica', 'Vegetariana', 
-    'Mediterránea', 'Normal'];
-
-    $scope.tratamientos = ['AL HORNO', 'TERMOSELLAR', 'TRADICIONAL', 'VACIO', 'PASTERIZAR', 'ESTERILIZAR', 'REHIDRATAR', 'CONGELAR'];
-
     $scope.objectArrayToString = function (array, prop) {
       return array.map(function (e) {
         return e[prop];
       }).join(separator=', ');
     };
 
-    $scope.getIngredientes = function (value) {
-      if(value !== "") {
-        ingredientesAPI.getIngredientesPagina({
-          page: undefined,
-          max: $scope.max,
-          sort: {nombre: 'asc'},
-          filter: {nombre: value}
-        }).then( function (result) {
-          $scope.ingredientes = result.data;
-        });
-        return $scope.ingredientes;
-      }
-    };
-
     $scope.updateReceta = function (id, data) {
      console.log(JSON.stringify(data));
      recetasAPI.updateReceta(id, data).then(function (response) {
-        $scope.receta.ingredientes[data.field] = data.value;
+        $scope.data.receta.ingredientes[data.field] = data.value;
      });
     };  
 
@@ -195,33 +194,18 @@ angular.module('chefExpressApp.recetas')
       callback(res, index);
     }
 
-    $scope.addIngrediente = function ($item) {    
-      checkIfExist($scope.receta.ingredientes, 'ingrediente', '_id', $item._id, function (exist) {
-        if (exist === true) {
-          console.log('[CONTROLADOR] Ya existe el ingrediente ' + $item._id + ' en la receta');
-        } else {
-          recetasAPI.updateReceta($scope.receta._id, {field: 'ingredientes', value: 'add', ref: $item._id}).then(function (response) {
-            $scope.receta.ingredientes.push({ingrediente: $item, cantidad: 0, _id: response.data});
-            $scope.ingredienteSeleccionado = "";
-            console.log('[CONTROLADOR] Añadido ingrediente ' + $item._id + ' a la receta');
-            alergenosTotal();
-          });
-        }
-      });
-    };
-
     $scope.removeIngrediente = function (ingrediente, $index) {
-      recetasAPI.updateReceta($scope.receta._id, {field: 'ingredientes', value: 'remove', ref: ingrediente._id}).then(function (response) {
-        console.log('array', $scope.receta.ingredientes, 'index', $index);
-        $scope.receta.ingredientes.splice($index, 1);
+      recetasAPI.updateReceta($scope.data.receta._id, {field: 'ingredientes', value: 'remove', ref: ingrediente._id}).then(function (response) {
+        console.log('array', $scope.data.receta.ingredientes, 'index', $index);
+        $scope.data.receta.ingredientes.splice($index, 1);
         $scope.calcularTotal();
       });
     };
 
     $scope.updateIngrediente = function (ingrediente, $index) {
       var data = {field: 'cantidad', value: ingrediente.cantidad, ref: ingrediente._id};
-      recetasAPI.updateReceta($scope.receta._id, data).then(function (response) {
-        $scope.receta.ingredientes[$index][data.field] = data.value;
+      recetasAPI.updateReceta($scope.data.receta._id, data).then(function (response) {
+        $scope.data.receta.ingredientes[$index][data.field] = data.value;
       });
     };
   });

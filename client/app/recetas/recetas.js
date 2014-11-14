@@ -6,10 +6,11 @@ angular.module('chefExpressApp.recetas', ['ngRoute', 'chefExpressApp.ingrediente
         controller: 'recetaMainCtrl',
         templateUrl: 'app/recetas/receta',
         resolve: {
-          initialData2: function (recetasAPI, $route, $q) {
-            recetasAPI.getReceta($route.current.params.recetaId).then(function (response) {
+          initialData: function (recetasAPI, $route, $q) {
+            return recetasAPI.getReceta($route.current.params.recetaId).then(function (response) {
               return response.data;
             });
+          
           }
         }
       });

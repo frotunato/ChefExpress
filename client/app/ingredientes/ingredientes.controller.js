@@ -2,10 +2,8 @@ angular.module('chefExpressApp.ingredientes')
 	
 	.controller('ingredientesMainCtrl', function ($scope, $modal, initialData, ingredientesAPI, alergenosIngredienteAPI, familiasIngredienteAPI) {
     $scope.data = {
-      ingredientes: {
-        listaIngredientes: initialData.ingredientes.data,
-        totalIngredientes: initialData.ingredientes.total
-      },
+      ingredientes: initialData.ingredientes.data,
+      totalIngredientes: initialData.ingredientes.total,
       familias: initialData.familias,
       alergenos: initialData.alergenos,
       intolerancias: initialData.intolerancias
@@ -36,7 +34,7 @@ angular.module('chefExpressApp.ingredientes')
       },
       pagination: {
         page: 1,
-        max: 40,
+        max: 30,
         getResultsPage: function (newPage) {
           ingredientesAPI.getIngredientesPagina({
             page: newPage - 1, 
@@ -44,8 +42,8 @@ angular.module('chefExpressApp.ingredientes')
             sort: $scope.table.sorting.value,
             filter: $scope.table.filtering.value
           }).then(function (response) {
-            $scope.data.ingredientes.listaIngredientes = response.data.ingredientes;
-            $scope.data.ingredientes.totalIngredientes = response.data.total;
+            $scope.data.ingredientes = response.data.ingredientes;
+            $scope.data.totalIngredientes = response.data.total;
             this.page = newPage - 1;
           });
         }
