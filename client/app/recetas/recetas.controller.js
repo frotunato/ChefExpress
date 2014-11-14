@@ -37,7 +37,7 @@ angular.module('chefExpressApp.recetas')
         }
       },
       pagination: {
-        max: 20,
+        max: 25,
         page: 1,
         getResultsPage: function (newPage) {
           recetasAPI.getRecetas({

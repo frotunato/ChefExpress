@@ -12,7 +12,7 @@ angular.module('chefExpressApp.inicio', ['chefExpressApp.ingredientes', 'chefExp
             
             promises.ingredientes = ingredientesAPI.getIngredientesPagina({
               page: 0, 
-              max: 30, 
+              max: 25, 
               sort: {nombre: 'asc'},
               filter: {}
             }).then(function (response) {
@@ -45,7 +45,7 @@ angular.module('chefExpressApp.inicio', ['chefExpressApp.ingredientes', 'chefExp
 
             promises.recetas = recetasAPI.getRecetas({
               page: 0,
-              max: 20,
+              max: 25,
               sort: {nombre: 'asc'},
               filter: {}
             }).then(function (response) {

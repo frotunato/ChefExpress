@@ -90,6 +90,11 @@ div(class="row")
             b Tipo
               select(class="form-control input-sm" ng-options="tipo for tipo in tipos" ng-change="updateReceta(data.receta._id, {field: 'tipo', value: data.receta.tipo})" ng-model="data.receta.tipo")
                 option(selected value="") Todos
+      tfoot
+        tr
+          td(colspan="2" class="text-center")
+            b Raciones 
+              input(class="form-control" ng-model="data.receta.raciones" ng-blur="updateReceta(data.receta._id, {field: 'raciones', value: data.receta.raciones})" type="number" min="1" required placeholder="Nº raciones")
           
 div(class="row")
   
@@ -137,7 +142,7 @@ div(class="row")
         tr(ng-repeat="alergeno in data.receta.alergenos")
           td
             {{alergeno}} 
-  
+
   div(id="resumenWrapper" class="col-sm-2")
       table(class="table table-condensed table-bordered text-center")
         thead
@@ -162,9 +167,7 @@ div(class="row")
             td(class="text-center")
               span(ng-if="data.receta.cantidad<1") {{data.receta.cantidad.toFixed(2)*1000}} g
               span(ng-if="data.receta.cantidad>=1") {{data.receta.cantidad.toFixed(2)}} kg
-  b Raciones 
-    input(class="form-control" ng-model="data.receta.raciones" ng-blur="updateReceta(data.receta._id, {field: 'raciones', value: data.receta.raciones})" type="number" min="1" required placeholder="Nº raciones")
-
+  
   div(id="composicionWrapper" class="col-sm-3")
     table(class="table table-bordered table-condensed")
       thead(class="text-center")

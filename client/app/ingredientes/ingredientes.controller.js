@@ -34,7 +34,7 @@ angular.module('chefExpressApp.ingredientes')
       },
       pagination: {
         page: 1,
-        max: 30,
+        max: 25,
         getResultsPage: function (newPage) {
           ingredientesAPI.getIngredientesPagina({
             page: newPage - 1, 
