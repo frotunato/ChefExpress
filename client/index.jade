@@ -1,11 +1,10 @@
 doctype html
 html(ng-app="chefExpressApp")
 	head
+		//base(href="/")
 		title ChefExpress
 		link(rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css")
 		link(rel="stylesheet" href="components/style.css")
-	body
-		div(ng-view="")
 		<!--########################## ANGULAR CORE ###########################-->
 		script(defer src="bower_components/angular/angular.js")
 		script(defer src="bower_components/angular-route/angular-route.min.js")
@@ -16,17 +15,24 @@ html(ng-app="chefExpressApp")
 		script(defer src="app/inicio/inicio.js")
 		script(defer src="app/ingredientes/ingredientes.js")
 		script(defer src="app/recetas/recetas.js")
+		script(defer src="app/login/login.js")
 		<!--################################################################## -->
 		
+		<!--######################## APP COMPONENTS ###########################-->
+		script(defer src="components/auth/auth.service.js")
+		<!--################################################################## -->
+
 		<!--######################## APP CONTROLLERS ##########################-->
 		script(defer src="app/inicio/inicio.controller.js")
 		script(defer src="app/ingredientes/ingredientes.controller.js")
 		script(defer src="app/recetas/recetas.controller.js")
+		script(defer src="app/login/login.controller.js")
 		<!--###################################################################-->
 		
 		<!--######################### APP FACTORIES ###########################-->
 		script(defer src="app/ingredientes/ingredientes.factory.js")
 		script(defer src="app/recetas/recetas.factory.js")
+		script(defer serc="app/login/login.factory.js")
 		<!--###################################################################-->
 		
 		<!--######################### APP DIRECTIVES ##########################-->
@@ -37,3 +43,5 @@ html(ng-app="chefExpressApp")
 		script(defer src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js")
 		script(defer src="bower_components/angular-utils-pagination/dirPagination.js")
 		<!--###################################################################-->
+	body
+		div(ng-view)

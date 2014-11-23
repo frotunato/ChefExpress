@@ -17,6 +17,7 @@ multiselect .dropdown > li > a {
   font: bold;
   background: #428BCA;
 }
+
 .disabled {
   border-radius: 1px;
   padding-left: 5px; 
@@ -24,24 +25,29 @@ multiselect .dropdown > li > a {
   cursor: pointer;
   background: default;
 }
+
 .disabled:hover {
   background: #DEDEDE;
   color:black;
   font: bold;
   opacity: 0.9;
 }
+
 .enabled:hover {
   background: #309EC9;
   color: white;
   font: bold;
 }
+
 .dropdown {
   width: 100%;
 }
+
 .table-condensed>thead>tr>th, .table-condensed>tbody>tr>th, .table-condensed>tfoot>tr>th, .table-condensed>thead>tr>td, .table-condensed>tbody>tr>td, .table-condensed>tfoot>tr>td {
    padding: 1px;
    font-size: 12px;
 }
+
 .dropdownOptions {
   width: inherit;
   border: 1px solid #7F9DB9;
@@ -54,6 +60,7 @@ multiselect .dropdown > li > a {
   margin: 0;
   padding: 0;
 }
+
 .dropdownIcon {
   display: inline-block;
   width: 0;
@@ -71,4 +78,13 @@ multiselect .dropdown > li > a {
   height: 20px;
   padding: 0px 0px;
   width: 100%;
+  border-radius: 1px;
+}
+
+.popup {
+  position: fixed;
+  top: 30%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }

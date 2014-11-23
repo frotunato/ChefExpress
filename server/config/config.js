@@ -1,6 +1,5 @@
 var env = process.env.NODE_ENV = 'development';
 var path = require('path');
-
 var config = {
 	ip: process.env.IP,
 	root: path.normalize(__dirname + '/../..'),

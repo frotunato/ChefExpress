@@ -1,18 +1,9 @@
 angular.module('chefExpressApp.ingredientes')
 
-	.factory('ingredientesAPI', function ($http, $q) {
+	.factory('ingredientesAPI', function ($http, $q, $window) {
 		return {
 			apiUrl: '/api/ingredientes',
-			getIngredientes: function () {
-				var a = Date.now();
-				var deferred = $q.defer();
-				$http.get(this.apiUrl).success(function (data, status) {
-					deferred.resolve(data);
-					var b = Date.now();
-					console.log(b-a);
-				});
-				return deferred.promise;
-			},
+
 			getIngredientesPagina: function (config) {
 				return $http.get(this.apiUrl + '/', { params: {
 					page: config.page,

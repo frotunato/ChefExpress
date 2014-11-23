@@ -11,6 +11,8 @@
 		"jade": "latest",
 		"socket.io": "latest",
 		"lodash": "latest",
-		"compression": "latest"
+		"compression": "latest",
+		"express-jwt": "latest",
+		"jsonwebtoken": "latest"
 	}
 }

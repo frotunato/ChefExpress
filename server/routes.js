@@ -1,6 +1,9 @@
 module.exports = function (app) {
 
   // Insert routes below
+
+  app.use('/login', require('./auth')); 
+  app.use('/api/usuarios', require('./api/usuario'));
   app.use('/api/alergenosIngrediente', require('./api/alergenoIngrediente'));
   app.use('/api/intoleranciasIngrediente', require('./api/intoleranciaIngrediente'));
   app.use('/api/familiasIngrediente', require('./api/familiaIngrediente'));
@@ -17,7 +20,8 @@ module.exports = function (app) {
   // app.route('/:url(api|components|app|bower_components)/*')
 
 	app.route('/app/:directory/:file')
-		.get(function (req, res) {
+    
+    .get(function (req, res) {
       res.render(req.params.directory + '/' + req.params.file);
     });
 

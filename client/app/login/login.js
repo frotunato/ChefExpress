@@ -1,0 +1,1 @@
+angular.module('chefExpressApp.login', ['chefExpressApp', 'chefExpressApp.inicio']);

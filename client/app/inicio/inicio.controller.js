@@ -1,5 +1,4 @@
 angular.module('chefExpressApp.inicio')
 
-  .controller('inicioMainCtrl', function ($scope, ingredientesAPI) {
-   
+  .controller('inicioMainCtrl', function ($scope, ingredientesAPI, Auth) {
   });

@@ -6,6 +6,7 @@ angular.module('chefExpressApp.inicio', ['chefExpressApp.ingredientes', 'chefExp
       .when('/ingredientes', {
         templateUrl: 'app/ingredientes/ingredientes',
         controller: 'ingredientesMainCtrl',
+        protect: true,
         resolve: {
           initialData: function (ingredientesAPI, alergenosIngredienteAPI, familiasIngredienteAPI,intoleranciasIngredienteAPI, $q) {
             var promises = {};
@@ -39,6 +40,7 @@ angular.module('chefExpressApp.inicio', ['chefExpressApp.ingredientes', 'chefExp
       .when('/recetas', {
         templateUrl: 'app/recetas/recetas',
         controller: 'recetasMainCtrl',
+        protect: true,
         resolve: {
           initialData: function (recetasAPI, familiasRecetasAPI, tiposRecetasAPI, ambitosRecetasAPI, categoriasRecetasAPI, medidasPreventivasRecetasAPI, peligrosIngredientesRecetasAPI, peligrosDesarrolloRecetasAPI, procedenciasRecetasAPI, $q) {
             var promises = {};
