@@ -1,9 +1,8 @@
 node_modules
 public
-.tmp
-.idea
+*.tmp
 client/bower_components
 dist
 secret.json
-.dmp
-.log
+*.dmp
+*.log
