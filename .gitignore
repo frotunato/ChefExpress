@@ -6,3 +6,4 @@ client/bower_components
 dist
 secret.json
 .dmp
+.log
