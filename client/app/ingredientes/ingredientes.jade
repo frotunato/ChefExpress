@@ -1,4 +1,4 @@
-table(class="table table-striped table-condensed table-bordered")
+table(class="table table-hover table-condensed table-bordered")
   thead
     tr
       th(class="text-center" colspan="7") Información
@@ -7,11 +7,11 @@ table(class="table table-striped table-condensed table-bordered")
     th(class="text-center col-md-2")
       p
         a(href="" ng-click="table.sorting.sort('nombre')") Nombre
-      input(type="text" placeholder="Introduce un nombre para filtrar" ng-change="table.filtering.filter()" class="form-control" ng-model="table.filtering.value.nombre" ng-model-options="{debounce: 150}")
+      input(type="text" placeholder="Introduce un nombre para filtrar" ng-change="table.filtering.filter()" class="form-control table-input" ng-model="table.filtering.value.nombre" ng-model-options="{debounce: 150}")
     th(class="text-center col-md-2")
       p
         a(href="" ng-click="table.sorting.sort('familia')") Familia
-      select(class="form-control" ng-change="table.filtering.filter()" ng-options="familia._id as familia.nombre for familia in data.familias" ng-model="table.filtering.value.familia")
+      select(class="form-control table-input" ng-change="table.filtering.filter()" ng-options="familia._id as familia.nombre for familia in data.familias" ng-model="table.filtering.value.familia")
         option(selected value="") Todas  
     th(class="text-center") Un
     th(class="text-center") P
@@ -30,12 +30,12 @@ table(class="table table-striped table-condensed table-bordered")
     th(class="text-center")
       p
         a(href="" ng-click="table.sorting.sort('alergeno')") Alérgenos
-      select(class="form-control" ng-change="table.filtering.filter()" ng-options="alergeno._id as alergeno.nombre for alergeno in data.alergenos" ng-model="table.filtering.value.alergenos")
+      select(class="form-control table-input" ng-change="table.filtering.filter()" ng-options="alergeno._id as alergeno.nombre for alergeno in data.alergenos" ng-model="table.filtering.value.alergenos")
         option(value="") Todos
     th(class="text-center")
       p
         a(href="" ng-click="table.sorting.sort('intolerancia')") Intolerancias
-      select(class="form-control" ng-change="table.filtering.filter()" ng-options="intolerancia._id as intolerancia.nombre for intolerancia in data.intolerancias" ng-model="table.filtering.value.intolerancias")
+      select(class="form-control table-input" ng-change="table.filtering.filter()" ng-options="intolerancia._id as intolerancia.nombre for intolerancia in data.intolerancias" ng-model="table.filtering.value.intolerancias")
         option(value="") Todos
 
   tbody
@@ -47,7 +47,7 @@ table(class="table table-striped table-condensed table-bordered")
           input(update-on-focus="$editNombre" 
                 ng-model-options="{updateOn: 'blur'}" 
                 ng-change="crudIngrediente.update($parent.ingrediente._id, {nombre: ingrediente.nombre})" 
-                class="form-control" 
+                class="form-control table-input" 
                 placeholder="Nombre" 
                 type="text" 
                 ng-model="ingrediente.nombre")    
@@ -58,7 +58,7 @@ table(class="table table-striped table-condensed table-bordered")
           select(update-on-focus="$editFamilia" 
                 ng-model-options="{updateOn: 'blur'}" 
                 ng-change="crudIngrediente.update($parent.ingrediente._id, {familia: ingrediente.familia._id})" 
-                class="form-control" 
+                class="form-control table-input" 
                 ng-options="familia as familia.nombre for familia in data.familias track by familia.nombre" 
                 ng-model="ingrediente.familia")
       
@@ -68,7 +68,7 @@ table(class="table table-striped table-condensed table-bordered")
           select(update-on-focus="$editUnidad" 
                 ng-model-options="{updateOn: 'blur'}" 
                 ng-change="crudIngrediente.update($parent.ingrediente._id, {unidad: ingrediente.unidad})" 
-                class="form-control" 
+                class="form-control table-input" 
                 ng-model="ingrediente.unidad")    
             option(value="KG") KG
             option(value="LT") LT
@@ -81,7 +81,7 @@ table(class="table table-striped table-condensed table-bordered")
           select(update-on-focus="$editPerecedero" 
                 ng-model-options="{updateOn: 'blur'}" 
                 ng-change="crudIngrediente.update($parent.ingredediente._id, {perecedero: ingrediente.perecedero})" 
-                class="form-control" 
+                class="form-control table-input" 
                 ng-model="ingrediente.perecedero")
             option(value="Si") Si
             option(value="No") No      
@@ -92,7 +92,7 @@ table(class="table table-striped table-condensed table-bordered")
           input(update-on-focus="$editPcons" 
                 ng-model-options="{updateOn: 'blur'}" 
                 ng-change="ingrediente.$editPcons = false; crudIngrediente.update($parent.ingrediente._id, {pcons: ingrediente.pcons})" 
-                class="form-control" 
+                class="form-control table-input" 
                 type="number" 
                 ng-model="ingrediente.pcons")            
       
@@ -102,7 +102,7 @@ table(class="table table-striped table-condensed table-bordered")
           input(update-on-focus="$editConversionKg" 
                 ng-model-options="{updateOn: 'blur'}" 
                 ng-change="crudIngrediente.update($parent.ingrediente._id, {conversionKg: ingrediente.conversionKg})" 
-                class="form-control" 
+                class="form-control table-input" 
                 type="number" 
                 ng-model="ingrediente.conversionKg")
       
@@ -112,7 +112,7 @@ table(class="table table-striped table-condensed table-bordered")
           input(update-on-focus="$editPrecio" 
                 ng-model-options="{updateOn: 'blur'}" 
                 ng-change="crudIngrediente.update($parent.ingrediente._id, {precio: ingrediente.precio})" 
-                class="form-control" 
+                class="form-control table-input" 
                 type="number" 
                 ng-model="ingrediente.precio")            
       
@@ -122,7 +122,7 @@ table(class="table table-striped table-condensed table-bordered")
           input(update-on-focus="$editCalorias" 
                 ng-model-options="{updateOn: 'blur'}" 
                 ng-change="crudIngrediente.update($parent.ingrediente._id, {calorias: ingrediente.calorias})" 
-                class="form-control" 
+                class="form-control table-input" 
                 type="number" 
                 ng-model="ingrediente.calorias")      
      
@@ -132,7 +132,7 @@ table(class="table table-striped table-condensed table-bordered")
           input(update-on-focus="$editCarbohidratos" 
                 ng-change="crudIngrediente.update($parent.ingrediente._id, {carbohidratos: ingrediente.carbohidratos})" 
                 ng-model-options="{updateOn: 'blur'}" 
-                class="form-control" 
+                class="form-control table-input" 
                 type="number" 
                 ng-model="ingrediente.carbohidratos")      
       
@@ -142,7 +142,7 @@ table(class="table table-striped table-condensed table-bordered")
           input(update-on-focus="$editProteinas" 
                 ng-change="crudIngrediente.update($parent.ingrediente._id, {proteinas: ingrediente.proteinas})" 
                 ng-model-options="{updateOn: 'blur'}" 
-                class="form-control" 
+                class="form-control table-input" 
                 type="number" 
                 ng-model="ingrediente.proteinas")      
      
@@ -152,7 +152,7 @@ table(class="table table-striped table-condensed table-bordered")
           input(update-on-focus="$editGrasas" 
                 ng-change="crudIngrediente.update($parent.ingrediente._id, {grasas: ingrediente.grasas})" 
                 ng-model-options="{updateOn: 'blur'}" 
-                class="form-control" 
+                class="form-control table-input" 
                 type="number" 
                 ng-model="ingrediente.grasas")
     

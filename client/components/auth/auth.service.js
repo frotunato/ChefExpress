@@ -17,10 +17,10 @@ angular.module('chefExpressApp')
         .success(function (data, status, headers, config) {
           $window.sessionStorage.token = data.token;
           UserAuth.isLogged = true;
-          console.log('[AUTH.SERVICE]:', $window.sessionStorage.token);
+          console.log('[AUTH.SERVICE]', 'success');
         })
         .error(function (data, status, headers, config) {
-          console.log(response, 'error auth.service');
+          console.log('[AUTH.SERVICE]', 'error');
         });
       }
     };

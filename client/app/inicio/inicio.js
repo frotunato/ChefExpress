@@ -10,7 +10,6 @@ angular.module('chefExpressApp.inicio', ['chefExpressApp.ingredientes', 'chefExp
         resolve: {
           initialData: function (ingredientesAPI, alergenosIngredienteAPI, familiasIngredienteAPI,intoleranciasIngredienteAPI, $q) {
             var promises = {};
-            
             promises.ingredientes = ingredientesAPI.getIngredientesPagina({
               page: 0, 
               max: 25, 
@@ -33,6 +32,10 @@ angular.module('chefExpressApp.inicio', ['chefExpressApp.ingredientes', 'chefExp
             });
             
             return $q.all(promises);
+          },
+          navbar: function (Navbar, $q) {
+            Navbar.area = 'Ingredientes';
+            return;
           }    
         }
       })

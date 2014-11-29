@@ -11,7 +11,6 @@ angular.module('chefExpressApp.recetas', ['ngRoute', 'chefExpressApp.ingrediente
             return recetasAPI.getReceta($route.current.params.recetaId).then(function (response) {
               return response.data;
             });
-          
           }
         }
       });

@@ -1,8 +1,6 @@
 var express = require('express');
 var mongoose = require('mongoose');
-
 var config = require('./config/config.js');
-
 var app = express();
 var server = require('http').createServer(app);
 //var socketio = require('socket.io')(server);

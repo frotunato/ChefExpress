@@ -1,11 +1,15 @@
-multiselect .dropdown-menu{
-    padding-left: 5px; 
-    padding-right: 5px;
+html, body {
+  height:100%;
+  padding:0;
+  margin:0;
 }
 
-multiselect .dropdown > li > a {
-    padding: 3px 10px;
-    cursor:pointer;
+#mainWrapper, #viewWrapper{
+  height: 100%;
+}
+
+.loadingContainer {
+  opacity: 0.4;
 }
 
 .enabled {
@@ -44,8 +48,8 @@ multiselect .dropdown > li > a {
 }
 
 .table-condensed>thead>tr>th, .table-condensed>tbody>tr>th, .table-condensed>tfoot>tr>th, .table-condensed>thead>tr>td, .table-condensed>tbody>tr>td, .table-condensed>tfoot>tr>td {
-   padding: 1px;
-   font-size: 12px;
+  padding: 1px;
+  font-size: 12px;
 }
 
 .dropdownOptions {
@@ -59,6 +63,40 @@ multiselect .dropdown > li > a {
   z-index: 10;
   margin: 0;
   padding: 0;
+}
+.navbar-container {
+  border-bottom: 1px;
+  border-radius: 1px;
+  background: #2f2f2f;
+}
+
+.navbar-title {
+  color: white;
+  font: bold;
+  top: 50%;
+}
+
+.navbar-header-element {
+  color: white;
+}
+
+.navbar-header-element:hover {
+  color: #337ab7;
+  cursor: pointer;
+  text-decoration: none;
+
+}
+.navbar-links {
+  top: 5%;
+}
+
+.navbar-element {
+  color: white;
+  cursor: pointer;
+}
+
+.navbar-element:hover {
+  background: #444444;
 }
 
 .dropdownIcon {
@@ -74,7 +112,16 @@ multiselect .dropdown > li > a {
   border-bottom: 0 dotted;
 }
 
+/*
 .form-control {
+  height: 20px;
+  padding: 0px 0px;
+  width: 100%;
+  border-radius: 1px;
+}
+*/
+
+.table-input {
   height: 20px;
   padding: 0px 0px;
   width: 100%;

@@ -1,6 +1,9 @@
 angular.module('chefExpressApp.ingredientes')
 	
-	.controller('ingredientesMainCtrl', function ($scope, $modal, initialData, ingredientesAPI, alergenosIngredienteAPI, familiasIngredienteAPI) {
+	.controller('ingredientesMainCtrl', function ($scope, $modal, Navbar, initialData, ingredientesAPI, alergenosIngredienteAPI, familiasIngredienteAPI) {
+    
+    Navbar.area = 'Ingredientes';
+
     $scope.data = {
       ingredientes: initialData.ingredientes.data,
       totalIngredientes: initialData.ingredientes.total,

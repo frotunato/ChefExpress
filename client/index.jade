@@ -5,9 +5,11 @@ html(ng-app="chefExpressApp")
 		title ChefExpress
 		link(rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css")
 		link(rel="stylesheet" href="components/style.css")
+		link(rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css")
 		<!--########################## ANGULAR CORE ###########################-->
 		script(defer src="bower_components/angular/angular.js")
 		script(defer src="bower_components/angular-route/angular-route.min.js")
+		script(defer src="bower_components/angular-animate/angular-animate.min.js")
 		<!--###################################################################-->
 		
 		<!--########################## APP MODULES ############################-->
@@ -20,6 +22,8 @@ html(ng-app="chefExpressApp")
 		
 		<!--######################## APP COMPONENTS ###########################-->
 		script(defer src="components/auth/auth.service.js")
+		script(defer src="components/navbar/navbar.js")
+		script(defer src="components/navbar/navbar.service.js")
 		<!--################################################################## -->
 
 		<!--######################## APP CONTROLLERS ##########################-->
@@ -42,6 +46,10 @@ html(ng-app="chefExpressApp")
 		<!--######################### ANGULAR EXTRAS ##########################-->
 		script(defer src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js")
 		script(defer src="bower_components/angular-utils-pagination/dirPagination.js")
+		script(defer src="bower_components/angular-loading-bar/build/loading-bar.min.js")
 		<!--###################################################################-->
 	body
-		div(ng-view)
+		div(id="mainWrapper")
+			div(id="navbarWrapper" ng-controller="navbarAppCtrl")
+				navbar(ng-if="isLogged === true" navbar-home="/#inicio")
+			div(id="viewWrapper" ng-controller="viewCtrl" ng-class="{'loadingContainer': isLoading}" ng-view)
