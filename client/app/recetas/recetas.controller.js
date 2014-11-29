@@ -128,12 +128,12 @@ angular.module('chefExpressApp.recetas')
 
       for (var i = $scope.data.receta.ingredientes.length - 1; i >= 0; i--) {
         for (var k = $scope.data.receta.ingredientes[i].ingrediente.alergenos.length - 1; k >= 0; k--) {
-          console.log(res.indexOf($scope.data.receta.ingredientes[i].ingrediente.alergenos[k].nombre === -1))
+          console.log(res.indexOf($scope.data.receta.ingredientes[i].ingrediente.alergenos[k].nombre === -1));
           if (res.indexOf($scope.data.receta.ingredientes[i].ingrediente.alergenos[k].nombre) === -1) {
-            console.log($scope.data.receta.ingredientes[i].ingrediente.alergenos[k].nombre)
+            console.log($scope.data.receta.ingredientes[i].ingrediente.alergenos[k].nombre);
             res.push($scope.data.receta.ingredientes[i].ingrediente.alergenos[k].nombre);
           } else {
-            console.log('no existe')
+            console.log('no existe');
           }
         }
       }

@@ -1,7 +1,11 @@
 {
 	"name": "ChefExpress",
-	"version": "0.0.1",
+	"version": "1.0.0",
 	"main": "server/app.js",
+	"repository": {
+	  "type": "git",
+	  "url": "http://github.com/frotunato/ChefExpress.git"
+	},
 	"dependencies": {
 		"express": "latest",
 		"morgan": "latest",
@@ -13,6 +17,12 @@
 		"lodash": "latest",
 		"compression": "latest",
 		"express-jwt": "latest",
-		"jsonwebtoken": "latest"
+		"jsonwebtoken": "latest",
+		"gulp": "latest",
+		"gulp-uglify": "latest",
+		"gulp-order": "latest",
+		"gulp-ng-annotate": "latest",
+		"gulp-jshint": "latest",
+		"gulp-concat": "latest"
 	}
 }

@@ -21,6 +21,7 @@ angular.module('chefExpressApp')
       link: function (scope, element, attrs) {
         scope.showHome = Navbar.isHomeVisible;
         scope.area = Navbar.area;
+        
         /*
         scope.$watch(Navbar.area, function () {
           console.log('Changed', Navbar.area);
