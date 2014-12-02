@@ -41,15 +41,15 @@ html(ng-app="chefExpressApp")
 		
 		<!--######################### APP DIRECTIVES ##########################-->
 		script(defer src="app/ingredientes/ingredientes.directive.js")
+		script(defer src="app/inicio/inicio.directive.js")
 		<!--###################################################################-->
 		
 		<!--######################### ANGULAR EXTRAS ##########################-->
 		script(defer src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js")
-		script(defer src="bower_components/angular-utils-pagination/dirPagination.js")
+		script(defer src="components/pagination/dirPagination.js")
 		script(defer src="bower_components/angular-loading-bar/build/loading-bar.min.js")
 		<!--###################################################################-->
 	body
-		div(id="mainWrapper")
-			div(id="navbarWrapper" ng-controller="navbarAppCtrl")
-				navbar(ng-if="isLogged === true" navbar-home="/#inicio")
-			div(id="viewWrapper" ng-controller="viewCtrl" ng-class="{'loadingContainer': isLoading}" ng-view)
+		div(id="navbarWrapper" ng-controller="navbarAppCtrl")
+			navbar(ng-if="isLogged === true" navbar-home="/#inicio")
+		div(id="viewWrapper" ng-controller="viewCtrl" ng-class="{'loadingContainer': isLoading}" ng-view)

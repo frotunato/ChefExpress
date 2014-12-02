@@ -32,11 +32,8 @@ angular.module('chefExpressApp.inicio', ['chefExpressApp.ingredientes', 'chefExp
             });
             
             return $q.all(promises);
-          },
-          navbar: function (Navbar, $q) {
-            Navbar.area = 'Ingredientes';
-            return;
-          }    
+          }
+           
         }
       })
 

@@ -15,14 +15,7 @@ angular.module('chefExpressApp', ['ngRoute', 'ngAnimate', 'chieffancypants.loadi
       .when('/inicio', {
         templateUrl: 'app/inicio/inicio',
         controller: 'inicioMainCtrl',
-        protect: true,
-        resolve: {
-          navbar: function (Navbar) {
-            Navbar.area = 'Inicio';
-            console.log('[APP.CTRL] navbar', Navbar);
-            return;
-          }
-        }
+        protect: true
       })
 
      	.otherwise({

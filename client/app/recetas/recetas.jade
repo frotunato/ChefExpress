@@ -10,7 +10,7 @@ table(class="table table-condensed table-bordered table-hover")
       th(class="text-center col-md-3")
         p
           a(href="" ng-click="sort('nombre')") Nombre
-        input(type="text" placeholder="Introduce un nombre para filtrar" ng-change="table.filtering.filter()" class="form-control input-md" ng-model="table.filtering.nombre" ng-model-options="{debounce: 100}")
+        input(type="text" placeholder="Introduce un nombre para filtrar" ng-change="table.filtering.filter()" class="form-control input-md" ng-model="table.filtering.value.nombre" ng-model-options="{debounce: 100}")
       
       th(class="text-center col-md-2")
         p
