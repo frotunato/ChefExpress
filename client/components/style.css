@@ -77,11 +77,6 @@ div#navbar-container {
   transform-style: preserve-3d;
 }
 
-div#navbar-header {
-  position: absolute;
-  top: 20.3%;
-}
-
 .navbar-dropdown {
   margin: 2px 0 0;
   background-color: #fff;
@@ -116,76 +111,103 @@ div#navbar-header {
   background-color: #f5f5f5;
 }
 
-div#navbar-home {
+div#navbar-header {
+  position: relative;
+}
+
+div#navbar-header {
+  position: relative;
+  top: 20.3%;
+  display: inline-block;
+}
+
+div#navbar-header-options > div {
+  left: 20px;
+  top: -1px;
+  height: 100%
+}
+
+div#navbar-header-title {
   position: relative;
   left: 23px;
 }
 
-div#navbar-home > h2 {
+div#navbar-header-title > h2 {
   margin-top: 0;
   margin-bottom: 0;
-
 }
 
-div#navbar-home > h2 > a {
+div#navbar-header-title > h2 > a {
   color: white;
   text-decoration: none;
 }
 
-div#navbar-home > h2 > a:hover {
+div#navbar-header-title > h2 > a:hover {
   color: #337ab7;
 }
 
-div#navbar-links-dropdown {
+div#navbar-body {
+  position: relative;
+  top: 20.3%;
+  left: 40%;
+  display: inline-block;
+  color: white;
+}
+
+div#navbar-body-title {
+  display: inline-block;
+}
+
+div#navbar-body-options {
+  display: inline-block;
+  font-size: 1.5em;
+}
+
+div#navbar-body-options > div {
+  position: absolute;
+  z-index: 100220;
+  top: 20%;
+  height: 100%;
+  padding-left: 4px;
+}
+
+div.navbar-links-dropdown {
+  cursor: pointer;
   position: absolute;
   left: 105%;
+  font-size: 1.5em;
   top: 20.3%;
   width: 20px;
   height: 100%;
   color: white;
-  font-size: 1em;
 }
 
-div.caret {
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
-  border-top: 8px solid white;
-  height: 100%;
-  top: 30%;
-  position: absolute;
+div.navbar-links-dropdown:hover {
+  color: #337ab7;
 }
 
-div.caret:hover {
-  cursor: pointer;
-}
+div.navbar-links-dropdown > div > div {   position: absolute;   min-width:
+121px;   padding-top: 4px;   padding-bottom: 4px;   margin-top: 10px;   font-
+size: 15px;   margin-left: -55px;   background-color: #fff;   border: 1px
+solid #ccc;   border: 1px solid rgba(0,0,0,.15);   border-radius: 4px;
+-webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);   box-shadow: 0 6px 12px
+rgba(0, 0, 0, .175); }
 
-div#navbar-links-dropdown > div > div {
-  position: absolute;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  margin-top: 10px;
-  margin-left: -55px;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border: 1px solid rgba(0,0,0,.15);
-  border-radius: 4px;
-  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
-}
-
-div#navbar-links-dropdown > div > div > div:focus,
-div#navbar-links-dropdown > div > div > div:hover {
+div.navbar-links-dropdown > div > div > div:focus,
+div.navbar-links-dropdown > div > div > div:hover {
   color: #262626;
   text-decoration: none;
   background-color: #f5f5f5;
   cursor: pointer;
 }
 
-div#navbar-links-dropdown > div > div > div > a {
+div.navbar-links-dropdown > div > div > div > a {
   text-decoration: none;
   padding: 3px 20px;
   display: block;
   color: black;
+  font-size: 16px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .table-input {

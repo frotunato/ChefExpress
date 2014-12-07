@@ -2,8 +2,19 @@ angular.module('chefExpressApp')
   
   .factory('Navbar', function () {
     return {
-      actions: [],
-      user:{},
-      area: ''
+      header: {
+        options: {
+          data: [{text: 'Ingredientes', link: '#/ingredientes'}, {text: 'Recetas', link: '#/recetas'}]
+        }
+      },
+      body: {
+        title: '',
+        options: {
+          data: [{text: 'Nuevo ingrediente'}, {text: 'Nueva categoría'}]
+        }
+      },
+      user: {
+
+      },
     };
   });

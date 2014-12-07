@@ -53,5 +53,5 @@ html(ng-app="chefExpressApp")
 		<!--###################################################################-->
 	body
 		div(id="navbar-wrapper" ng-controller="navbarAppCtrl")
-			navbar(ng-if="isLogged" navbar-home="#/inicio" navbar-links="['#/ingredientes', '#/recetas', '#/menus']")
+			navbar(ng-if="isLogged" navbar-base="#/inicio" navbar-options-triggers="['click', 'hover']" navbar-header-title="ChefExpress")
 		div(id="viewWrapper" ng-controller="viewCtrl" ng-class="{'loadingContainer': isLoading}" ng-view)
