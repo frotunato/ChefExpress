@@ -1,7 +1,6 @@
 angular.module('chefExpressApp.ingredientes')
 	
 	.controller('ingredientesMainCtrl', function ($scope, $modal, Navbar, initialData, ingredientesAPI, alergenosIngredienteAPI, familiasIngredienteAPI) {
-    
     Navbar.area = 'Ingredientes';
 
     $scope.data = {
@@ -66,16 +65,7 @@ angular.module('chefExpressApp.ingredientes')
         ingredientesAPI.updateIngrediente(id, data).then(function (response) {
           console.log('[CONTROLADOR_INGREDIENTES] updateIngrediente: ' + JSON.stringify(data), id);
         });
-      },
-      //tratamiento en submit
-      add: function (data) {
-        if (data.hasOwnProperty('familia') && data.hasOwnProperty('alergenos')) {
-          delete(data.familia.nombre);
-        }
-        ingredientesAPI.addIngrediente(data).then(function (response) {
-          $scope.table.pagination.getResultsPage($scope.table.pagination.page);
-        });
-      }
+      } 
     };
 
     $scope.getAlergenos = function () {
@@ -90,62 +80,32 @@ angular.module('chefExpressApp.ingredientes')
       });
     };
 
-    //debe ser directiva
+    //debe ser filtro
     $scope.objectArrayToString = function (array, prop) {
       return array.map(function (e) {
         return e[prop];
       }).join(separator=', ');
     };
-
-    $scope.showModal = function () {
-      $scope.opts = {
-        backdrop: true,
-        backdropClick: true,
-        dialogFade: false,
-        keyboard: true,
-        templateUrl: 'app/ingredientes/nuevoIngrediente',
-        controller: 'ingredientesModalCtrl',
-        size: 'md',
-        resolve: {
-          initData: function () {
-            return {
-              estados: $scope.data.estados, 
-              alergenos: $scope.data.alergenos, 
-              familias: $scope.data.familias,
-              intolerancias: $scope.data.intolerancias
-            };
-          }
+    
+    var nuevoIngredienteModal = {};
+    
+    $scope.modal = {
+      show: function () {
+        nuevoIngredienteModal = $modal({scope: $scope, template: 'app/ingredientes/nuevoIngrediente', show: false});
+        nuevoIngredienteModal.$promise.then(nuevoIngredienteModal.show);
+      },
+      hide: function () {
+        nuevoIngredienteModal.$promise.then(nuevoIngredienteModal.destroy);
+      },
+      submit: function (data) {  
+        if (data.hasOwnProperty('familia') && data.hasOwnProperty('alergenos')) {
+          delete(data.familia.nombre);
         }
-      };
-                
-      var modalInstance = $modal.open($scope.opts);
-      modalInstance.result.then(
-        function (result) {
-          console.log('Modal accepted', JSON.stringify(result));
-          $scope.crearIngrediente(result);
-        }, 
-        function () {
-          console.log('Modal closed');
+        ingredientesAPI.addIngrediente(data).then(function (response) {
+          $scope.table.pagination.getResultsPage($scope.table.pagination.page);
         });
+        this.hide();
+        }
     };
-
-  })
   
-  .controller('ingredientesModalCtrl', function ($scope, $modal, $modalInstance, initData) {
-    $scope.data = {
-      ingrediente: {},
-      familias: initData.familias,
-      estados: initData.estados,
-      alergenos: initData.alergenos,
-      intolerancias: initData.intolerancias
-    };
-
-    $scope.cancel = function () {
-      $modalInstance.dismiss('cancel');
-    };
-
-    $scope.ok = function () {
-      $modalInstance.close($scope.ingrediente.data);
-    };
-
   });

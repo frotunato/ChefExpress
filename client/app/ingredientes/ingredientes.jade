@@ -3,7 +3,7 @@ table(class="table table-hover table-condensed table-bordered")
     tr
       th(class="text-center" colspan="7") Información
       th(class="text-center" colspan="6") Composición
-        button(style="float:right;" class="btn btn-primary btn-xs" ng-click="showModal()") Nuevo
+        button(class="btn btn-primary btn-xs" ng-click="modal.show()") Nuevo
     th(class="text-center col-md-2")
       p
         a(href="" ng-click="table.sorting.sort('nombre')") Nombre
@@ -166,5 +166,3 @@ table(class="table table-hover table-condensed table-bordered")
         div(style="position: relative;" ng-if="ingrediente.$editIntolerancias")
           multiselector(selector-data="data.intolerancias" selector-model="ingrediente.intolerancias" selector-on-blur="ingrediente.$editIntolerancias = false;" selector-on-change="crudIngrediente.update($parent.ingrediente._id, {intolerancias: ingrediente.intolerancias})" track-by="_id")
 dir-pagination-controls(on-page-change="table.pagination.getResultsPage(newPageNumber)")
-
-  
