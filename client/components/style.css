@@ -64,6 +64,7 @@ html, body {
 div#navbar-wrapper {
   position: relative;
   width: 100%;
+  z-index: 6000;
 }
 
 div#navbar-container {
@@ -88,11 +89,7 @@ div#navbar-container {
   -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
   box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
   list-style: none;
-  z-index: 100220;
-}
-
-.navbar-dropdown > li {
-
+  z-index: 10004;
 }
 
 .navbar-dropdown > li > a {
@@ -113,11 +110,6 @@ div#navbar-container {
 
 div#navbar-header {
   position: relative;
-}
-
-div#navbar-header {
-  position: relative;
-  top: 20.3%;
   display: inline-block;
 }
 
@@ -148,10 +140,9 @@ div#navbar-header-title > h2 > a:hover {
 
 div#navbar-body {
   position: relative;
-  top: 20.3%;
-  left: 40%;
   display: inline-block;
   color: white;
+  right: -40%;
 }
 
 div#navbar-body-title {

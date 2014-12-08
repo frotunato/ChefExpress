@@ -50,27 +50,23 @@ angular.module('chefExpressApp', ['ngRoute', 'ngAnimate', 'chieffancypants.loadi
   .factory('TokenInterceptor', function ($q, $window, $location, UserAuth) {
     return {
       request: function (config) {
-        //$window.sessionStorage.token = 'amai';
-        console.log('[TOKEN INTERCEPTOR]', 'request');
         config.headers.authorization = $window.sessionStorage.token || {};
         return config;
       },
 
       requestError: function (rejection) {
-        console.log('[TOKEN INTERCEPTOR]', 'requestError');
         return $q.reject(rejection);
       },
       
       response: function (response) {
-        console.log('[TOKEN INTERCEPTOR]', 'response');
-        //if (response !== null && response.status === 200 && $window.sessionStorage.token) {
-        //}
+        if (response !== null && $window.sessionStorage.token && response.headers('authorization')) {
+          $window.sessionStorage.token = response.headers('authorization');
+        }
         return response || $q.when(response);
       },
 
       responseError: function (rejection) {
         if (rejection !== null && rejection.status === 401 && $window.sessionStorage.token !== undefined) {
-          console.log('[TOKEN INTERCEPTOR]', 'responseError');
           UserAuth.isLogged = false;
           delete $window.sessionStorage.token;
           $location.path('/login');
@@ -89,7 +85,7 @@ angular.module('chefExpressApp', ['ngRoute', 'ngAnimate', 'chieffancypants.loadi
       console.log('[APP.RUN ROUTE CHANGE START]', 'token', $window.sessionStorage.token);
       console.log('[APP.RUN ROUTE CHANGE START]', 'next route', nextRoute.templateUrl);
       console.log('[APP.RUN ROUTE CHANGE START]', 'user logged', UserAuth.isLogged);
-      if (nextRoute.protect && UserAuth.isLogged === false && $window.sessionStorage.token === undefined) {
+      if (nextRoute.protect && UserAuth.isLogged === false && !$window.sessionStorage.token) {
         $location.path('/login');
         console.log('route protected, user not logged in');
       }

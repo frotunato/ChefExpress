@@ -1,6 +1,7 @@
 var expressJwt = require('express-jwt');
 var jwt = require('jsonwebtoken');
 var secret = require('./secret.json').secret;
+var tokenExpiration = require('../config/config').token.expirationInMinutes;
 
 exports.login = function (req, res) {
   console.log(req.body);
@@ -10,7 +11,7 @@ exports.login = function (req, res) {
   var contraseña = req.body.password;
   
   if (r1 === usuario && r2 === contraseña) {
-    var token = jwt.sign({usuario: usuario}, secret, {expiresInMinutes: 1});
+    var token = jwt.sign({usuario: usuario}, secret, {expiresInMinutes: tokenExpiration});
     res.json({token: token});
     console.log(token, 'yay');
   } else {

@@ -6,16 +6,32 @@ var jshint = require('gulp-jshint');
 var order = require('gulp-order');
 
 gulp.task('production', function() {
-  gulp.src('client/app/**/*.js')
-    .pipe(jshint())
-    .pipe(jshint.reporter('default'))
-    .pipe(order(['client/app/app.js', 
+
+  gulp
+    .src(['client/bower_components/angular/angular.js', 
+      'client/bower_components/angular-route/angular-route.js', 
+      'client/bower_components/angular-animate/angular-animate.js',
+      'client/bower_components/angular-strap/dist/angular-strap.js',
+      'client/bower_components/angular-loading-bar/build/loading-bar.js',
+      'client/app/**/*.js',
+      'client/components/**/*.js'],
+      {base: './'})
+    
+    .pipe(order([
+      'client/bower_components/angular/angular.js', 
+      'client/bower_components/angular-route/angular-route.js', 
+      'client/bower_components/angular-animate/angular-animate.js',
+      'client/bower_components/angular-strap/dist/angular-strap.js',
+      'client/bower_components/angular-loading-bar/build/loading-bar.js',
+      'client/app/app.js', 
       'client/app/recetas/recetas.js', 
       'client/app/ingredientes/ingredientes.js', 
       'client/app/inicio/inicio.js', 
-      'client/app/login/login.js'], {base: './'}))
+      'client/app/login/login.js'],
+      {base: './'}))
+    
     .pipe(concat('app.js'))
     .pipe(ngAnnotate())
-    .pipe(uglify({mange: false}))
+    .pipe(uglify({mangle: false}))
     .pipe(gulp.dest('dist'));
-});
+ });

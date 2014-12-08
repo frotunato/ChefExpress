@@ -10,7 +10,7 @@ angular.module('chefExpressApp')
       body: {
         title: '',
         options: {
-          data: [{text: 'Nuevo ingrediente'}, {text: 'Nueva categoría'}]
+          data: [{text: 'Nuevo ingrediente', action: ''}, {text: 'Nueva categoría'}]
         }
       },
       user: {
