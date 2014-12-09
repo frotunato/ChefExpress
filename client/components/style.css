@@ -4,8 +4,17 @@ html, body {
   margin: 0;
 }
 
-.loadingContainer {
-  opacity: 0.4;
+.dropdownOptions {
+  width: inherit;
+  border: 1px solid #7F9DB9;
+  background: white;
+  border-radius: 1px;
+  list-style-type: none; 
+  text-align: left; 
+  position:absolute;
+  z-index: 10;
+  margin: 0;
+  padding: 0;
 }
 
 .enabled {
@@ -48,158 +57,220 @@ html, body {
   font-size: 12px;
 }
 
-.dropdownOptions {
-  width: inherit;
-  border: 1px solid #7F9DB9;
-  background: white;
-  border-radius: 1px;
-  list-style-type: none; 
-  text-align: left; 
-  position:absolute;
-  z-index: 10;
-  margin: 0;
-  padding: 0;
+#viewWrapper {
+
 }
 
-div#navbar-wrapper {
-  position: relative;
-  width: 100%;
-  z-index: 6000;
-}
 
-div#navbar-container {
-  position: relative;
-  border-bottom: 1px;
-  border-radius: 1px;
-  background: #2f2f2f;
-  height: 56px;
-  -webkit-transform-style: preserve-3d;
-  -moz-transform-style: preserve-3d;
-  transform-style: preserve-3d;
-}
+/* ########################## VIEW ######################## */
+  .loadingContainer {
+    opacity: 0.4;
+  }
+/* ######################################################## */
 
-.navbar-dropdown {
-  margin: 2px 0 0;
-  background-color: #fff;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
-  border: 1px solid #ccc;
-  border: 1px solid rgba(0, 0, 0, .15);
-  border-radius: 4px;
-  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
-  list-style: none;
-  z-index: 10004;
-}
+/* ######################## NAVBAR ######################## */
 
-.navbar-dropdown > li > a {
-  display: block;
-  clear: both;
-  font-weight: normal;
-  line-height: 1.42857143;
-  color: #333;
-  white-space: nowrap;
-}
+  /* ############################################# */
+  /* ################## WRAPPER ################## */
+  /* ############################################# */
 
-.navbar-dropdown > li > a:hover,
-.navbar-dropdown > li > a:focus {
-  color: #262626;
-  text-decoration: none;
-  background-color: #f5f5f5;
-}
+  #navbar-wrapper {
+    position: relative;
+    width: 100%;
+    z-index: 6000;
+  }
 
-div#navbar-header {
-  position: relative;
-  display: inline-block;
-}
+  #navbar-container {
+    position: relative;
+    border-bottom: 1px;
+    border-radius: 1px;
+    background: #2f2f2f;
+    height: 56px;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+  }
 
-div#navbar-header-options > div {
-  left: 20px;
-  top: -1px;
-  height: 100%
-}
+  /* ############################################# */
+  /* ################### HEADER ################## */
+  /* ############################################# */
+  
+  div#navbar-header {
+    position: relative;
+    display: inline-block;
+  }
 
-div#navbar-header-title {
-  position: relative;
-  left: 23px;
-}
+  div#navbar-header-options > div {
+    left: 20px;
+    top: -1px;
+    height: 100%
+  }
 
-div#navbar-header-title > h2 {
-  margin-top: 0;
-  margin-bottom: 0;
-}
+  div#navbar-header-title {
+    position: relative;
+    left: 23px;
+  }
 
-div#navbar-header-title > h2 > a {
-  color: white;
-  text-decoration: none;
-}
+  div#navbar-header-title > h2 {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
 
-div#navbar-header-title > h2 > a:hover {
-  color: #337ab7;
-}
+  div#navbar-header-title > h2 > a {
+    color: white;
+    text-decoration: none;
+  }
 
-div#navbar-body {
-  position: relative;
-  display: inline-block;
-  color: white;
-  right: -40%;
-}
+  div#navbar-header-title > h2 > a:hover {
+    color: #337ab7;
+  }
 
-div#navbar-body-title {
-  display: inline-block;
-}
+  /* ############################################# */
+  /* #################### BODY ################### */
+  /* ############################################# */
+  
+  #navbar-body {
+    position: relative;
+    display: inline-block;
+    color: white;
+    right: -40%;
+  }
 
-div#navbar-body-options {
-  display: inline-block;
-  font-size: 1.5em;
-}
+  #navbar-body-title {
+    display: inline-block;
+  }
 
-div#navbar-body-options > div {
-  position: absolute;
-  z-index: 100220;
-  top: 20%;
-  height: 100%;
-  padding-left: 4px;
-}
+  #navbar-body-options {
+    display: inline-block;
+    font-size: 1.5em;
+  }
 
-div.navbar-links-dropdown {
-  cursor: pointer;
-  position: absolute;
-  left: 105%;
-  font-size: 1.5em;
-  top: 20.3%;
-  width: 20px;
-  height: 100%;
-  color: white;
-}
+  #navbar-body-options > div {
+    position: absolute;
+    z-index: 100220;
+    top: 20%;
+    height: 100%;
+    padding-left: 4px;
+  }
+  
+  /* ############################################# */
+  /* ################## DROPDOWN ################# */
+  /* ############################################# */
+  
+  .navbar-dropdown {
+    margin: 2px 0 0;
+    background-color: #fff;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, .15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+    list-style: none;
+    z-index: 10004;
+  }
 
-div.navbar-links-dropdown:hover {
-  color: #337ab7;
-}
+  .navbar-dropdown > li > a {
+    display: block;
+    clear: both;
+    font-weight: normal;
+    line-height: 1.42857143;
+    color: #333;
+    white-space: nowrap;
+  }
 
-div.navbar-links-dropdown > div > div {   position: absolute;   min-width:
-121px;   padding-top: 4px;   padding-bottom: 4px;   margin-top: 10px;   font-
-size: 15px;   margin-left: -55px;   background-color: #fff;   border: 1px
-solid #ccc;   border: 1px solid rgba(0,0,0,.15);   border-radius: 4px;
--webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);   box-shadow: 0 6px 12px
-rgba(0, 0, 0, .175); }
+  .navbar-dropdown > li > a:hover,
+  .navbar-dropdown > li > a:focus {
+    color: #262626;
+    text-decoration: none;
+    background-color: #f5f5f5;
+  }
 
-div.navbar-links-dropdown > div > div > div:focus,
-div.navbar-links-dropdown > div > div > div:hover {
-  color: #262626;
-  text-decoration: none;
-  background-color: #f5f5f5;
-  cursor: pointer;
-}
+  div.navbar-links-dropdown {
+    cursor: pointer;
+    position: absolute;
+    left: 105%;
+    font-size: 1.5em;
+    top: 20.3%;
+    width: 20px;
+    height: 100%;
+    color: white;
+  }
 
-div.navbar-links-dropdown > div > div > div > a {
-  text-decoration: none;
-  padding: 3px 20px;
-  display: block;
-  color: black;
-  font-size: 16px;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
+  div.navbar-links-dropdown:hover {
+    color: #337ab7;
+  }
+
+  div.navbar-links-dropdown > div > div {   position: absolute;   min-width:
+  121px;   padding-top: 4px;   padding-bottom: 4px;   margin-top: 10px;   font-
+  size: 15px;   margin-left: -55px;   background-color: #fff;   border: 1px
+  solid #ccc;   border: 1px solid rgba(0,0,0,.15);   border-radius: 4px;
+  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);   box-shadow: 0 6px 12px
+  rgba(0, 0, 0, .175); }
+
+  div.navbar-links-dropdown > div > div > div:focus,
+  div.navbar-links-dropdown > div > div > div:hover {
+    color: #262626;
+    text-decoration: none;
+    background-color: #f5f5f5;
+    cursor: pointer;
+  }
+
+  div.navbar-links-dropdown > div > div > div > a {
+    text-decoration: none;
+    padding: 3px 20px;
+    display: block;
+    color: black;
+    font-size: 16px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+ 
+  /* ############################################# */
+
+/* ######################################################## */
+
+
+
+
+/* ###################### MENU INICIO ##################### */
+
+  /* ############################################# */
+  /* ################## WRAPPER ################## */
+  /* ############################################# */
+
+  #wrapper-menu-inicio {
+    
+  }
+
+  .menu-inicio {
+    position: absolute;
+    top: 20%;
+    left: 30%;
+    width: 45%;
+  }
+  
+  /* ############################################# */
+  /* ################# OPCIONES ################## */
+  /* ############################################# */
+  
+  .opcion-inicio:hover {
+    background: #f5f5f5;
+    cursor: pointer;
+  }
+
+  .opcion-inicio {
+  }
+
+  .opcion-inicio > div > span.glyphicon-chevron-right {
+    font-size: 2.5vw;
+    left: 95%;
+  }
+  
+  /* ############################################# */
+
+/* ######################################################## */
+
 
 .table-input {
   height: 20px;
@@ -216,26 +287,7 @@ div.navbar-links-dropdown > div > div > div > a {
   transform: translate(-50%, -50%);
 }
 
-.menu-inicio {
-  position: absolute;
-  top: 20%;
-  left: 30%;
-  width: 45%;
-}
 
-#wrapper-menu-inicio {
-  
-}
 
-.opcion-inicio:hover {
-  background: #f5f5f5;
-  cursor: pointer;
-}
 
-.opcion-inicio {
-}
 
-.opcion-inicio > div > span.glyphicon-chevron-right {
-  font-size: 2.5vw;
-  left: 95%;
-}

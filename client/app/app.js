@@ -60,6 +60,10 @@ angular.module('chefExpressApp', ['ngRoute', 'ngAnimate', 'chieffancypants.loadi
       
       response: function (response) {
         if (response !== null && $window.sessionStorage.token && response.headers('authorization')) {
+          console.groupCollapsed('%cAPP.TOKEN_INTERCEPTOR -> TOKEN REFRESHED', 'background: #222; color: #bada55;');
+          console.log('%cOLD TOKEN -> %c' + $window.sessionStorage.token, 'font-weight: bold', '');
+          console.log('%cNEW TOKEN -> %c' + response.headers('authorization'), 'font-weight: bold', '');
+          console.groupEnd('APP.TOKEN_INTERCEPTOR -> TOKEN REFRESHED');
           $window.sessionStorage.token = response.headers('authorization');
         }
         return response || $q.when(response);
@@ -82,12 +86,13 @@ angular.module('chefExpressApp', ['ngRoute', 'ngAnimate', 'chieffancypants.loadi
     }
 
     $rootScope.$on('$routeChangeStart', function (event, nextRoute, prevRoute) {
-      console.log('[APP.RUN ROUTE CHANGE START]', 'token', $window.sessionStorage.token);
-      console.log('[APP.RUN ROUTE CHANGE START]', 'next route', nextRoute.templateUrl);
-      console.log('[APP.RUN ROUTE CHANGE START]', 'user logged', UserAuth.isLogged);
+      console.groupCollapsed('%cAPP.RUN -> ROUTE CHANGE START', 'background: #222; color: #bada55;');
+      console.log('%cTOKEN -> %c' + $window.sessionStorage.token, 'font-weight: bold', '');
+      console.log('%cLOGGIN STATUS -> %c' + UserAuth.isLogged, 'font-weight: bold', UserAuth.isLogged ? 'color: green;' : 'color: red;');
+      console.groupEnd('APP.RUN -> ROUTE CHANGE START');
       if (nextRoute.protect && UserAuth.isLogged === false && !$window.sessionStorage.token) {
         $location.path('/login');
-        console.log('route protected, user not logged in');
+        console.error('Route protected, user not logged in');
       }
     });
   });

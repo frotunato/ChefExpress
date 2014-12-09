@@ -19,10 +19,7 @@ angular.module('chefExpressApp.inicio')
         '  </ul>' +
         '</div>',
       link: function (scope, element, attr) {
-        console.log(scope.opciones);
-        
         scope.load = function (option) {
-          console.log($location.path());
           $location.path(option);
         };
       }

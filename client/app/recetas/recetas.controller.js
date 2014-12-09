@@ -1,7 +1,6 @@
 angular.module('chefExpressApp.recetas')
 
   .controller('recetasMainCtrl', function ($scope, $location, recetasAPI, initialData, ingredientesAPI) {
-    console.log(initialData);
     $scope.data = {
       recetas: initialData.recetas.data,
       totalRecetas: initialData.recetas.total,

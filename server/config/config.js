@@ -1,5 +1,9 @@
 var env = process.env.NODE_ENV = 'development';
+var fs = require('fs');
 var path = require('path');
+var key = fs.readFileSync('cert/key.pem');
+var cert = fs.readFileSync('cert/cert.pem');
+
 var config = {
 	ip: process.env.IP,
 	root: path.normalize(__dirname + '/../..'),
@@ -10,6 +14,10 @@ var config = {
     expirationInMinutes: 2,
     refresh: true,
     refreshThresholdInMs: 1000 * 60 
+  },
+  httpsOptions: {
+    key: key,
+    cert: cert
   }
 };
 

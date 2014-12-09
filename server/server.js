@@ -1,10 +1,13 @@
 var express = require('express');
 var mongoose = require('mongoose');
-
-var config = require('./config/config.js');
-
+var config = require('./config/config');
+var options = require('./config/config').httpsOptions;
 var app = express();
+//https
+//var server = require('https').createServer(options, app);
+
 var server = require('http').createServer(app);
+
 //var socketio = require('socket.io')(server);
 
 require('./config/express')(app);

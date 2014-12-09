@@ -23,6 +23,7 @@
 		"gulp-order": "latest",
 		"gulp-ng-annotate": "latest",
 		"gulp-jshint": "latest",
-		"gulp-concat": "latest"
+		"gulp-concat": "latest",
+		"gulp-strip-debug": "latest"
 	}
 }

@@ -52,9 +52,7 @@ angular.module('chefExpressApp')
           }
         };
 
-        console.log('[NAVBAR.LINK] navbar.options.data', scope.navbar.header.options.data);
-
-        var originalLinks = scope.navbar.header.options.data;
+          var originalLinks = scope.navbar.header.options.data;
 
         var getRouteLinks = function () {
           return originalLinks.filter(function (element) {
@@ -63,7 +61,6 @@ angular.module('chefExpressApp')
         };
 
         $rootScope.$on('$routeChangeStart', function (event, next, current) {
-          console.log('ELEMENT', getRouteLinks());
           if (next.$$route.originalPath === scope.navbar.header.title.link.substring(1)) {
             scope.navbar.showHeader = false;
           } else {
@@ -110,7 +107,6 @@ angular.module('chefExpressApp')
         };
         var handler = function () {
           toggle();
-          console.log('[NAVBAR.DROPDOWN] options', scope.isVisible);
         };
 
         element.bind('mouseenter', handler);
