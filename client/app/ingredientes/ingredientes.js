@@ -1,4 +1,8 @@
-angular.module('chefExpressApp.ingredientes', ['ngRoute', 'chefExpressApp.inicio','angularUtils.directives.dirPagination', 'mgcrea.ngStrap'])
+angular.module('chefExpressApp.ingredientes', 
+  ['ngRoute', 
+  'chefExpressApp.inicio',
+  'angularUtils.directives.dirPagination', 
+  'mgcrea.ngStrap'])
 	
   .config(function ($routeProvider) {
     $routeProvider

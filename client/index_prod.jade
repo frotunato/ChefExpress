@@ -6,7 +6,7 @@ html(ng-app="chefExpressApp")
     link(rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css")
     link(rel="stylesheet" href="components/style.css")
     link(rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css")
-    script(defer src="app.js")
+    script(async src="app.js")
   body
     div(id="navbar-wrapper" ng-controller="navbarAppCtrl")
       navbar(ng-if="isLogged" navbar-base="#/inicio" navbar-options-triggers="['click', 'hover']" navbar-header-title="ChefExpress")

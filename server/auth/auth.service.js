@@ -20,7 +20,6 @@ module.exports = function () {
     jwt.verify(req.headers.authorization, secret, function (err, decoded) {
       console.log('[AUTH.SERVICE] decoded', decoded, req.headers.authorization);
       if (err) {
-        console.log('ERRORRRRRRRRRRRRRR');
         res.status(401).json({msg: 'token expired'});
       } else {
         //decoded.iat = Date.now() / 1000;

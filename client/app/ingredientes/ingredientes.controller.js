@@ -1,7 +1,29 @@
 angular.module('chefExpressApp.ingredientes')
 	
-	.controller('ingredientesMainCtrl', function ($scope, $modal, Navbar, initialData, ingredientesAPI, alergenosIngredienteAPI, familiasIngredienteAPI) {
-    Navbar.area = 'Ingredientes';
+	.controller('ingredientesMainCtrl', function ($scope, $rootScope, $modal, Navbar, initialData, ingredientesAPI, alergenosIngredienteAPI, familiasIngredienteAPI) {
+
+    Navbar.header = {
+      title: {
+        text: 'Ingredientes',
+        action: '#/inicio'
+      },
+      options: {
+        triggers: ['click'],
+        data: [{text: 'Recetas', action: '#/ingredientes'}]
+      }
+    };
+
+    Navbar.body = {
+      title: '',
+      options: {
+        data: 
+          [{text: 'Nuevo', action: function () { return $scope.modal.show(); }}, 
+          {text: 'Nuevo', action: function () { return $scope.modal.show(); }},
+          {text: 'Nuevo', action: function () { return $scope.modal.show(); }} 
+        ]}
+    };
+    
+    $rootScope.$broadcast("NavbarChange");
 
     $scope.data = {
       ingredientes: initialData.ingredientes.data,
@@ -105,7 +127,7 @@ angular.module('chefExpressApp.ingredientes')
           $scope.table.pagination.getResultsPage($scope.table.pagination.page);
         });
         this.hide();
-        }
+      }
     };
   
   });

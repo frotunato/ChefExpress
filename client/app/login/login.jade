@@ -1,11 +1,10 @@
 div(id="wrapper" class="popup")
   h2(class="text-center") ChefExpress
-  form(ng-submit="login()" role="form")
+  form(role="form")
     p
       input(required class="form-control input-lg" placeholder="Usuario" id="usuario" type="text" ng-model="credenciales.usuario")
     p
       input(required class="form-control input-lg" placeholder="Contraseña" id="contraseña" type="password" ng-model="credenciales.password")
-    button(type="submit" class="btn btn-primary" style="width:100%") 
-      b.
-        Iniciar sesión
+    button(type="submit" ng-click="login()" class="btn btn-primary" style="width:100%") 
+      span Iniciar sesión
       span(class="glyphicon glyphicon-log-in" style="left:3%")

@@ -61,18 +61,74 @@ html, body {
 
 }
 
-
+/* ######################################################## */
 /* ########################## VIEW ######################## */
+/* ######################################################## */
+  
+  /* ######################## WRAPPER ####################### */
+
   .loadingContainer {
     opacity: 0.4;
+    pointer-events: none;
   }
+
+  #viewWrapper {
+  }
+
+  /* ######################################################## */
+
+
+  /* ######################################################## */
+  /* ###################### MENU INICIO ##################### */
+  /* ######################################################## */
+
+    /* ################## WRAPPER ################## */
+
+    #wrapper-menu-inicio {
+      
+    }
+
+    #menu-inicio {
+      position: absolute;
+      top: 20%;
+      left: 0px;
+      bottom: 0px;
+      right: 0px;
+      width: 35%;
+      margin: auto;
+      padding: 0;
+      
+    }
+    
+    /* ################# OPCIONES ################## */
+    
+    .opcion-inicio {
+      background: #2f2f2f;
+      color: white;
+      font-size: 2em;
+    }
+
+    .opcion-inicio:hover {
+      color: #337ab7;
+      cursor: pointer;
+    }
+
+
+    .opcion-inicio > div > span.glyphicon-chevron-right {
+      font-size: 2.5vw;
+      left: 95%;
+      margin: 20px;
+    }
+    
+    /* ############################################# */
+
 /* ######################################################## */
 
+/* ######################################################## */
 /* ######################## NAVBAR ######################## */
+/* ######################################################## */
 
-  /* ############################################# */
   /* ################## WRAPPER ################## */
-  /* ############################################# */
 
   #navbar-wrapper {
     position: relative;
@@ -90,72 +146,63 @@ html, body {
     -moz-transform-style: preserve-3d;
     transform-style: preserve-3d;
   }
-
-  /* ############################################# */
-  /* ################### HEADER ################## */
-  /* ############################################# */
   
-  div#navbar-header {
+  /* ################### HEADER ################## */
+  
+  #navbar-header {
     position: relative;
     display: inline-block;
   }
-
-  div#navbar-header-options > div {
-    left: 20px;
-    top: -1px;
-    height: 100%
+  
+  #navbar-header-options {
+    display: inline-block;
+    padding-bottom: 5%;
+  }
+  
+  #navbar-header-options > div {
+    height: 100%;
+    display: inline-block;
   }
 
-  div#navbar-header-title {
+  #navbar-header-title {
     position: relative;
-    left: 23px;
+    padding-left: 5px;
+    display: inline-block;
   }
 
-  div#navbar-header-title > h2 {
-    margin-top: 0;
-    margin-bottom: 0;
-  }
-
-  div#navbar-header-title > h2 > a {
+  #navbar-header-title > h3 > a {
     color: white;
     text-decoration: none;
   }
 
-  div#navbar-header-title > h2 > a:hover {
+  #navbar-header-title > h3 > a:hover {
     color: #337ab7;
   }
 
-  /* ############################################# */
   /* #################### BODY ################### */
-  /* ############################################# */
   
   #navbar-body {
     position: relative;
     display: inline-block;
-    color: white;
     right: -40%;
   }
 
   #navbar-body-title {
     display: inline-block;
+    color: white;
   }
 
   #navbar-body-options {
     display: inline-block;
-    font-size: 1.5em;
+    padding-bottom: 5%;
   }
 
   #navbar-body-options > div {
-    position: absolute;
-    z-index: 100220;
-    top: 20%;
+    z-index: 10000;
     height: 100%;
-    padding-left: 4px;
   }
   
-  /* ############################################# */
   /* ################## DROPDOWN ################# */
-  /* ############################################# */
   
   .navbar-dropdown {
     margin: 2px 0 0;
@@ -189,11 +236,8 @@ html, body {
 
   div.navbar-links-dropdown {
     cursor: pointer;
-    position: absolute;
-    left: 105%;
+    position: relative;
     font-size: 1.5em;
-    top: 20.3%;
-    width: 20px;
     height: 100%;
     color: white;
   }
@@ -228,50 +272,6 @@ html, body {
  
   /* ############################################# */
 
-/* ######################################################## */
-
-
-
-
-/* ###################### MENU INICIO ##################### */
-
-  /* ############################################# */
-  /* ################## WRAPPER ################## */
-  /* ############################################# */
-
-  #wrapper-menu-inicio {
-    
-  }
-
-  .menu-inicio {
-    position: absolute;
-    top: 20%;
-    left: 30%;
-    width: 45%;
-  }
-  
-  /* ############################################# */
-  /* ################# OPCIONES ################## */
-  /* ############################################# */
-  
-  .opcion-inicio:hover {
-    background: #f5f5f5;
-    cursor: pointer;
-  }
-
-  .opcion-inicio {
-  }
-
-  .opcion-inicio > div > span.glyphicon-chevron-right {
-    font-size: 2.5vw;
-    left: 95%;
-  }
-  
-  /* ############################################# */
-
-/* ######################################################## */
-
-
 .table-input {
   height: 20px;
   padding: 0px 0px;
@@ -287,7 +287,71 @@ html, body {
   transform: translate(-50%, -50%);
 }
 
+.selectedRow,
+.selectedRow:active {
+  background-color: #337ab7 !important;
+  color: white;
+}
+
+.selectedRow:hover {
+  background-color: #5C95C5 !important;
+}
+
+.rowSelector {
+  cursor: pointer;
+}
 
 
+/*
+table {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    height: 500px; 
+}
 
+table * {
+    box-sizing: inherit;
+    -moz-box-sizing: inherit;
+}
 
+thead {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    overflow-y: scroll;
+}
+
+tbody {
+    overflow-y: scroll;
+    display: inline-block;
+}
+
+thead > tr, tbody > tr, tfoot > tr {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+thead, tfoot {
+    flex-shrink: 0;
+}
+
+th, tbody td {
+    width: 20%;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+}
+
+tfoot {
+    display: inline-block;
+}
+
+tfoot td {
+    width: 100%;
+    display: inline-block;
+}
+*/

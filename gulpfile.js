@@ -4,6 +4,7 @@ var uglify = require('gulp-uglify');
 var ngAnnotate = require('gulp-ng-annotate');
 var jshint = require('gulp-jshint');
 var order = require('gulp-order');
+var stripDebug = require("gulp-strip-debug");
 
 gulp.task('production', function() {
 
@@ -30,6 +31,7 @@ gulp.task('production', function() {
       'client/app/login/login.js'],
       {base: './'}))
     
+    .pipe(stripDebug())
     .pipe(concat('app.js'))
     .pipe(ngAnnotate())
     .pipe(uglify({mangle: false}))

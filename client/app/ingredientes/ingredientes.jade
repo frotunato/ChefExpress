@@ -1,46 +1,53 @@
 table(class="table table-hover table-condensed table-bordered")
   thead
     tr
-      th(class="text-center" colspan="7") Información
-      th(class="text-center" colspan="6") Composición
-        button(class="btn btn-primary btn-xs" ng-click="modal.show()") Nuevo
-    th(class="text-center col-md-2")
-      p
+      th
+      th(class="text-center")
         a(href="" ng-click="table.sorting.sort('nombre')") Nombre
-      input(type="text" placeholder="Introduce un nombre para filtrar" ng-change="table.filtering.filter()" class="form-control table-input" ng-model="table.filtering.value.nombre" ng-model-options="{debounce: 150}")
-    th(class="text-center col-md-2")
-      p
-        a(href="" ng-click="table.sorting.sort('familia')") Familia
-      select(class="form-control table-input" ng-change="table.filtering.filter()" ng-options="familia._id as familia.nombre for familia in data.familias" ng-model="table.filtering.value.familia")
-        option(selected value="") Todas  
-    th(class="text-center") Un
-    th(class="text-center") P
-    th(class="text-center") % Cons
-    th(class="text-center") Conv kg
-    th(class="text-center")
-      a(href="" ng-click="table.sorting.sort('precio')") Precio    
-    th(class="text-center")
-      a(href="" ng-click="table.sorting.sort('calorias')") Calorías    
-    th(class="text-center")
-      a(href="" ng-click="table.sorting.sort('carbohidratos')") C.Hidratos    
-    th(class="text-center")
-      a(href="" ng-click="table.sorting.sort('proteinas')") Proteínas    
-    th(class="text-center")
-      a(href="" ng-click="table.sorting.sort('grasas')") Grasas    
-    th(class="text-center")
-      p
-        a(href="" ng-click="table.sorting.sort('alergeno')") Alérgenos
-      select(class="form-control table-input" ng-change="table.filtering.filter()" ng-options="alergeno._id as alergeno.nombre for alergeno in data.alergenos" ng-model="table.filtering.value.alergenos")
-        option(value="") Todos
-    th(class="text-center")
-      p
-        a(href="" ng-click="table.sorting.sort('intolerancia')") Intolerancias
-      select(class="form-control table-input" ng-change="table.filtering.filter()" ng-options="intolerancia._id as intolerancia.nombre for intolerancia in data.intolerancias" ng-model="table.filtering.value.intolerancias")
-        option(value="") Todos
-
-  tbody
-    tr(dir-paginate="ingrediente in data.ingredientes | itemsPerPage: table.pagination.max track by ingrediente._id" total-items="data.totalIngredientes")     
+        input(type="text" placeholder="Filtrar" ng-change="table.filtering.filter()" class="form-control table-input" ng-model="table.filtering.value.nombre" ng-model-options="{debounce: 150}")
       
+      th(class="text-center")
+        a(href="" ng-click="table.sorting.sort('familia')") Familia
+        select(class="form-control table-input" ng-change="table.filtering.filter()" ng-options="familia._id as familia.nombre for familia in data.familias" ng-model="table.filtering.value.familia")
+          option(selected value="") Todas  
+      
+      th(class="text-center") Un
+      
+      th(class="text-center") P
+      
+      th(class="text-center") % Cons
+      
+      th(class="text-center") Conv kg
+      
+      th(class="text-center")
+        a(href="" ng-click="table.sorting.sort('precio')") Precio    
+      
+      th(class="text-center")
+        a(href="" ng-click="table.sorting.sort('calorias')") Calorías    
+      
+      th(class="text-center")
+        a(href="" ng-click="table.sorting.sort('carbohidratos')") C.Hidratos    
+      
+      th(class="text-center")
+        a(href="" ng-click="table.sorting.sort('proteinas')") Proteínas    
+      
+      th(class="text-center")
+        a(href="" ng-click="table.sorting.sort('grasas')") Grasas    
+      
+      th(class="text-center")
+        a(href="" ng-click="table.sorting.sort('alergeno')") Alérgenos
+        select(class="form-control table-input" ng-change="table.filtering.filter()" ng-options="alergeno._id as alergeno.nombre for alergeno in data.alergenos" ng-model="table.filtering.value.alergenos")
+          option(value="") Todos
+      th(class="text-center")
+        a(href="" ng-click="table.sorting.sort('intolerancia')") Intolerancias
+        select(class="form-control table-input" ng-change="table.filtering.filter()" ng-options="intolerancia._id as intolerancia.nombre for intolerancia in data.intolerancias" ng-model="table.filtering.value.intolerancias")
+          option(value="") Todos
+  tbody
+    tr(ng-class="{'selectedRow': isRowSelected}" ng-init="isRowSelected = false" dir-paginate="ingrediente in data.ingredientes | itemsPerPage: table.pagination.max track by ingrediente._id" total-items="data.totalIngredientes")     
+      
+      td(row-selector class="text-center rowSelector" ng-click="aae(ingrediente._id); selectedRow = true") 
+        | &#9632;
+
       td(ng-click="ingrediente.$editNombre = true")
         span(ng-if="!ingrediente.$editNombre") {{::ingrediente.nombre}}
         div(ng-if="ingrediente.$editNombre")
@@ -167,3 +174,4 @@ table(class="table table-hover table-condensed table-bordered")
           multiselector(selector-data="data.intolerancias" selector-model="ingrediente.intolerancias" selector-on-blur="ingrediente.$editIntolerancias = false;" selector-on-change="crudIngrediente.update($parent.ingrediente._id, {intolerancias: ingrediente.intolerancias})" track-by="_id")
 div(class="text-center")
   dir-pagination-controls(on-page-change="table.pagination.getResultsPage(newPageNumber)")
+

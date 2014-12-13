@@ -11,7 +11,8 @@
     "bootstrap": "latest"
   },
   "resolutions": {
-    "angular": "1.3.4",
-    "bootstrap": "latest"
+    "angular": "^1.2",
+    "bootstrap": "latest",
+    "jquery": "2.1.1"
   }
 }

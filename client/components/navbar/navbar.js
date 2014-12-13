@@ -3,26 +3,28 @@ angular.module('chefExpressApp')
   .directive('navbar', function ($route, $location, $rootScope, Navbar, $parse, $dropdown) {
     return {
       restrict: 'E',
+      replace: true,
       scope: {
         navbarHeaderTitle: '@',
         navbarBase: '@',
         navbarOptionsTriggers: '='
       },
       template:
-        '<div id="navbar-container" class="row">' +
+        '<div id="navbar-container">' +
         '  <div id="navbar-header">' +
         '    <div id="navbar-header-title">' +
-        '      <h2>' +
+        '      <h3>' +
         '        <a type="button" ng-href="{{navbar.header.title.link}}"> {{navbar.header.title.text}} </a>' +
-        '      </h2>' +
+        '      </h3>' +
         '    </div>' +
         '    <div id="navbar-header-options" ng-if="navbar.showHeader" class="navbar-links-dropdown">' +
         '      <div class="glyphicon glyphicon-th-list" navbar-dropdown="navbar.header.options"></div>' +
         '    </div>' +
         '  </div>' +
         '  <div id="navbar-body">' +
+        //'    <div id="navbar-body-title">' +
         '    <div id="navbar-body-title">' +
-        '      <h3 class="text-center"> {{navbar.body.title | navbarRouteFilter}} </h3>' +
+        '      <h3 class="text-center" ng-click="bodyOption.action()" ng-repeat="bodyOption in navbar.body.options.data"> {{bodyOption.text}} </h3>' +
         '    </div>' +
         '    <div id="navbar-body-options" class="navbar-links-dropdown">' +
         '      <div class="glyphicon glyphicon-th" navbar-dropdown="navbar.body.options"></div>' +
@@ -30,35 +32,39 @@ angular.module('chefExpressApp')
         '  </div>' +
         '</div>',
       link: function (scope, element, attrs) {
-        
         scope.navbar = {
-          header: {
-            title: {
-              text: '' || scope.navbarHeaderTitle,
-              link: '' || scope.navbarBase 
-            },
-            options: {
-              triggers: ['click'] || scope.navbarOptionsTriggers,
-              data: Navbar.header.options.data
-            }
-          },
-          body: {
-            title: Navbar.body.title,
-            options: Navbar.body.options
-          },
-          dropdown: {
-            triggers: ['click', 'hover'],
-            options: [{text: 'Ingredientes', action: null}, {text: 'Recetas', action: null}, {text: 'link3', action: null}]
-          }
+         
         };
-
-          var originalLinks = scope.navbar.header.options.data;
 
         var getRouteLinks = function () {
           return originalLinks.filter(function (element) {
             return element.text.indexOf($location.path()) === -1;
           });
         };
+        
+        $rootScope.$on('NavbarChange', function (event, next, current) {
+          scope.navbar = {
+            header: {
+              title: {
+                text: Navbar.header.title.text || 'ChefExpress',
+                action: Navbar.header.title.action || angular.noop()
+              },
+              options: {
+                triggers: Navbar.header.options.triggers || ['click'],
+                data: Navbar.header.options.data || []
+              }
+            },
+            body: {
+              title: Navbar.body.title,
+              options: Navbar.body.options
+            }
+          };
+        });
+        
+        /*
+        $rootScope.$on('$viewContentLoaded', function () {
+          console.log(Navbar, 'loadeed');
+        });
 
         $rootScope.$on('$routeChangeStart', function (event, next, current) {
           if (next.$$route.originalPath === scope.navbar.header.title.link.substring(1)) {
@@ -69,15 +75,18 @@ angular.module('chefExpressApp')
           }
           scope.navbar.body.title = next.$$route.originalPath;
         });
+        */
       
       }
     };
   })
 
-  .filter('navbarRouteFilter', function ($compile) {
+  .filter('navbarRouteFilter', function () {
     return function (input) {
-      var res = input.replace('/', '').replace('#', '').replace(/([a-z])([A-Z])/g, '$1 $2');
-      return res.charAt(0).toUpperCase() + res.substring(1);
+      if (input) {
+        var res = input.replace('/', '').replace('#', '').replace(/([a-z])([A-Z])/g, '$1 $2');
+        return res.charAt(0).toUpperCase() + res.substring(1);
+      }
     };
   })
 
@@ -88,29 +97,28 @@ angular.module('chefExpressApp')
       scope: {
         navbarDropdown: '=navbarDropdown'
       },
-      template: 
+      template:
         '<div ng-if="isVisible" class="">' +
         '  <div ng-repeat="option in navbarDropdown.data">' +
-        '    <a ng-href="{{option.link}}"> {{option.text}} </a>' +
+        '    <a ng-if="!option.divisor" ng-click="option.action()"> {{option.text}} </a>' +
         '  </div>' +
         '</div>',
       link: function (scope, element, attrs) {
         scope.isVisible = false;
-        
-        scope.load = function (link) {
-          window.alert(link);
-        };
 
         var toggle = function () {
           scope.isVisible = !scope.isVisible;
           scope.$digest();
         };
+        
         var handler = function () {
           toggle();
+          console.log(scope.navbarDropdown);
+          element.children().bind('mouseenter', prueba);
         };
 
-        element.bind('mouseenter', handler);
-        element.bind('mouseleave', handler);
+        element.parent().bind('mouseenter', handler);
+        element.parent().bind('mouseleave', handler);
       }
     };
   });

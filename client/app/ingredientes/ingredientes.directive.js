@@ -123,4 +123,31 @@ angular.module('chefExpressApp.ingredientes')
         };
       }
     };
+  })
+
+  .directive('stRatio',function(){
+    return {
+      link:function(scope, element, attr){
+        var ratio=+(attr.stRatio);
+        
+        element.css('width',ratio+'%');
+        
+      }
+    };
+  })
+
+
+  .directive('rowSelector', function () {
+    return {
+      restrict: 'A',
+      scope: {
+        rowOnSelect: '='
+      },
+      link: function (scope, element, attrs) {
+        element.bind('click', function () {
+          scope.$parent.isRowSelected = !scope.$parent.isRowSelected;
+          console.log(scope.$parent.isRowSelected);
+        });
+      }
+    };
   });
