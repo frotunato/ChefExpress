@@ -144,9 +144,20 @@ angular.module('chefExpressApp.ingredientes')
         rowOnSelect: '='
       },
       link: function (scope, element, attrs) {
+        
+        var toggleValue = function (value) {
+          var pos = scope.$parent.$parent.selectedItems.indexOf(value);
+          if (pos === -1) {
+            scope.$parent.$parent.selectedItems.push(value);
+          } else {
+            scope.$parent.$parent.selectedItems.splice(pos, 1);
+          }
+        };
+
         element.bind('click', function () {
           scope.$parent.isRowSelected = !scope.$parent.isRowSelected;
-          console.log(scope.$parent.isRowSelected);
+          toggleValue(scope.$parent.ingrediente._id);
+          console.log(scope.$parent.$parent.selectedItems);
         });
       }
     };

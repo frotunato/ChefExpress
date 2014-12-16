@@ -17,18 +17,14 @@ angular.module('chefExpressApp')
         '        <a type="button" ng-href="{{navbar.header.title.link}}"> {{navbar.header.title.text}} </a>' +
         '      </h3>' +
         '    </div>' +
-        '    <div id="navbar-header-options" ng-if="navbar.showHeader" class="navbar-links-dropdown">' +
-        '      <div class="glyphicon glyphicon-th-list" navbar-dropdown="navbar.header.options"></div>' +
-        '    </div>' +
+        '    <div navbar-dropdown="navbar.header.options" id="navbar-header-options" class="glyphicon glyphicon-th-list navbar-icon-dropdown" ng-if="navbar.showHeader"></div>' +
         '  </div>' +
         '  <div id="navbar-body">' +
         //'    <div id="navbar-body-title">' +
         '    <div id="navbar-body-title">' +
-        '      <h3 class="text-center" ng-click="bodyOption.action()" ng-repeat="bodyOption in navbar.body.options.data"> {{bodyOption.text}} </h3>' +
+        '      <h3 class="text-center navbar-selectable" ng-click="bodyOption.action()" ng-repeat="bodyOption in navbar.body.options.data"> {{bodyOption.text}} </h3>' +
         '    </div>' +
-        '    <div id="navbar-body-options" class="navbar-links-dropdown">' +
-        '      <div class="glyphicon glyphicon-th" navbar-dropdown="navbar.body.options"></div>' +
-        '    </div>' +
+        '    <div navbar-dropdown="navbar.body.options" id="navbar-body-options" class="glyphicon glyphicon-th navbar-icon-dropdown"></div>' +
         '  </div>' +
         '</div>',
       link: function (scope, element, attrs) {
@@ -98,7 +94,7 @@ angular.module('chefExpressApp')
         navbarDropdown: '=navbarDropdown'
       },
       template:
-        '<div ng-if="isVisible" class="">' +
+        '<div ng-if="isVisible" class="navbar-dropdown">' +
         '  <div ng-repeat="option in navbarDropdown.data">' +
         '    <a ng-if="!option.divisor" ng-click="option.action()"> {{option.text}} </a>' +
         '  </div>' +
@@ -110,15 +106,9 @@ angular.module('chefExpressApp')
           scope.isVisible = !scope.isVisible;
           scope.$digest();
         };
-        
-        var handler = function () {
-          toggle();
-          console.log(scope.navbarDropdown);
-          element.children().bind('mouseenter', prueba);
-        };
 
-        element.parent().bind('mouseenter', handler);
-        element.parent().bind('mouseleave', handler);
+        element.bind('mouseenter', toggle);
+        element.bind('mouseleave', toggle);
       }
     };
   });

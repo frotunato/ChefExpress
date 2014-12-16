@@ -18,12 +18,22 @@ angular.module('chefExpressApp.ingredientes')
       options: {
         data: 
           [{text: 'Nuevo', action: function () { return $scope.modal.show(); }}, 
-          {text: 'Nuevo', action: function () { return $scope.modal.show(); }},
-          {text: 'Nuevo', action: function () { return $scope.modal.show(); }} 
+          {text: 'Borrar', action: function () { return $scope.borrar(); }},
+          {text: 'Rehacer', action: function () { return $scope.modal.show(); }} 
         ]}
     };
     
     $rootScope.$broadcast("NavbarChange");
+
+    $scope.selectedItems = [];
+
+    var tester = function (test) {
+      console.log(test);
+    }(2);
+
+    $scope.borrar = function () {
+      console.log($scope.selectedItems);
+    };
 
     $scope.data = {
       ingredientes: initialData.ingredientes.data,

@@ -91,8 +91,10 @@ angular.module('chefExpressApp', ['ngRoute', 'ngAnimate', 'chieffancypants.loadi
       console.log('%cLOGGIN STATUS -> %c' + UserAuth.isLogged, 'font-weight: bold', UserAuth.isLogged ? 'color: green;' : 'color: red;');
       console.groupEnd('APP.RUN -> ROUTE CHANGE START');
       if (nextRoute.protect && UserAuth.isLogged === false && !$window.sessionStorage.token) {
-        $location.path('/login');
+        $location.path('login');
         console.error('Route protected, user not logged in');
+      } else if (!nextRoute.protect && UserAuth.isLogged) {
+        $location.path('inicio');
       }
     });
   });

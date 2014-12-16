@@ -131,13 +131,10 @@ html, body {
   /* ################## WRAPPER ################## */
 
   #navbar-wrapper {
-    position: relative;
     width: 100%;
-    z-index: 6000;
   }
 
   #navbar-container {
-    position: relative;
     border-bottom: 1px;
     border-radius: 1px;
     background: #2f2f2f;
@@ -150,22 +147,18 @@ html, body {
   /* ################### HEADER ################## */
   
   #navbar-header {
-    position: relative;
     display: inline-block;
   }
   
   #navbar-header-options {
     display: inline-block;
-    padding-bottom: 5%;
   }
   
-  #navbar-header-options > div {
-    height: 100%;
+  #navbar-header-options {
     display: inline-block;
   }
 
   #navbar-header-title {
-    position: relative;
     padding-left: 5px;
     display: inline-block;
   }
@@ -182,9 +175,7 @@ html, body {
   /* #################### BODY ################### */
   
   #navbar-body {
-    position: relative;
     display: inline-block;
-    right: -40%;
   }
 
   #navbar-body-title {
@@ -194,74 +185,37 @@ html, body {
 
   #navbar-body-options {
     display: inline-block;
-    padding-bottom: 5%;
   }
 
-  #navbar-body-options > div {
-    z-index: 10000;
-    height: 100%;
-  }
-  
   /* ################## DROPDOWN ################# */
   
   .navbar-dropdown {
-    margin: 2px 0 0;
+    position: absolute;
+    min-width: 121px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    margin-top: 10px;
+    font-size: 15px;
+    margin-left: -55px;
     background-color: #fff;
-    -webkit-background-clip: padding-box;
-    background-clip: padding-box;
-    border: 1px solid #ccc;
-    border: 1px solid rgba(0, 0, 0, .15);
+    border: 1px
+    solid #ccc;
+    border: 1px solid rgba(0,0,0,.15);
     border-radius: 4px;
     -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
-    list-style: none;
-    z-index: 10004;
+    box-shadow: 0 6px 12px
+    rgba(0, 0, 0, .175); 
   }
 
-  .navbar-dropdown > li > a {
-    display: block;
-    clear: both;
-    font-weight: normal;
-    line-height: 1.42857143;
-    color: #333;
-    white-space: nowrap;
-  }
-
-  .navbar-dropdown > li > a:hover,
-  .navbar-dropdown > li > a:focus {
-    color: #262626;
-    text-decoration: none;
-    background-color: #f5f5f5;
-  }
-
-  div.navbar-links-dropdown {
-    cursor: pointer;
-    position: relative;
-    font-size: 1.5em;
-    height: 100%;
-    color: white;
-  }
-
-  div.navbar-links-dropdown:hover {
-    color: #337ab7;
-  }
-
-  div.navbar-links-dropdown > div > div {   position: absolute;   min-width:
-  121px;   padding-top: 4px;   padding-bottom: 4px;   margin-top: 10px;   font-
-  size: 15px;   margin-left: -55px;   background-color: #fff;   border: 1px
-  solid #ccc;   border: 1px solid rgba(0,0,0,.15);   border-radius: 4px;
-  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);   box-shadow: 0 6px 12px
-  rgba(0, 0, 0, .175); }
-
-  div.navbar-links-dropdown > div > div > div:focus,
-  div.navbar-links-dropdown > div > div > div:hover {
+  .navbar-dropdown > div:focus,
+  .navbar-dropdown > div:hover {
     color: #262626;
     text-decoration: none;
     background-color: #f5f5f5;
     cursor: pointer;
   }
 
-  div.navbar-links-dropdown > div > div > div > a {
+  .navbar-dropdown > div > a {
     text-decoration: none;
     padding: 3px 20px;
     display: block;
@@ -269,6 +223,28 @@ html, body {
     font-size: 16px;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   }
+
+  .navbar-selectable {
+    display: inline-block;
+  }
+  
+  .navbar-selectable:hover {
+    color: #337ab7;
+    cursor: pointer;
+  }
+
+  .navbar-icon-dropdown {
+    cursor: pointer;
+    position: relative;
+    font-size: 1.5em;
+    height: 100%;
+    color: white;
+  }
+
+  .navbar-icon-dropdown:hover {
+    color: #337ab7;
+  }
+
  
   /* ############################################# */
 
