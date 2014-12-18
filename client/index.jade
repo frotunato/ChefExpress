@@ -9,7 +9,6 @@ html(ng-app="chefExpressApp")
 		<!--########################## ANGULAR CORE ###########################-->
 		script(defer src="bower_components/angular/angular.js")
 		script(defer src="bower_components/angular-route/angular-route.min.js")
-		script(defer src="bower_components/angular-animate/angular-animate.min.js")
 		<!--###################################################################-->
 		
 		<!--########################## APP MODULES ############################-->
@@ -24,6 +23,7 @@ html(ng-app="chefExpressApp")
 		script(defer src="components/auth/auth.service.js")
 		script(defer src="components/navbar/navbar.js")
 		script(defer src="components/navbar/navbar.service.js")
+		script(defer src="components/utils/utils.js")
 		<!--################################################################## -->
 
 		<!--######################## APP CONTROLLERS ##########################-->
@@ -50,7 +50,6 @@ html(ng-app="chefExpressApp")
 		script(defer src="bower_components/angular-loading-bar/build/loading-bar.min.js")
 		script(defer src="bower_components/angular-strap/dist/angular-strap.min.js")
 		script(defer src="bower_components/angular-strap/dist/angular-strap.tpl.min.js")
-		script(defer src="bower_components/fixedheader/js/FixedHeader.js")
 		<!--###################################################################-->
 	body
 		div(id="navbar-wrapper" ng-controller="navbarAppCtrl")

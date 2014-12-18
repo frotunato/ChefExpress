@@ -17,7 +17,7 @@ angular.module('chefExpressApp')
         '        <a type="button" ng-href="{{navbar.header.title.link}}"> {{navbar.header.title.text}} </a>' +
         '      </h3>' +
         '    </div>' +
-        '    <div navbar-dropdown="navbar.header.options" id="navbar-header-options" class="glyphicon glyphicon-th-list navbar-icon-dropdown" ng-if="navbar.showHeader"></div>' +
+        //'    <div navbar-dropdown="navbar.header.options" id="navbar-header-options" class="glyphicon glyphicon-th-list navbar-icon-dropdown" ng-if="navbar.showHeader"></div>' +
         '  </div>' +
         '  <div id="navbar-body">' +
         //'    <div id="navbar-body-title">' +

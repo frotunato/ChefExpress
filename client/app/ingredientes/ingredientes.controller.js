@@ -16,9 +16,9 @@ angular.module('chefExpressApp.ingredientes')
     Navbar.body = {
       title: '',
       options: {
-        data: 
+        data:
           [{text: 'Nuevo', action: function () { return $scope.modal.show(); }}, 
-          {text: 'Borrar', action: function () { return $scope.borrar(); }},
+          {text: 'Borrar', action: function () { return $scope.borrarIngredientesModal.show(); }},
           {text: 'Rehacer', action: function () { return $scope.modal.show(); }} 
         ]}
     };
@@ -26,10 +26,6 @@ angular.module('chefExpressApp.ingredientes')
     $rootScope.$broadcast("NavbarChange");
 
     $scope.selectedItems = [];
-
-    var tester = function (test) {
-      console.log(test);
-    }(2);
 
     $scope.borrar = function () {
       console.log($scope.selectedItems);
@@ -79,6 +75,7 @@ angular.module('chefExpressApp.ingredientes')
             $scope.data.ingredientes = response.data.ingredientes;
             $scope.data.totalIngredientes = response.data.total;
             this.page = newPage - 1;
+            console.timeEnd('yoyo');
           });
         }
       }
@@ -140,4 +137,26 @@ angular.module('chefExpressApp.ingredientes')
       }
     };
   
+    var borrarIngredientesModal = {};
+    
+    $scope.borrarIngredientesModal = {
+      show: function () {
+        borrarIngredientesModal = $modal({scope: $scope, template: 'app/ingredientes/borrarIngredientes', show: false});
+        borrarIngredientesModal.$promise.then(borrarIngredientesModal.show);
+      },
+      hide: function () {
+        borrarIngredientesModal.$promise.then(borrarIngredientesModal.destroy);
+        $scope.selectedItems = [];
+      },
+      submit: function (data) {
+        var ids = data.map(function (element) {
+          return element._id;
+        });    
+        ingredientesAPI.removeIngredientes(ids).then(function (response) {
+          $scope.table.pagination.getResultsPage($scope.table.pagination.page);
+        });
+        this.hide();
+      } 
+    };
+
   });

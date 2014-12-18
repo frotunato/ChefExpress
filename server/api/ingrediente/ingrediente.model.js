@@ -2,7 +2,7 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var ingredienteSchema = new Schema({
-  nombre: {type: String, required: true, trim: true},
+  nombre: {type: String, required: true, trim: true, index: true},
   familia: {type: Schema.Types.ObjectId, ref: 'FamiliaIngrediente', required: false},
   alergenos: [{type: Schema.Types.ObjectId, ref: 'AlergenoIngrediente', required: false}],
   intolerancias: [{type: Schema.Types.ObjectId, ref: 'IntoleranciaIngrediente', required: false}],

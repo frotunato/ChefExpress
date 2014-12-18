@@ -4,7 +4,6 @@
   "dependencies": {
     "angular": "latest",
     "angular-route": "latest",
-    "angular-animate": "latest",
     "angular-bootstrap": "latest",
     "angular-loading-bar": "latest",
     "angular-strap": "latest",

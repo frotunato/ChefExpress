@@ -3,8 +3,8 @@ angular.module('chefExpressApp.ingredientes')
 	.factory('ingredientesAPI', function ($http, $q, $window) {
 		return {
 			apiUrl: '/api/ingredientes',
-
 			getIngredientesPagina: function (config) {
+				console.time('yoyo');
 				return $http.get(this.apiUrl + '/', { params: {
 					page: config.page,
 					max: config.max,
@@ -22,7 +22,15 @@ angular.module('chefExpressApp.ingredientes')
 			addIngrediente: function (data) {
 				return $http.post(this.apiUrl, data);
 			},
-		
+			removeIngredientes: function (config) {
+				console.log(config);
+				return $http.delete(this.apiUrl + '/', {
+					data: {
+						_ids: config
+					},
+					headers: {'Content-Type': 'application/json'}
+				});
+			}
 		};
 	})
 

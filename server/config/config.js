@@ -11,9 +11,9 @@ var config = {
   db: 'mongodb://localhost:27017/ChefExpress',
   host: 'localhost',
   token: {
-    expirationInMinutes: 2,
+    expirationInMinutes: 10,
     refresh: true,
-    refreshThresholdInMs: 1000 * 60 
+    refreshThresholdInMs: 5000 * 60 
   },
   httpsOptions: {
     key: key,

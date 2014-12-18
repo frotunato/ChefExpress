@@ -4,10 +4,9 @@ angular.module('chefExpressApp.ingredientes')
 		return {
 			restrict: 'A',
 			scope: '=',
-			link: function (scope, elem, attr) {
+      link: function (scope, elem, attr) {
         elem[0].focus();
 				var act = attr.updateOnFocus;
-				
 				elem.bind('blur', function () {
 					scope.ingrediente[act] = false;
           elem.unbind('blur');
@@ -32,7 +31,9 @@ angular.module('chefExpressApp.ingredientes')
         scope.isModded = false;
         elem.append($compile(dropdown)(scope));
         scope.options = [];
-      
+        console.time('toto');
+
+
         scope.toggle = function (item) {
           var index = depthIndexOf(scope.options, scope.trackBy, item[scope.trackBy]);
           if (scope.options[index].check === true) {
@@ -69,6 +70,7 @@ angular.module('chefExpressApp.ingredientes')
           }
           return res;
         }
+        console.timeEnd('toto');
       
       }
     };
@@ -77,7 +79,7 @@ angular.module('chefExpressApp.ingredientes')
   .directive('multiselectorDropdown', function ($document, $parse, $timeout) {
     return {
       template: '<div class=\'dropdown\' style="position:relative">' +
-                '  <button class="form-control" style="text-align: left;" ng-click="toggleDropdown()" > {{objectArrayToString(selectorModel, \'nombre\')}} <div class="dropdownIcon"></div></button>' +
+                '  <button class="form-control" style="text-align: left;" ng-click="toggleDropdown()" > {{::objectArrayToString(selectorModel, \'nombre\')}} <div class="dropdownIcon"></div></button>' +
                 '  <ul class="dropdownOptions" ng-show="isVisible">' +
                 '    <li ng-click="toggle(option)" ng-class="option.check ? \'enabled\' : \'disabled\'" ng-repeat="option in options">' +
                 '      {{option.nombre}} <span ng-if="option.check" style="float:right;" class="glyphicon glyphicon-ok"></span>' +
@@ -125,28 +127,23 @@ angular.module('chefExpressApp.ingredientes')
     };
   })
 
-  .directive('stRatio',function(){
-    return {
-      link:function(scope, element, attr){
-        var ratio=+(attr.stRatio);
-        
-        element.css('width',ratio+'%');
-        
-      }
-    };
-  })
-
-
-  .directive('rowSelector', function () {
+  .directive('rowSelector', function (Utils) {
     return {
       restrict: 'A',
       scope: {
         rowOnSelect: '='
       },
       link: function (scope, element, attrs) {
+
+        (function checker (value) {
+          if (Utils.depthIndexOf(scope.$parent.$parent.selectedItems, '_id', value) !== -1) {
+            scope.$parent.isRowSelected = true;
+          }
+        })(scope.$parent.ingrediente._id);
+        
         
         var toggleValue = function (value) {
-          var pos = scope.$parent.$parent.selectedItems.indexOf(value);
+          var pos = Utils.depthIndexOf(scope.$parent.$parent.selectedItems, '_id', value);
           if (pos === -1) {
             scope.$parent.$parent.selectedItems.push(value);
           } else {
@@ -154,11 +151,38 @@ angular.module('chefExpressApp.ingredientes')
           }
         };
 
+        scope.$on('resetRow', function () {
+          scope.$parent.isRowSelected = false;
+        });
+
         element.bind('click', function () {
           scope.$parent.isRowSelected = !scope.$parent.isRowSelected;
-          toggleValue(scope.$parent.ingrediente._id);
-          console.log(scope.$parent.$parent.selectedItems);
-        });
+          toggleValue({
+            _id: scope.$parent.ingrediente._id, 
+            nombre: scope.$parent.ingrediente.nombre
+          });
+        });      
+      }
+    
+    };
+  })
+
+  .directive('rowSelectorReset', function () {
+    return {
+      restrict: 'E',
+      replace: true,
+      scope: false,
+      template: '<span class="text-center rowSelectorReset" ng-click="reset()">&#9632</span>',
+      link: function (scope, element, attrs) {
+        scope.$watch(function () {return scope.selectedItems;}, function (newValue, oldValue) {
+          if (newValue.length === 0 && newValue !== oldValue) {
+            scope.reset();
+          }
+        });  
+      
+        scope.reset = function () {
+          scope.$broadcast('resetRow');
+        };
       }
     };
   });

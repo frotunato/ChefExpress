@@ -1,5 +1,4 @@
 html, body {
-  height: 100%;
   padding: 0;
   margin: 0;
 }
@@ -57,10 +56,6 @@ html, body {
   font-size: 12px;
 }
 
-#viewWrapper {
-
-}
-
 /* ######################################################## */
 /* ########################## VIEW ######################## */
 /* ######################################################## */
@@ -73,6 +68,10 @@ html, body {
   }
 
   #viewWrapper {
+    /*border-top: 2px solid #2f2f2f;
+    border-left: 2px solid #2f2f2f;
+    border-right: 2px solid #2f2f2f;
+    */
   }
 
   /* ######################################################## */
@@ -273,10 +272,14 @@ html, body {
   background-color: #5C95C5 !important;
 }
 
+.rowSelectorReset,
 .rowSelector {
   cursor: pointer;
 }
 
+.rowSelectorReset {
+  
+}
 
 /*
 table {

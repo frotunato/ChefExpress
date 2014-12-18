@@ -103,6 +103,12 @@ exports.update = function (req, res) {
 };
 */
 exports.destroy = function(req, res) {
+  console.log(req.body, req.query, req.params);
+  Ingrediente.remove({'_id': {$in: req.body._ids}}, function (err) {
+    if (err) return handleError(err);
+    return res.status(204).json({msg: 'deleted'});
+  });
+  /*
   Ingrediente.findById(req.params.id, function (err, ingredientes) {
     if(err) { return handleError(res, err); }
     if(!ingredientes) { return res.send(404); }
@@ -111,6 +117,7 @@ exports.destroy = function(req, res) {
       return res.status(204);
     });
   });
+  */
 };
 
 function handleError(res, err) {
