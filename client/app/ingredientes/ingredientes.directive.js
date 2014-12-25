@@ -119,7 +119,6 @@ angular.module('chefExpressApp.ingredientes')
               $parse(scope.selectorOnBlur)(scope.$parent);              
             });
 
-           
           });
 
         };
@@ -174,6 +173,7 @@ angular.module('chefExpressApp.ingredientes')
       scope: false,
       template: '<span class="text-center rowSelectorReset" ng-click="reset()">&#9632</span>',
       link: function (scope, element, attrs) {
+        
         scope.$watch(function () {return scope.selectedItems;}, function (newValue, oldValue) {
           if (newValue.length === 0 && newValue !== oldValue) {
             scope.reset();
@@ -183,6 +183,49 @@ angular.module('chefExpressApp.ingredientes')
         scope.reset = function () {
           scope.$broadcast('resetRow');
         };
+      
+      }
+    };
+  })
+
+  .directive('ceAutofocus', function () {
+    return {
+      restrict: 'A',
+      link: function (scope, element, attrs) {
+        element[0].focus();
+      }
+    };
+  })
+
+  .directive('ceTrueChange', function (Utils) {
+    return {
+      restrict: 'A',
+      scope: {
+        ceTrueChange: '&',
+        ceFalseChange: '&',
+        ngModel: '='
+      },
+      link: function (scope, element, attrs) {
+        scope.$evalAsync(function() {
+          var originalValue = angular.copy(scope.ngModel);
+          var action = angular.noop;
+          var changedItems = [];
+          var index = -1;
+          scope.$watch(function () { return scope.ngModel; }, function (newValue, oldValue) {
+            
+            if (newValue !== originalValue) {
+              index = Utils.depthIndexOf(changedItems, '_id', newValue.nombre);
+                changedItems.push(newValue);
+                console.log(changedItems);
+              
+              //action = scope.ceTrueChange;
+            } else {
+              //action = scope.ceFalseChange;
+              console.log('already exist', changedItems);
+            }
+            action();
+          }); 
+        });
       }
     };
   });

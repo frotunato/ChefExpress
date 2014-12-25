@@ -10,6 +10,7 @@ table(class="table table-hover table-condensed table-bordered")
       
       th(class="text-center")
         a(href="" ng-click="table.sorting.sort('familia')") Familia
+        div(class="glyphicon glyphicon-edit thead-icon" ng-click="selectedProperty = 'familias'; editarPropiedadIngredientes.show()")
         select(class="form-control table-input" ng-change="table.filtering.filter()" ng-options="familia._id as familia.nombre for familia in data.familias" ng-model="table.filtering.value.familia")
           option(selected value="") Todas  
       
@@ -38,10 +39,12 @@ table(class="table table-hover table-condensed table-bordered")
       
       th(class="text-center")
         a(href="" ng-click="table.sorting.sort('alergeno')") Alérgenos
+        div(class="glyphicon glyphicon-edit thead-icon" ng-click="selectedProperty = 'alergenos'; editarPropiedadIngredientes.show()")
         select(class="form-control table-input" ng-change="table.filtering.filter()" ng-options="alergeno._id as alergeno.nombre for alergeno in data.alergenos" ng-model="table.filtering.value.alergenos")
           option(value="") Todos
       th(class="text-center")
         a(href="" ng-click="table.sorting.sort('intolerancia')") Intolerancias
+        div(class="glyphicon glyphicon-edit thead-icon" ng-click="selectedProperty = 'intolerancias'; editarPropiedadIngredientes.show()")
         select(class="form-control table-input" ng-change="table.filtering.filter()" ng-options="intolerancia._id as intolerancia.nombre for intolerancia in data.intolerancias" ng-model="table.filtering.value.intolerancias")
           option(value="") Todos
   tbody
@@ -62,7 +65,7 @@ table(class="table table-hover table-condensed table-bordered")
                 ng-model="ingrediente.nombre")    
       
       td(ng-click="ingrediente.$editFamilia = true" ng-switch="ingrediente.$editFamilia")
-        span(ng-switch-default) {{::ingrediente.familia.nombre}}
+        span(ng-switch-default) {{ingrediente.familia.nombre}}
         div(ng-switch-when="true")
           select(update-on-focus="$editFamilia" 
                 ng-model-options="{updateOn: 'blur'}" 

@@ -1,0 +1,27 @@
+div(class="modal" tabindex="-1" role="dialog")
+  div(class="modal-dialog")
+    div(class="modal-content")
+      div(class="modal-header")
+        h3(class="text-capitalize")
+      div(class="modal-body")
+        table(class="table table-bordered table-condensed table-hover")
+          thead
+            tr
+              td 
+                b Nombre
+              td(class="text-center" colspan="2") 
+                b Acciones {{editarPropiedadIngredientes.clonedData}}
+          tbody
+            tr(ng-repeat="property in clonedData[selectedProperty]" ng-init="editedRow = false" ng-class="{'selectedRow': editedRow}")
+              td(ng-switch="editRow")
+                div(ng-switch-default)
+                  {{property.nombre}}
+                div(ng-switch-when="true")
+                  input(ce-autofocus type="text" class="form-control table-input" ng-blur="$parent.editRow = false; editarPropiedadIngredientes.pushChange(property)" ng-model="property.nombre")
+              td(class="col-md-1 text-center")
+                a(href="" ng-click="editRow = true") Editar 
+              td(class="col-md-1 text-center")
+                a(href="") Eliminar 
+      div(class="modal-footer")
+        button(class="btn btn-primary" ng-click="editarPropiedadIngredientes.submit(selectedItems)") Aceptar
+        button(class="btn btn-warning" ng-click="editarPropiedadIngredientes.hide()") Cancelar

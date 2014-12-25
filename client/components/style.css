@@ -277,10 +277,6 @@ html, body {
   cursor: pointer;
 }
 
-.rowSelectorReset {
-  
-}
-
 /*
 table {
     box-sizing: border-box;
@@ -334,3 +330,17 @@ tfoot td {
     display: inline-block;
 }
 */
+
+
+/* ######################################################## */
+/* ######################## TABLES ######################## */
+/* ######################################################## */
+
+.thead-icon {
+  float: right;
+  cursor: pointer;
+}
+
+.thead-icon:hover {
+  color: #337ab7;
+}

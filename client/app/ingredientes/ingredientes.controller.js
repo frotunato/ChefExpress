@@ -1,35 +1,34 @@
 angular.module('chefExpressApp.ingredientes')
 	
-	.controller('ingredientesMainCtrl', function ($scope, $rootScope, $modal, Navbar, initialData, ingredientesAPI, alergenosIngredienteAPI, familiasIngredienteAPI) {
+	.controller('ingredientesMainCtrl', function ($scope, $rootScope, $modal, Navbar, initialData, ingredientesAPI, alergenosIngredienteAPI, familiasIngredienteAPI, Utils) {
 
-    Navbar.header = {
-      title: {
-        text: 'Ingredientes',
-        action: '#/inicio'
-      },
-      options: {
-        triggers: ['click'],
-        data: [{text: 'Recetas', action: '#/ingredientes'}]
-      }
-    };
+    (function updateNavbar(navbar) {
+      Navbar.header = {
+        title: {
+          text: 'Ingredientes',
+          action: '#/inicio'
+        },
+        options: {
+          triggers: ['click'],
+          data: [{text: 'Recetas', action: '#/ingredientes'}]
+        }
+      };
 
-    Navbar.body = {
-      title: '',
-      options: {
-        data:
-          [{text: 'Nuevo', action: function () { return $scope.modal.show(); }}, 
-          {text: 'Borrar', action: function () { return $scope.borrarIngredientesModal.show(); }},
-          {text: 'Rehacer', action: function () { return $scope.modal.show(); }} 
-        ]}
-    };
-    
-    $rootScope.$broadcast("NavbarChange");
+      Navbar.body = {
+        title: '',
+        options: {
+          data: [
+            {text: 'Nuevo', action: function () { return $scope.modal.show(); }}, 
+            {text: 'Borrar', action: function () { return $scope.borrarIngredientesModal.show(); }},
+            {text: 'Rehacer', action: function () { return $scope.modal.show(); }} 
+          ]}
+      };
+      
+      $rootScope.$broadcast("NavbarChange");
+    })(Navbar);
 
     $scope.selectedItems = [];
-
-    $scope.borrar = function () {
-      console.log($scope.selectedItems);
-    };
+    $scope.selectedProperty = '';
 
     $scope.data = {
       ingredientes: initialData.ingredientes.data,
@@ -39,6 +38,8 @@ angular.module('chefExpressApp.ingredientes')
       intolerancias: initialData.intolerancias
     };
     
+    $scope.clonedData = angular.copy($scope.data);
+
     $scope.table = {
       filtering: {
         value: {},
@@ -75,8 +76,10 @@ angular.module('chefExpressApp.ingredientes')
             $scope.data.ingredientes = response.data.ingredientes;
             $scope.data.totalIngredientes = response.data.total;
             this.page = newPage - 1;
-            console.timeEnd('yoyo');
           });
+        },
+        refresh: function () {
+          this.getResultsPage(this.page);
         }
       }
     };
@@ -158,5 +161,42 @@ angular.module('chefExpressApp.ingredientes')
         this.hide();
       } 
     };
+    
+    var editarPropiedadIngredientesModal = {};
+    
+    $scope.editarPropiedadIngredientes = {
+      show: function () {
+        $scope.clonedData = angular.copy($scope.data);
+        editarPropiedadIngredientesModal = $modal({scope: $scope, template: 'app/ingredientes/editarPropiedadIngredientes', show: false, backdrop: 'static'});
+        editarPropiedadIngredientesModal.$promise.then(editarPropiedadIngredientesModal.show);
+      },
+      hide: function () {
+        editarPropiedadIngredientesModal.$promise.then(editarPropiedadIngredientesModal.destroy);
+        $scope.selectedProperty = '';
+      },
+      submit: function () {
+        familiasIngredienteAPI.partialUpdate(this.getChanges()).then(function (response) {
+          console.log(response);
+          $scope.data = $scope.clonedData;
+          console.log($scope.data, $scope.clonedData)
+          $scope.table.pagination.refresh();          
+          //$scope.data = $scope.;
+        });
+        this.hide();
 
+      },
+      changedItems: [],
+      pushChange: function (item) {
+        var index = Utils.depthIndexOf(this.changedItems, '_id', item._id);
+        if (index !== -1) {
+          this.changedItems[index] = item;        
+        } else {
+          this.changedItems.push(item);
+        }
+      },
+      getChanges: function () {
+        console.log(this.changedItems);
+        return angular.toJson(this.changedItems);
+      }
+    };
   });

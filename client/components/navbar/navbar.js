@@ -17,14 +17,14 @@ angular.module('chefExpressApp')
         '        <a type="button" ng-href="{{navbar.header.title.link}}"> {{navbar.header.title.text}} </a>' +
         '      </h3>' +
         '    </div>' +
-        //'    <div navbar-dropdown="navbar.header.options" id="navbar-header-options" class="glyphicon glyphicon-th-list navbar-icon-dropdown" ng-if="navbar.showHeader"></div>' +
+      //'    <div navbar-dropdown="navbar.header.options" id="navbar-header-options" class="glyphicon glyphicon-th-list navbar-icon-dropdown" ng-if="navbar.showHeader"></div>' +
         '  </div>' +
         '  <div id="navbar-body">' +
-        //'    <div id="navbar-body-title">' +
+      //'    <div id="navbar-body-title">' +
         '    <div id="navbar-body-title">' +
         '      <h3 class="text-center navbar-selectable" ng-click="bodyOption.action()" ng-repeat="bodyOption in navbar.body.options.data"> {{bodyOption.text}} </h3>' +
         '    </div>' +
-        '    <div navbar-dropdown="navbar.body.options" id="navbar-body-options" class="glyphicon glyphicon-th navbar-icon-dropdown"></div>' +
+      //'    <div navbar-dropdown="navbar.body.options" id="navbar-body-options" class="glyphicon glyphicon-th navbar-icon-dropdown"></div>' +
         '  </div>' +
         '</div>',
       link: function (scope, element, attrs) {

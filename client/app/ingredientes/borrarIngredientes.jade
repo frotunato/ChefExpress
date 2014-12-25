@@ -4,9 +4,12 @@ div(class="modal" tabindex="-1" role="dialog")
       div(class="modal-header")
         h3 Los siguientes ingredientes serán eliminados
       div(class="modal-body")
-        pre Las recetas que utilicen estos ingredientes se verán afectadas
-        ul
-          li(ng-repeat="item in selectedItems") {{::item.nombre}}
+        div(class="alert alert-danger")
+          span(class="glyphicon glyphicon-exclamation-sign" aria-hidden="true")
+          span  Las recetas que utilicen estos ingredientes se verán afectados
+        pre
+          ul
+            li(ng-repeat="item in selectedItems") {{::item.nombre}}
       div(class="modal-footer")
-        button(class="btn btn-danger" ng-click="borrarIngredientesModal.submit(selectedItems)" value="Aceptar") Aceptar
+        button(class="btn btn-danger" ng-click="borrarIngredientesModal.submit(selectedItems)") Borrar
         button(class="btn btn-primary" ng-click="borrarIngredientesModal.hide()") Cancelar

@@ -11,7 +11,6 @@ gulp.task('production', function() {
   gulp
     .src(['client/bower_components/angular/angular.js', 
       'client/bower_components/angular-route/angular-route.js', 
-      'client/bower_components/angular-animate/angular-animate.js',
       'client/bower_components/angular-strap/dist/angular-strap.js',
       'client/bower_components/angular-loading-bar/build/loading-bar.js',
       'client/app/**/*.js',
@@ -21,14 +20,15 @@ gulp.task('production', function() {
     .pipe(order([
       'client/bower_components/angular/angular.js', 
       'client/bower_components/angular-route/angular-route.js', 
-      'client/bower_components/angular-animate/angular-animate.js',
       'client/bower_components/angular-strap/dist/angular-strap.js',
       'client/bower_components/angular-loading-bar/build/loading-bar.js',
       'client/app/app.js', 
       'client/app/recetas/recetas.js', 
       'client/app/ingredientes/ingredientes.js', 
       'client/app/inicio/inicio.js', 
-      'client/app/login/login.js'],
+      'client/app/login/login.js',
+      'client/app/utils/utils.js',
+      'client/app/navbar/navbar.js'],
       {base: './'}))
     
     .pipe(stripDebug())

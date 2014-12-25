@@ -54,6 +54,9 @@ angular.module('chefExpressApp.ingredientes')
 			},
 			addFamilia: function (familia) {
 				return $http.post(this.apiUrl, familia);
+			},
+			partialUpdate: function (familia) {
+				return $http.patch(this.apiUrl, familia);
 			}
 		};
 	})

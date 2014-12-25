@@ -33,7 +33,6 @@ angular.module('chefExpressApp.inicio', ['chefExpressApp.ingredientes', 'chefExp
             
             return $q.all(promises);
           }
-           
         }
       })
 
