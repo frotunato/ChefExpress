@@ -12,7 +12,7 @@ div(class="modal" tabindex="-1" role="dialog")
               td(class="text-center" colspan="2") 
                 b Acciones
           tbody
-            tr(ng-repeat="property in clonedData[selectedProperty]" ng-init="editedRow = false")
+            tr(ng-repeat="property in clonedData[selectedProperty] track by property._id" ng-init="editedRow = false")
               td(ng-switch="editRow")
                 div(ng-switch-default)
                   {{property.nombre}}

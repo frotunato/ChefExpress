@@ -14,11 +14,9 @@ exports.index = function (req, res) {
 };
 
 exports.create = function (req, res) {
-  FamiliaIngrediente.create(req.body, function (err, familiaIngrediente) {
-    if (err) {
-      return handleError(res, err);
-    }
-    return res.status(201).json(familiaIngrediente);
+  FamiliaIngrediente.collection.insert(req.body, function (err, docs) {
+    if (err) return handleError(res, err);
+    return res.status(201).json(docs);
   });
 };
 
@@ -31,15 +29,20 @@ exports.partialUpdate = function (req, res) {
     if (err) return handleError(res, err);
     if (!familiasIngredientes) return res.status(404);
     var updated = _.merge(familiasIngredientes, req.body);
-    
+    var updatedResponse = [];
+    //callback lanzado cuando _.forEach sincrono termina
+    var numActions = 0;
     _.forEach(updated, function (element) {
+      ++numActions;
       FamiliaIngrediente.findByIdAndUpdate(element._id, element, function (err, doc) {
-        console.log(doc);
+        if (err) return handleError(res, err);
+        --numActions;
+        updatedResponse.push(doc);
+        if (numActions === 0) {
+          return res.status(201).json(updatedResponse);
+        }
       });
-    
     });
-    
-    return res.status(201).json({msg: 'updated successfully'});
   });
 };
 
