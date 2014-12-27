@@ -33,11 +33,22 @@ exports.partialUpdate = function (req, res) {
     var updated = _.merge(familiasIngredientes, req.body);
     
     _.forEach(updated, function (element) {
-      FamiliaIngrediente.update({_id: element._id}, {$set: element});
+      FamiliaIngrediente.findByIdAndUpdate(element._id, element, function (err, doc) {
+        console.log(doc);
+      });
+    
     });
     
     return res.status(201).json({msg: 'updated successfully'});
-    });
+  });
+};
+
+exports.destroy = function (req, res) {
+  console.log(req.body, req.query, req.params);
+  FamiliaIngrediente.remove({'_id': {$in: req.body._ids}}, function (err) {
+    if (err) return handleError(err);
+    return res.status(204).json({msg: 'deleted'});
+  });
 };
 
 function handleError(res, err) {

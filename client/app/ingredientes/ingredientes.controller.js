@@ -1,6 +1,6 @@
 angular.module('chefExpressApp.ingredientes')
 	
-	.controller('ingredientesMainCtrl', function ($scope, $rootScope, $modal, Navbar, initialData, ingredientesAPI, alergenosIngredienteAPI, familiasIngredienteAPI, Utils) {
+	.controller('ingredientesMainCtrl', function ($scope, $rootScope, $timeout, $injector, $q, $modal, Navbar, initialData, ingredientesAPI, alergenosIngredienteAPI, familiasIngredienteAPI, Utils) {
 
     (function updateNavbar(navbar) {
       Navbar.header = {
@@ -27,8 +27,8 @@ angular.module('chefExpressApp.ingredientes')
       $rootScope.$broadcast("NavbarChange");
     })(Navbar);
 
-    $scope.selectedItems = [];
     $scope.selectedProperty = '';
+    $scope.selectedItems = [];
 
     $scope.data = {
       ingredientes: initialData.ingredientes.data,
@@ -67,7 +67,7 @@ angular.module('chefExpressApp.ingredientes')
         page: 1,
         max: 25,
         getResultsPage: function (newPage) {
-          ingredientesAPI.getIngredientesPagina({
+          ingredientesAPI.getPage({
             page: newPage - 1, 
             max: this.max, 
             sort: $scope.table.sorting.value,
@@ -87,6 +87,7 @@ angular.module('chefExpressApp.ingredientes')
     $scope.crudIngrediente = {
       update: function (id, data) {
         var keyName = Object.keys(data)[0];
+        //ARREGLAR CHAPUZA
         if (Array.isArray(data[keyName])) {
           var arrayId = data[keyName].map(function (value) {
             return value._id;
@@ -94,21 +95,27 @@ angular.module('chefExpressApp.ingredientes')
           data[keyName] = arrayId;
         }
 
-        ingredientesAPI.updateIngrediente(id, data).then(function (response) {
+        ingredientesAPI.update(id, data).then(function (response) {
           console.log('[CONTROLADOR_INGREDIENTES] updateIngrediente: ' + JSON.stringify(data), id);
         });
       } 
     };
 
     $scope.getAlergenos = function () {
-      alergenosIngredienteAPI.getAlergenos().then(function (response) {
-        $scope.ingredientes.alergenos = response.data;
+      alergenosIngredienteAPI.getAll().then(function (response) {
+        $scope.data.alergenos = response.data;
       });
     };
 
     $scope.getFamilias = function () {
-      familiasIngredienteAPI.getFamilias().then(function (response) {
-        $scope.ingredientes.familias = response.data;
+      familiasIngredienteAPI.getAll().then(function (response) {
+        $scope.data.familias = response.data;
+      });
+    };
+
+    $scope.getIntolerancias = function () {
+      intoleranciasIngredienteAPI.getAll().then(function (response) {
+        $scope.data.intolerancias = response.data;
       });
     };
 
@@ -133,7 +140,7 @@ angular.module('chefExpressApp.ingredientes')
         if (data.hasOwnProperty('familia') && data.hasOwnProperty('alergenos')) {
           delete(data.familia.nombre);
         }
-        ingredientesAPI.addIngrediente(data).then(function (response) {
+        ingredientesAPI.create(data).then(function (response) {
           $scope.table.pagination.getResultsPage($scope.table.pagination.page);
         });
         this.hide();
@@ -149,14 +156,14 @@ angular.module('chefExpressApp.ingredientes')
       },
       hide: function () {
         borrarIngredientesModal.$promise.then(borrarIngredientesModal.destroy);
-        $scope.selectedItems = [];
+        //$scope.selectedItems = [];
       },
       submit: function (data) {
         var ids = data.map(function (element) {
           return element._id;
         });    
-        ingredientesAPI.removeIngredientes(ids).then(function (response) {
-          $scope.table.pagination.getResultsPage($scope.table.pagination.page);
+        ingredientesAPI.remove(ids).then(function (response) {
+          $scope.table.pagination.refresh();
         });
         this.hide();
       } 
@@ -175,28 +182,116 @@ angular.module('chefExpressApp.ingredientes')
         $scope.selectedProperty = '';
       },
       submit: function () {
-        familiasIngredienteAPI.partialUpdate(this.getChanges()).then(function (response) {
-          console.log(response);
+       
+        $q.all([
+          this.update.execute(),
+          this.remove.execute(),
+          this.create.execute()
+        ]).then(function (data) {
+          console.log(data);
+          if (data[0]) {
+            $scope.editarPropiedadIngredientes.update.refreshView(JSON.parse(data[0].config.data));
+          } 
+          if (data[1]) {
+            //$scope.editarPropiedadIngredientes.remove.refreshView();
+          }
+        
           $scope.data = $scope.clonedData;
-          console.log($scope.data, $scope.clonedData)
-          $scope.table.pagination.refresh();          
-          //$scope.data = $scope.;
+          //$scope.table.pagination.refresh();          
+          $scope.editarPropiedadIngredientes.reset();
+          $scope.editarPropiedadIngredientes.hide();
         });
-        this.hide();
-
       },
-      changedItems: [],
-      pushChange: function (item) {
-        var index = Utils.depthIndexOf(this.changedItems, '_id', item._id);
-        if (index !== -1) {
-          this.changedItems[index] = item;        
-        } else {
-          this.changedItems.push(item);
+      selectedFactory: function () {
+        return $injector.get($scope.selectedProperty + 'IngredienteAPI');
+      },
+      update: {
+        items: [],
+        add: function (item) {
+          this.items.push(item);
+        },
+        get: function () {
+          return angular.toJson(this.items);
+        },
+        execute: function () {
+          var res;
+          if (this.items.length > 0) {
+            res = $scope.editarPropiedadIngredientes.selectedFactory().partialUpdate(this.get());            
+          }
+          return res;
+        },
+        refreshView: function (items) {
+          var selectedProperty = $scope.selectedProperty;
+          var valuesToReplace = this.items;
+          var mod = selectedProperty;
+
+          if (selectedProperty === 'familias') mod = 'familia';
+
+          for (var i = 0; i < $scope.clonedData.ingredientes.length; i++) {
+            for (var k = 0; k < valuesToReplace.length; k++) {
+              if ($scope.clonedData.ingredientes[i][mod]._id === valuesToReplace[k]._id) {
+                $scope.clonedData.ingredientes[i][mod] = valuesToReplace[k];
+                break;
+              }
+            }
+          }
         }
       },
-      getChanges: function () {
-        console.log(this.changedItems);
-        return angular.toJson(this.changedItems);
+      create: {
+        items: [],
+        add: function (item) {
+          var selectedProperty = $scope.selectedProperty;
+          $scope.clonedData[selectedProperty].push(item);
+          this.items.push(item);
+        },
+        get: function () {
+          return angular.toJson(this.items);
+        },
+        execute: function () {
+          var res;
+          if (this.items.length > 0) {
+            res = $scope.editarPropiedadIngredientes.selectedFactory().create(this.get());
+          }
+          return res;
+        }
+      },
+      remove: {
+        items: [],
+        add: function (item) {
+          var selectedProperty = $scope.selectedProperty;
+          var index = Utils.depthIndexOf($scope.clonedData[selectedProperty], '_id', item._id);
+          $scope.clonedData[selectedProperty].splice(index, 1);
+          this.items.push(item);
+        },
+        get: function () {
+          var _ids = this.items.map(function (element) {
+            return element._id;
+          });
+          return _ids;
+        },
+        execute: function () {
+          console.log(this.get());
+          var res;
+          if (this.items.length > 0) {
+            res = $scope.editarPropiedadIngredientes.selectedFactory().remove(this.get());
+          }
+          return res;
+        },
+        refreshView: function () {
+          var selectedProperty = $scope.selectedProperty;
+          var items = this.get();
+          var index;
+          for (var i = 0; i < items.length; i++) {
+            index = Utils.depthIndexOf($scope.clonedData[selectedProperty], '_id', items[i]);
+            console.log(index, this.get(),$scope.clonedData[selectedProperty][index]);
+            $scope.clonedData[selectedProperty].splice(index, 1);
+          }
+        }
+      },
+      reset: function () {
+        this.update.items = [];
+        this.create.items = [];
+        this.remove.items = [];
       }
     };
   });

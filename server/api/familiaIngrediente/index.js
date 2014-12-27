@@ -9,6 +9,6 @@ router.get('', protect(), controller.index);
 router.post('', protect(), controller.create);
 //router.put('/:id', controller.update);
 router.patch('', protect(), controller.partialUpdate);
-//router.delete('/:id', controller.destroy);
+router.delete('', protect(), controller.destroy);
 
 module.exports = router;

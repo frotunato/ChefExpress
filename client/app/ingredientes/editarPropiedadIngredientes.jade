@@ -2,7 +2,7 @@ div(class="modal" tabindex="-1" role="dialog")
   div(class="modal-dialog")
     div(class="modal-content")
       div(class="modal-header")
-        h3(class="text-capitalize")
+        h3(class="text-capitalize") {{selectedProperty}}
       div(class="modal-body")
         table(class="table table-bordered table-condensed table-hover")
           thead
@@ -10,18 +10,30 @@ div(class="modal" tabindex="-1" role="dialog")
               td 
                 b Nombre
               td(class="text-center" colspan="2") 
-                b Acciones {{editarPropiedadIngredientes.clonedData}}
+                b Acciones
           tbody
-            tr(ng-repeat="property in clonedData[selectedProperty]" ng-init="editedRow = false" ng-class="{'selectedRow': editedRow}")
+            tr(ng-repeat="property in clonedData[selectedProperty]" ng-init="editedRow = false")
               td(ng-switch="editRow")
                 div(ng-switch-default)
                   {{property.nombre}}
                 div(ng-switch-when="true")
-                  input(ce-autofocus type="text" class="form-control table-input" ng-blur="$parent.editRow = false; editarPropiedadIngredientes.pushChange(property)" ng-model="property.nombre")
+                  input(ce-autofocus type="text" class="form-control table-input" ng-blur="$parent.editRow = false; editarPropiedadIngredientes.update.add(property)" ng-model="property.nombre")
               td(class="col-md-1 text-center")
                 a(href="" ng-click="editRow = true") Editar 
               td(class="col-md-1 text-center")
-                a(href="") Eliminar 
+                a(href="" ng-click="editarPropiedadIngredientes.remove.add(property)") Eliminar
+            tr(ng-switch="newRow" ng-init="newRow = false")
+              td(ng-switch-when="true")
+                input(ce-autofocus type="text" class="form-control table-input" ng-blur="$parent.newRow = false; editarPropiedadIngredientes.create.add(newProperty)" ng-model="newProperty.nombre")
+              td(ng-switch-when="true" class="col-md-1 text-center")
+                a(href="" ng-click="editRow = true") Editar 
+              td(ng-switch-when="true" class="col-md-1 text-center")
+                a(href="") Eliminar
+            tr
+              td 
+              td(class="col-md-2 text-center" colspan="2")
+                a(href="" ng-click="newRow = true") Nuevo
+
       div(class="modal-footer")
-        button(class="btn btn-primary" ng-click="editarPropiedadIngredientes.submit(selectedItems)") Aceptar
+        button(class="btn btn-primary" ng-click="editarPropiedadIngredientes.submit()") Aceptar
         button(class="btn btn-warning" ng-click="editarPropiedadIngredientes.hide()") Cancelar
