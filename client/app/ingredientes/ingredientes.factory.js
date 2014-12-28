@@ -71,13 +71,11 @@ angular.module('chefExpressApp.ingredientes')
 				console.log('going to patch', familia);
 				return $http.patch(this.apiUrl, familia);
 			},
-			remove: function (config) {
+			remove: function (familia) {
 				return $http.delete(this.apiUrl + '/', {
-					data: {
-						_ids: config
-					},
+					data: familia,
 					headers: {'Content-Type': 'application/json'}
-				});			
+				});
 			}
 		};
 	})

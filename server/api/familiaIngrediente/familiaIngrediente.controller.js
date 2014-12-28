@@ -47,10 +47,17 @@ exports.partialUpdate = function (req, res) {
 };
 
 exports.destroy = function (req, res) {
-  console.log(req.body, req.query, req.params);
-  FamiliaIngrediente.remove({'_id': {$in: req.body._ids}}, function (err) {
+  console.log(typeof req.body, req.body)
+  
+  var _ids = req.body.map(function (element) {
+    console.log(element)
+    return element._id;
+  });
+  
+  FamiliaIngrediente.remove({'_id': {$in:_ids}}, function (err) {
     if (err) return handleError(err);
-    return res.status(204).json({msg: 'deleted'});
+    console.log(req.body);
+    return res.status(200).json(req.body);
   });
 };
 

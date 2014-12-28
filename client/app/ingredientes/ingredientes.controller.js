@@ -188,16 +188,16 @@ angular.module('chefExpressApp.ingredientes')
           this.create.execute()
         ]).then(function (response) {
           console.log(response);
-          if (response[0]) {
+          if (angular.isDefined(response[0])) {
             //solo borrar lo que viene de base de datos, nunca confiar local
             $scope.editarPropiedadIngredientes.refreshView(response[0].data, 'update');
             //console.log(response[0].data);
           } 
-          if (response[1]) {
+          if (angular.isDefined(response[1])) {
             //comprobar si lo borrado coincide con base de datos
             $scope.editarPropiedadIngredientes.refreshView(response[1].data, 'remove');
           }
-          if (response[2]) {
+          if (angular.isDefined(response[2])) {
             $scope.editarPropiedadIngredientes.refreshView(response[2].data, 'create');
           }
         
@@ -244,12 +244,13 @@ angular.module('chefExpressApp.ingredientes')
              si modificamos una propiedad creada virtualmente aun
              no tenemos el _id, por lo que hay que generar uno
           */
-
+          var selectedProperty = $scope.selectedProperty;
           item._id = Math.random().toString(36).slice(2);
           item.isVirtual = true;
-          var selectedProperty = $scope.selectedProperty;
-          $scope.clonedData[selectedProperty].push(item);
-          this.items.push(item);
+          if (Utils.depthIndexOf(this.items, '_id', item._id) === -1) {
+            this.items.push(item);
+            $scope.clonedData[selectedProperty].push(item);
+          }
         },
         get: function () {
           return angular.toJson(this.items);
@@ -264,7 +265,6 @@ angular.module('chefExpressApp.ingredientes')
                 this.items[i].isVirtual = undefined;
               }
             }
-
             res = $scope.editarPropiedadIngredientes.selectedFactory().create(this.get());
           }
           return res;
@@ -279,10 +279,7 @@ angular.module('chefExpressApp.ingredientes')
           this.items.push(item);
         },
         get: function () {
-          var _ids = this.items.map(function (element) {
-            return element._id;
-          });
-          return _ids;
+          return angular.toJson(this.items);
         },
         execute: function () {
           console.log(this.get());
@@ -296,49 +293,31 @@ angular.module('chefExpressApp.ingredientes')
       refreshView: function (items, action) {
         var selectedProperty = $scope.selectedProperty;
         var valuesToReplace = items;
-        
+        var actualValue = null;
         //por si el nombre de la coleccion difiere con la propiedad 
         var mod = (selectedProperty === 'familias') ? 'familia' : selectedProperty; 
-
+        console.log(items, action);
         if (action === 'create') {
           // for al reves para maximo rendimiento, push siempre al final
           // tratamiento de elementos virtuales, asignando _ids del servidor
 
           for (var h = valuesToReplace.length - 1; h >= 0; h--) {
             var index = Utils.depthIndexOf($scope.clonedData[selectedProperty], '_id', undefined);
-            if (index === -1) {
-              $scope.clonedData[selectedProperty].splice(index, 1);
-            }
+            $scope.clonedData[selectedProperty].splice(index, 1);
           }
           $scope.clonedData[selectedProperty] = $scope.clonedData[selectedProperty].concat(valuesToReplace);
           
-        } else {
-          for (var i = 0; i < $scope.clonedData.ingredientes.length; i++) {
-            console.table($scope.clonedData.ingredientes[i]);
-            for (var k = 0; k < valuesToReplace.length; k++) {
-              var actualValue = $scope.clonedData.ingredientes[i];
-              if (actualValue.hasOwnProperty(mod) && actualValue[mod]._id === valuesToReplace[k]._id) {
-                switch (action) {
-                  case 'update':
-                    actualValue[mod] = valuesToReplace[k];
-                    break;
-                  case 'remove':
-                    if (actualValue[mod].isObject) {
-                      actualValue[mod] = {};
-                    } else if (actualValue[mod].isArray) {
-                      actualValue[mod] = [];
-                    } else {
-                      actualValue[mod] = null;
-                    }
-                    console.log('actual value', actualValue);
-                    break;
-                }
+        } else if (action === 'remove' || action === 'update') {
+          for (var t = 0; t < $scope.clonedData.ingredientes.length; t++) {
+            actualValue = $scope.clonedData.ingredientes[t][mod];
+            for (var q = 0; q < valuesToReplace.length; q++) {
+              if (actualValue !== null && actualValue._id === valuesToReplace[q]) {
+                actualValue = (action === 'remove') ? null : $scope.clonedData.ingredientes[t];
                 break;
               }
             }
           }
         }
-      
       },
       reset: function () {
         this.update.items = [];
