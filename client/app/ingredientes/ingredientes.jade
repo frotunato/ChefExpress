@@ -52,13 +52,14 @@ table(class="table table-hover table-condensed table-bordered")
       
       td(row-selector class="text-center rowSelector" ng-click="aae(ingrediente._id); selectedRow = true") 
         | &#9632;
-
+                
+      // ng-change="crudIngrediente.update($parent.ingrediente._id, {nombre: ingrediente.nombre})"
       td(ng-click="ingrediente.$editNombre = true" ng-switch="ingrediente.$editNombre")
         span(ng-switch-default) {{::ingrediente.nombre}}
         div(ng-switch-when="true")
           input(update-on-focus="$editNombre" 
                 ng-model-options="{updateOn: 'blur'}" 
-                ng-change="crudIngrediente.update($parent.ingrediente._id, {nombre: ingrediente.nombre})" 
+                ng-change="ingredientesAPI.update('replace', [{_id: ingrediente._id, value: {nombre: ingrediente.nombre}}])"
                 class="form-control table-input" 
                 placeholder="Nombre" 
                 type="text" 

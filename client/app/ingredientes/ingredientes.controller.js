@@ -84,6 +84,23 @@ angular.module('chefExpressApp.ingredientes')
       }
     };
     
+    $scope.ingredientesAPI = {
+      update: function (operation, wrapper) {
+        //permitir update multiple
+        /*[ {op: update, collection: []}
+        {op: update, _id: aa22, value: {nombre: k}},
+        {op: update, _id: aa33, value: {familia: {_id: aa2}}}
+        ]
+        
+        */
+        ingredientesAPI.update({op: operation, wrapper: wrapper}).then(function (response) {
+          console.log(response.data);
+        });
+        // {op: remove, path: item[field], value: item[value]}
+        // ingredientesAPI.update(item)
+      }
+    };
+
     $scope.crudIngrediente = {
       update: function (id, data) {
         var keyName = Object.keys(data)[0];

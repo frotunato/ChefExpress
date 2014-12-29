@@ -1,10 +1,9 @@
 angular.module('chefExpressApp.ingredientes')
 
-	.factory('ingredientesAPI', function ($http, $q, $window) {
+	.factory('ingredientesAPI', function ($http) {
 		return {
 			apiUrl: '/api/ingredientes',
 			getPage: function (config) {
-				console.time('yoyo');
 				return $http.get(this.apiUrl + '/', { params: {
 					page: config.page,
 					max: config.max,
@@ -16,14 +15,17 @@ angular.module('chefExpressApp.ingredientes')
 			get: function (id) {
 				return $http.get(this.apiUrl +  '/' + id);
 			},
-			update: function (id, data) {
+			replace: function (id, data) {
 				return $http.put(this.apiUrl + '/' + id, data);
+				//return $http.patch(this.apiUrl + '/' + id, data);
+			},
+			update: function (data) {
+				return $http.patch(this.apiUrl, data);
 			},
 			create: function (data) {
 				return $http.post(this.apiUrl, data);
 			},
 			remove: function (config) {
-				console.log(config);
 				return $http.delete(this.apiUrl + '/', {
 					data: {
 						_ids: config
@@ -67,7 +69,7 @@ angular.module('chefExpressApp.ingredientes')
 				console.log('familia response', familia);
 				return $http.post(this.apiUrl, familia);
 			},
-			partialUpdate: function (familia) {
+			replace: function (familia) {
 				console.log('going to patch', familia);
 				return $http.patch(this.apiUrl, familia);
 			},

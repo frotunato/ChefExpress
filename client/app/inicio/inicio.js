@@ -16,6 +16,7 @@ angular.module('chefExpressApp.inicio', ['chefExpressApp.ingredientes', 'chefExp
               sort: {nombre: 'asc'},
               filter: {}
             }).then(function (response) {
+              console.log(response)
               return {data: response.data.ingredientes, total: response.data.total};
             });
 

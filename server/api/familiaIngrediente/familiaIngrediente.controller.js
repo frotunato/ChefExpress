@@ -5,11 +5,11 @@ exports.index = function (req, res) {
   FamiliaIngrediente
     .find()
     .lean()
-    .exec(function (err, familiasIngrediente) {
+    .exec(function (err, docs) {
       if(err) {
         return handleError(res, err);
       }
-      return res.status(200).json(familiasIngrediente);
+      return res.status(200).json(docs);
     });
 };
 
@@ -20,15 +20,20 @@ exports.create = function (req, res) {
   });
 };
 
+exports.test = function (req, res) {
+  console.log(req.body, req.params);
+  return res.status(200).json(req.params);
+};
+
 exports.partialUpdate = function (req, res) {
   var _ids = req.body.map(function (item) {
     return item._id;
   });
 
-  FamiliaIngrediente.find({'_id': {$in: _ids}}, function (err, familiasIngredientes) {
+  FamiliaIngrediente.find({'_id': {$in: _ids}}, function (err, docs) {
     if (err) return handleError(res, err);
-    if (!familiasIngredientes) return res.status(404);
-    var updated = _.merge(familiasIngredientes, req.body);
+    if (!docs) return res.status(404);
+    var updated = _.merge(docs, req.body);
     var updatedResponse = [];
     //callback lanzado cuando _.forEach sincrono termina
     var numActions = 0;
@@ -47,10 +52,7 @@ exports.partialUpdate = function (req, res) {
 };
 
 exports.destroy = function (req, res) {
-  console.log(typeof req.body, req.body)
-  
   var _ids = req.body.map(function (element) {
-    console.log(element)
     return element._id;
   });
   
