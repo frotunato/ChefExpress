@@ -196,6 +196,7 @@ angular.module('chefExpressApp.ingredientes')
       },
       hide: function () {
         editarPropiedadIngredientesModal.$promise.then(editarPropiedadIngredientesModal.destroy);
+        this.reset();
         $scope.selectedProperty = '';
       },
       submit: function () {
@@ -203,26 +204,28 @@ angular.module('chefExpressApp.ingredientes')
           this.update.execute(),
           this.remove.execute(),
           this.create.execute()
-        ]).then(function (response) {
-          console.log(response);
-          if (angular.isDefined(response[0])) {
-            //solo borrar lo que viene de base de datos, nunca confiar local
-            $scope.editarPropiedadIngredientes.refreshView(response[0].data, 'update');
-            //console.log(response[0].data);
-          } 
-          if (angular.isDefined(response[1])) {
-            //comprobar si lo borrado coincide con base de datos
-            $scope.editarPropiedadIngredientes.refreshView(response[1].data, 'remove');
-          }
-          if (angular.isDefined(response[2])) {
-            $scope.editarPropiedadIngredientes.refreshView(response[2].data, 'create');
-          }
-        
-          $scope.data = $scope.clonedData;
-          //$scope.table.pagination.refresh();
-          $scope.editarPropiedadIngredientes.reset();
-          $scope.editarPropiedadIngredientes.hide();
-        });
+        ]).then(
+          function (response) {
+            console.log(response);
+            if (angular.isDefined(response[0])) {
+              //solo borrar lo que viene de base de datos, nunca confiar local
+              $scope.editarPropiedadIngredientes.refreshView(response[0].data, 'update');
+              //console.log(response[0].data);
+            } 
+            if (angular.isDefined(response[1])) {
+              //comprobar si lo borrado coincide con base de datos
+              $scope.editarPropiedadIngredientes.refreshView(response[1].data, 'remove');
+            }
+            if (angular.isDefined(response[2])) {
+              $scope.editarPropiedadIngredientes.refreshView(response[2].data, 'create');
+            }
+          
+            $scope.data = $scope.clonedData;
+            $scope.editarPropiedadIngredientes.hide();
+          },
+          function () {
+            $scope.editarPropiedadIngredientes.hide();
+          });
       },
       selectedFactory: function () {
         return $injector.get($scope.selectedProperty + 'IngredienteAPI');
@@ -293,7 +296,7 @@ angular.module('chefExpressApp.ingredientes')
           var selectedProperty = $scope.selectedProperty;
           var index = Utils.depthIndexOf($scope.clonedData[selectedProperty], '_id', item._id);
           $scope.clonedData[selectedProperty].splice(index, 1);
-          this.items.push(item);
+          this.items.push(item._id);
         },
         get: function () {
           return angular.toJson(this.items);

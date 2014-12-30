@@ -4,9 +4,7 @@ angular.module('chefExpressApp.ingredientes')
 		return {
 			apiUrl: '/api/ingredientes',
 			getPage: function (config) {
-				return $http.get(this.apiUrl + '/', { params: {
-					page: config.page,
-					max: config.max,
+				return $http.get(this.apiUrl + '/' + config.page + '/' + config.max, { params: {
 					sort: config.sort,
 					filter: config.filter
 					}, cache: false
@@ -17,7 +15,6 @@ angular.module('chefExpressApp.ingredientes')
 			},
 			replace: function (id, data) {
 				return $http.put(this.apiUrl + '/' + id, data);
-				//return $http.patch(this.apiUrl + '/' + id, data);
 			},
 			update: function (data) {
 				return $http.patch(this.apiUrl, data);

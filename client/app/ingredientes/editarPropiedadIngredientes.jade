@@ -17,7 +17,7 @@ div(class="modal" tabindex="-1" role="dialog")
                 div(ng-switch-default)
                   {{property.nombre}}
                 div(ng-switch-when="true")
-                  input(ce-autofocus type="text" class="form-control table-input" ng-blur="$parent.editRow = false; editarPropiedadIngredientes.update.add(property)" ng-model="property.nombre")
+                  input(ce-autofocus type="text" class="form-control table-input" ng-blur="$parent.editRow = false; editarPropiedadIngredientes.update.add({op: 'update', _id: property._id, value: {nombre: property.nombre}})" ng-model="property.nombre")
               td(class="col-md-1 text-center")
                 a(href="" ng-click="editRow = true") Editar 
               td(class="col-md-1 text-center")

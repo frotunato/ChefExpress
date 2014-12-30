@@ -4,7 +4,8 @@ var protect = require('../../auth/auth.service.js');
 
 var router = express.Router();
 
-router.get('', protect(), controller.index);
+router.get('/', controller.index);
+router.get('/:page/:max', controller.paginate);
 router.get('/:id', protect(), controller.show);
 router.post('', protect(), controller.create);
 router.put('/:id', protect(), controller.replace);

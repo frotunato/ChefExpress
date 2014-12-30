@@ -1,25 +1,33 @@
 //var _ = require('lodash');
 var Ingrediente = require('./ingrediente.model');
 
-
-exports.index = function(req, res) {
-  var sorting = {};  
-  var filtering = JSON.parse(req.query.filter);
-
-  sorting = JSON.parse(req.query.sort);
-  filtering.nombre = (filtering) ? new RegExp(filtering.nombre, "i") : undefined;
-
+exports.index = function (req, res) {
   Ingrediente
-    .find(filtering)
+    .find()
     .lean()
-    .skip(req.query.max * req.query.page)
-    .limit(req.query.max)
-    .sort(sorting)
+    .sort(req.query.sort)
     .populate('alergenos familia intolerancias')
     .exec(function (err, docs) {
       if (err) return handleError(res, err);
-      Ingrediente.count(filtering, function (err, numDocs) {
-        return res.status(200).json({ingredientes: docs, total: numDocs});        
+      return res.status(200).json({ingredientes: docs});
+    });
+};
+
+exports.paginate = function (req, res) {
+  var sort = JSON.parse(req.query.sort) || {};
+  var filter = JSON.parse(req.query.filter) || {};
+  filter.nombre = (filter) ? new RegExp(filter.nombre, "i") : undefined;
+  Ingrediente
+    .find(filter)
+    .lean()
+    .skip(req.params.max * req.params.page)
+    .limit(req.params.max)
+    .sort(sort)
+    .populate('alergenos familia intolerancias')
+    .exec(function (err, docs) {
+      if (err) return handleError(res, err);
+      Ingrediente.count(filter, function (err, numDocs) {
+        return res.status(200).json({ingredientes: docs, total: numDocs});
       });
     });
 };
@@ -47,14 +55,13 @@ exports.create = function(req, res) {
 
 exports.replace = function (req, res) {
   if (req.body._id) { delete req.body._id; }
-  Ingrediente.findByIdAndUpdate(req.params.id, { $set: req.body }, function (err, docs) {
+  Ingrediente.findByIdAndUpdate(req.params.id, {$set: req.body}, function (err, docs) {
     if (err) return handleError(res, err);
     return res.status(200).json(docs);
   });
 };
 
 exports.update = function (req, res) {
-  
   var _ids = req.body.wrapper.map(function (element) {
     return element._id;
   });
