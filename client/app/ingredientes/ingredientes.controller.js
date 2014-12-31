@@ -1,8 +1,17 @@
 angular.module('chefExpressApp.ingredientes')
 	
-	.controller('ingredientesMainCtrl', function ($scope, $rootScope, $timeout, $injector, $q, $modal, Navbar, initialData, ingredientesAPI, alergenosIngredienteAPI, familiasIngredienteAPI, Utils) {
+	.controller('ingredientesMainCtrl', function ($scope, Ingrediente, $rootScope, $timeout, $injector, $q, $modal, Navbar, initialData, ingredientesAPI, alergenosIngredienteAPI, familiasIngredienteAPI, Utils) {
 
     (function updateNavbar(navbar) {
+      /*
+      Ingrediente.query({page: 0, max: 25}, function (data) {
+        console.log(data);
+      });
+      */
+      //Ingrediente.save({nombre: 'yoyoyoyoyoyo!'});
+//      Ingrediente.update({id: "54a364511e8162d4066a9bf0"}, {nombre: 'aas2'});
+      Ingrediente.update({nombre: 'aas2'});
+
       Navbar.header = {
         title: {
           text: 'Ingredientes',

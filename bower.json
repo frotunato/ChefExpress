@@ -10,7 +10,7 @@
     "bootstrap": "latest"
   },
   "resolutions": {
-    "angular": "^1.2",
+    "angular": "1.3.8",
     "bootstrap": "latest",
     "jquery": "2.1.1"
   }

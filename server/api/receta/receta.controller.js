@@ -1,7 +1,6 @@
 var _ = require('lodash');
-var Receta = require('./receta.model');
+var Model = require('./receta.model');
 
-// Get list of Recetas
 exports.index = function(req, res) {
   var sorting = {};
   var filtering = {};
@@ -13,19 +12,19 @@ exports.index = function(req, res) {
     filtering.nombre = new RegExp(filtering.nombre, "i");
   }
   
-  Receta
+  Model
     .find(filtering)
     .lean()
-    .select('nombre familia categoria precio ambito procedencia tipo')
+    .select('nombre familia categoria ambito procedencia tipo')
     .limit(req.query.max)
     .skip(req.query.max * req.query.page)
     .sort(sorting)
     .populate('familia categoria ambito tipo procedencia')
-    .exec(function (err, recetas) {
+    .exec(function (err, docs) {
       if(err) { return handleError(res, err); }
       //console.log(recetas.length);
-      Receta.count(filtering ,function (err, c) {
-        return res.status(200).json({recetas: recetas, total: c});        
+      Model.count(filtering ,function (err, c) {
+        return res.status(200).json({recetas: docs, total: c});        
       });
     });
 };
@@ -51,40 +50,40 @@ function checkIfExist (data, key, value, callback) {
 }
 
 exports.show = function (req, res) {
-  Receta
+  Model
     .findById(req.params.id)
     .populate('ingredientes.ingrediente familia ambito tipo medidasPreventivas peligrosIngredientes peligrosDesarrollo procedencia')
     .lean()
-    .exec(function (err, recetas) {
-      //nested population inside ingrediente
+    .exec(function (err, doc) {
+      //population dentro de ingrediente
       var options = [{
         path: 'ingredientes.ingrediente.alergenos',
-        model: 'AlergenoIngrediente'
+        model: 'alergeno'
       }, {
         path: 'ingredientes.ingrediente.intolerancias',
-        model: 'IntoleranciaIngrediente'
+        model: 'intolerancia'
       }];
 
       if (err) {
         return handleError(res, err);
       }
-      if (!recetas) {
+      if (!doc) {
         return res.send(404);
       }
       //console.log(JSON.stringify(recetas));
-      Receta.populate(recetas, options, function (err, receta) {
-        console.log(JSON.stringify(receta.ingredientes));
-        return res.status(201).json(receta);
+      Model.populate(doc, options, function (err, doc) {
+        console.log(JSON.stringify(doc.ingredientes));
+        return res.status(201).json(doc);
       });
     });
 };
 
 exports.create = function(req, res) {
-  Receta.create(req.body, function (err, recetas) {
+  Model.create(req.body, function (err, doc) {
     //console.log(JSON.stringify(req.body));
     if(err) { return handleError(res, err); }
     console.log(err);
-    return res.status(201).json();
+    return res.status(201).end();
   });
 };
 
@@ -94,22 +93,22 @@ exports.update = function (req, res) {
   var ref = req.body.ref;
   console.log(reqField, reqValue, ref);
 
-  Receta
+  Model
   .findById(req.params.id)
   .populate('ingredientes.ingrediente')
   //.lean()
-  .exec(function (err, receta) {
+  .exec(function (err, doc) {
     var resData = {};
     //console.log(receta.ingredientes.id(ref));
     if (reqField === 'ingredientes' || reqField ==='cantidad') {        
-      var ingrediente = receta.ingredientes.id(ref);          
+      var ingrediente = doc.ingredientes.id(ref);          
       if(ingrediente !== null && reqField === 'ingredientes' && reqValue === 'remove') {
         //delete an object from the object array
         resData = ingrediente.remove();
         //console.log(JSON.stringify(ingrediente));
       } else if (reqField === 'ingredientes' && reqValue === 'add') {
         //push an object to the object array
-        var nuevoIngrediente = receta.ingredientes.addToSet({ingrediente: ref})[0];
+        var nuevoIngrediente = doc.ingredientes.addToSet({ingrediente: ref})[0];
         console.log(nuevoIngrediente._id);
         resData = nuevoIngrediente._id;
         //console.log('pushed', JSON.stringify(nuevoIngrediente));
@@ -121,20 +120,20 @@ exports.update = function (req, res) {
     
     } else {
       //console.log(JSON.stringify(receta));
-      receta[reqField] = reqValue;
+      doc[reqField] = reqValue;
     }
     
-    receta.save(function (err) {
+    doc.save(function (err) {
       return res.status(200).json(resData);
     });
   });
 };
 
 exports.destroy = function(req, res) {
-  Receta.findById(req.params.id, function (err, recetas) {
+  Model.findById(req.params.id, function (err, docs) {
     if(err) { return handleError(res, err); }
-    if(!recetas) { return res.send(404); }
-    Receta.remove(function(err) {
+    if(!docs) { return res.send(404); }
+    Model.remove(function(err) {
       if(err) { return handleError(res, err); }
       return res.status(204);
     });

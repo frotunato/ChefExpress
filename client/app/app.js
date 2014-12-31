@@ -1,4 +1,4 @@
-angular.module('chefExpressApp', ['ngRoute', 'chieffancypants.loadingBar', 'chefExpressApp.inicio', 'chefExpressApp.login'])
+angular.module('chefExpressApp', ['ngRoute', 'ngResource', 'chieffancypants.loadingBar', 'chefExpressApp.inicio', 'chefExpressApp.login'])
   .config(function ($routeProvider, $httpProvider, $locationProvider, cfpLoadingBarProvider) {
     //$locationProvider.html5Mode(true);
     $httpProvider.interceptors.push('TokenInterceptor');

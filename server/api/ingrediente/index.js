@@ -4,12 +4,13 @@ var protect = require('../../auth/auth.service.js');
 
 var router = express.Router();
 
-router.get('/', controller.index);
+router.get('/', controller.index); //todos los ingredientes
 router.get('/:page/:max', controller.paginate);
-router.get('/:id', protect(), controller.show);
+router.get('/:id', controller.show);
 router.post('', protect(), controller.create);
 router.put('/:id', protect(), controller.replace);
-router.patch('', protect(), controller.update);
+router.patch('/', controller.updateCollection);
+router.patch('/:id', protect(), controller.update);
 router.delete('', protect(), controller.destroy);
 
 module.exports = router;

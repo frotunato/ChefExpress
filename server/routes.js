@@ -4,19 +4,16 @@ module.exports = function (app) {
 
   app.use('/login', require('./auth')); 
   app.use('/api/usuarios', require('./api/usuario'));
-  app.use('/api/alergenosIngrediente', require('./api/alergenoIngrediente'));
-  app.use('/api/intoleranciasIngrediente', require('./api/intoleranciaIngrediente'));
-  app.use('/api/familiasIngrediente', require('./api/familiaIngrediente'));
+  app.use('/api/alergenos', require('./api/alergeno'));
+  app.use('/api/intolerancias', require('./api/intolerancia'));
   app.use('/api/ingredientes', require('./api/ingrediente'));
+  app.use('/api/familias', require('./api/familia'));
   app.use('/api/recetas', require('./api/receta'));
- 	app.use('/api/ambitosReceta', require('./api/ambitoReceta'));
-  app.use('/api/familiasReceta', require('./api/familiaReceta'));
-  app.use('/api/tiposReceta', require('./api/tipoReceta'));
-  app.use('/api/medidasPreventivasReceta', require('./api/medidaPreventivaReceta'));
-  app.use('/api/peligrosDesarrolloReceta', require('./api/peligroDesarrolloReceta'));
-  app.use('/api/peligrosIngredientesReceta', require('./api/peligroIngredienteReceta'));
-  app.use('/api/categoriasReceta', require('./api/categoriaReceta'));
-  app.use('/api/procedenciasReceta', require('./api/procedenciaReceta'));
+ 	app.use('/api/ambitos', require('./api/ambito'));
+  app.use('/api/tipos', require('./api/tipo'));
+  app.use('/api/puntosCriticos', require('./api/puntoCritico'));
+  app.use('/api/categorias', require('./api/categoria'));
+  app.use('/api/procedencias', require('./api/procedencia'));
   // app.route('/:url(api|components|app|bower_components)/*')
 
 	app.route('/app/:directory/:file')

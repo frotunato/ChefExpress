@@ -1,11 +1,14 @@
-//var _ = require('lodash');
-var Ingrediente = require('./ingrediente.model');
+var _ = require('lodash');
+var async = require('async');
+var Model = require('./ingrediente.model');
+var checkIdRegExp = new RegExp("^[0-9a-fA-F]{24}$");
 
 exports.index = function (req, res) {
-  Ingrediente
+  var sortCriteria = req.query.sort || {nombre: 'asc'};
+  Model
     .find()
     .lean()
-    .sort(req.query.sort)
+    .sort(sortCriteria)
     .populate('alergenos familia intolerancias')
     .exec(function (err, docs) {
       if (err) return handleError(res, err);
@@ -14,40 +17,41 @@ exports.index = function (req, res) {
 };
 
 exports.paginate = function (req, res) {
-  var sort = JSON.parse(req.query.sort) || {};
-  var filter = JSON.parse(req.query.filter) || {};
-  filter.nombre = (filter) ? new RegExp(filter.nombre, "i") : undefined;
-  Ingrediente
-    .find(filter)
+  var sortCriteria = (req.query.sort) ? JSON.parse(req.query.sort) : {nombre: 'asc'};
+  var filterCriteria = (req.query.filter) ? JSON.parse(req.query.filter) : {};
+  filterCriteria.nombre = (filterCriteria) ? new RegExp(filterCriteria.nombre, "i") : undefined;
+  Model
+    .find(filterCriteria)
     .lean()
     .skip(req.params.max * req.params.page)
     .limit(req.params.max)
-    .sort(sort)
+    .sort(sortCriteria)
     .populate('alergenos familia intolerancias')
     .exec(function (err, docs) {
       if (err) return handleError(res, err);
-      Ingrediente.count(filter, function (err, numDocs) {
+      Model.count(filter, function (err, numDocs) {
         return res.status(200).json({ingredientes: docs, total: numDocs});
       });
     });
 };
 
 exports.show = function(req, res) {
-  Ingrediente
+  if (!req.params._id.match(checkIdRegExp)) return res.status(400).end();
+  Model
     .findById(req.params.id)
     .lean()
     .populate('alergenos intolerancias')
     .select('-__v')
     .exec(function (err, docs) {
       if (err) return handleError(res, err);
-      if (!docs) return res.status(404);
+      if (!docs) return res.status(404).end();
       return res.status(200).json(docs);   
     });   
 };
 
 exports.create = function(req, res) {
   console.log(JSON.stringify(req.body));
-  Ingrediente.create(req.body, function(err, docs) {
+  Model.create(req.body, function(err, docs) {
     if (err) return handleError(res, err);
     return res.status(201).json();
   });
@@ -55,29 +59,43 @@ exports.create = function(req, res) {
 
 exports.replace = function (req, res) {
   if (req.body._id) { delete req.body._id; }
-  Ingrediente.findByIdAndUpdate(req.params.id, {$set: req.body}, function (err, docs) {
+  Model.findByIdAndUpdate(req.params.id, {$set: req.body}, function (err, docs) {
     if (err) return handleError(res, err);
     return res.status(200).json(docs);
   });
 };
 
 exports.update = function (req, res) {
-  var _ids = req.body.wrapper.map(function (element) {
-    return element._id;
-  });
-
-  Ingrediente.find({'_id': {$in: _ids}}, function (err, docs) {
+  console.log(req.body, req.params);
+  Model.findById(req.params.id, function (err, docs) {
     console.log(docs);
-    console.log(JSON.stringify(req.body));
     if (err) return handleError(res, err);
-    //return res.status(200).json(docs);
-    return res.status(204).end();
+    return res.status(200).end();
   });
 };
 
-exports.destroy = function(req, res) {
+exports.updateCollection = function (req, res) {
+  var errors = [];
+  var elementsWithIds = (Array.isArray(req.body)) ? _.filter(req.body, function (element) {
+    return element._id && element._id.match(checkIdRegExp);
+  }) : [];
+  async.each(elementsWithIds, function (element, callback) {
+    Model.findById(element._id, function (err, doc) {
+      if (!doc) return errors.push('Invalid _id ' + element._id) && callback();
+      delete element._id;
+      _.merge(doc, element).save(function () {
+        callback();
+      });
+    });
+  }, function (err) {
+    if (errors.length > 0) return res.status(404).json(errors);
+    return res.status(200).end();
+  });
+};
+
+exports.destroy = function (req, res) {
   console.log(req.body, req.query, req.params);
-  Ingrediente.remove({'_id': {$in: req.body._ids}}, function (err) {
+  Model.remove({'_id': {$in: req.body._ids}}, function (err) {
     if (err) return handleError(err);
     return res.status(204).end();
   });

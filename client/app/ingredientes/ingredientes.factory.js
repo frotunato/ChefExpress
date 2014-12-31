@@ -35,14 +35,14 @@ angular.module('chefExpressApp.ingredientes')
 
 	.factory('alergenosIngredienteAPI', function ($http) {
 		return {
-			apiUrl: '/api/alergenosIngrediente',
+			apiUrl: '/api/alergenos',
 			getAll: function () {
 				return	$http.get(this.apiUrl);
 			},
 			create: function (alergeno) {
 				return $http.post(this.apiUrl, alergeno);
 			},
-			partialUpdate: function (alergeno) {
+			update: function (alergeno) {
 				return $http.patch(this.apiUrl, alergeno);
 			},
 			remove: function (config) {
@@ -58,13 +58,13 @@ angular.module('chefExpressApp.ingredientes')
 
 	.factory('familiasIngredienteAPI', function ($http) {
 		return {
-			apiUrl: '/api/familiasIngrediente',
+			apiUrl: '/api/familias',
 			getAll: function () {
-				return $http.get(this.apiUrl);
+				return $http.get(this.apiUrl, { params: {tipo: 'ingredientes'}});
 			},
 			create: function (familia) {
 				console.log('familia response', familia);
-				return $http.post(this.apiUrl, familia);
+				return $http.post(this.apiUrl, {data: familia, params: {tipo: 'ingredientes'}});
 			},
 			replace: function (familia) {
 				console.log('going to patch', familia);
@@ -81,7 +81,7 @@ angular.module('chefExpressApp.ingredientes')
 
 	.factory('intoleranciasIngredienteAPI', function ($http) {
 		return {
-			apiUrl: '/api/familiasIngrediente',
+			apiUrl: '/api/intolerancias',
 			getAll: function () {
 				return $http.get(this.apiUrl);
 			},
@@ -100,4 +100,15 @@ angular.module('chefExpressApp.ingredientes')
 				});			
 			}
 		};
+	})
+
+	.factory('Ingrediente', function ($resource) {
+		return $resource(
+			"/api/ingredientes/:id",
+			{},
+			{ 
+				query: {method: 'GET', isArray: false},
+			  update: {method: 'PATCH'}
+			}
+		);
 	});
