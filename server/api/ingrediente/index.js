@@ -11,6 +11,7 @@ router.post('', protect(), controller.create);
 router.put('/:id', protect(), controller.replace);
 router.patch('/', controller.updateCollection);
 router.patch('/:id', protect(), controller.update);
-router.delete('', protect(), controller.destroy);
+router.delete('', protect(), controller.destroyCollection);
+router.delete('/:id', protect(), controller.destroy);
 
 module.exports = router;

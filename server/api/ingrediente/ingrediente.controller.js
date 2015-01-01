@@ -101,6 +101,20 @@ exports.destroy = function (req, res) {
   });
 };
 
+exports.destroyCollection = function (req, res) {
+  var _ids = (Array.isArray(req.body)) ? _.map(req.body, function (element) {
+    if (element._id && element._id.match(checkIdRegExp)) {
+      return element._id;
+    }
+  }) : [];
+
+  Model.remove({'_id': {$in: _ids}}, function (err) {
+    if (err) return handleError(err);
+    console.log(req.body);
+    return res.status(204).end();
+  });
+};
+
 function handleError(res, err) {
   console.log(err);
   return res.status(500).send(err);
