@@ -8,28 +8,23 @@ angular.module('chefExpressApp.inicio', ['chefExpressApp.ingredientes', 'chefExp
         controller: 'ingredientesMainCtrl',
         protect: true,
         resolve: {
-          initialData: function (ingredientesAPI, alergenosIngredienteAPI, familiasIngredienteAPI,intoleranciasIngredienteAPI, $q) {
+          initialData: function (Ingrediente, FamiliaIngrediente, Alergeno, Intolerancia, $q) {
             var promises = {};
-            promises.ingredientes = ingredientesAPI.getPage({
-              page: 0, 
-              max: 25, 
-              sort: {nombre: 'asc'},
-              filter: {}
-            }).then(function (response) {
-              console.log(response)
-              return {data: response.data.ingredientes, total: response.data.total};
+
+            promises.ingredientes = Ingrediente.query({page: 0, max: 25}).$promise.then(function (response) {
+              return {data: response.ingredientes, total: response.total};
             });
 
-            promises.alergenos = alergenosIngredienteAPI.getAll().then(function (response) {
-              return response.data;                
+            promises.familias = FamiliaIngrediente.query(function (response) {
+              return response;
+            });
+
+            promises.alergenos = Alergeno.query(function (response) {
+              return response;
             });
             
-            promises.intolerancias = intoleranciasIngredienteAPI.getAll().then(function (response) {
-              return response.data;
-            });
-
-            promises.familias = familiasIngredienteAPI.getAll().then(function (response) {
-              return response.data;
+            promises.intolerancias = Intolerancia.query(function (response) {
+              return response;
             });
             
             return $q.all(promises);

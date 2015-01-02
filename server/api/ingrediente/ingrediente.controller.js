@@ -2,7 +2,7 @@ var _ = require('lodash');
 var async = require('async');
 var Model = require('./ingrediente.model');
 var checkIdRegExp = new RegExp("^[0-9a-fA-F]{24}$");
-
+/*
 exports.index = function (req, res) {
   var sortCriteria = req.query.sort || {nombre: 'asc'};
   Model
@@ -15,7 +15,7 @@ exports.index = function (req, res) {
       return res.status(200).json({ingredientes: docs});
     });
 };
-
+*/
 exports.paginate = function (req, res) {
   var sortCriteria = (req.query.sort) ? JSON.parse(req.query.sort) : {nombre: 'asc'};
   var filterCriteria = (req.query.filter) ? JSON.parse(req.query.filter) : {};
@@ -23,13 +23,13 @@ exports.paginate = function (req, res) {
   Model
     .find(filterCriteria)
     .lean()
-    .skip(req.params.max * req.params.page)
-    .limit(req.params.max)
+    .skip(req.query.max * req.query.page)
+    .limit(req.query.max)
     .sort(sortCriteria)
     .populate('alergenos familia intolerancias')
     .exec(function (err, docs) {
       if (err) return handleError(res, err);
-      Model.count(filter, function (err, numDocs) {
+      Model.count(filterCriteria, function (err, numDocs) {
         return res.status(200).json({ingredientes: docs, total: numDocs});
       });
     });
@@ -67,7 +67,7 @@ exports.replace = function (req, res) {
 
 exports.update = function (req, res) {
   console.log(req.body, req.params);
-  Model.findById(req.params.id, function (err, docs) {
+  Model.findByIdAndUpdate(req.params.id, {$set: req.body}, function (err, docs) {
     console.log(docs);
     if (err) return handleError(res, err);
     return res.status(200).end();
@@ -76,6 +76,7 @@ exports.update = function (req, res) {
 
 exports.updateCollection = function (req, res) {
   var errors = [];
+  console.log(req.body);
   var elementsWithIds = (Array.isArray(req.body)) ? _.filter(req.body, function (element) {
     return element._id && element._id.match(checkIdRegExp);
   }) : [];

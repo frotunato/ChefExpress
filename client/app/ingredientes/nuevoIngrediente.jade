@@ -4,7 +4,7 @@ div(class="modal" tabindex="-1" role="dialog")
       div(class="modal-header")
         h3 Nuevo ingrediente {{ingrediente}}
       div(class="modal-body")
-        form(id="nuevoIngredienteForm" ng-submit="modal.submit(ingrediente)" class="form-horizontal")
+        form(id="nuevoIngredienteForm" ng-submit="nuevoIngredienteModal.submit(ingrediente)" class="form-horizontal")
           fieldset
             legend Información
             div(class="form-group")
@@ -90,4 +90,4 @@ div(class="modal" tabindex="-1" role="dialog")
 
       div(class="modal-footer")
         input(class="btn btn-primary" form="nuevoIngredienteForm" type="submit" value="Aceptar")
-        button(class="btn btn-warning" ng-click="modal.hide()") Cancelar
+        button(class="btn btn-warning" ng-click="nuevoIngredienteModal.hide()") Cancelar

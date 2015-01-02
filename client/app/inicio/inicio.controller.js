@@ -1,6 +1,6 @@
 angular.module('chefExpressApp.inicio')
 
-  .controller('inicioMainCtrl', function ($scope, $rootScope, ingredientesAPI, Auth, Navbar) {
+  .controller('inicioMainCtrl', function ($scope, $rootScope, Auth, Navbar) {
     (function updateNavbar(navbar) {
       Navbar.header = {
         title: {
