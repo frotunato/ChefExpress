@@ -74,14 +74,23 @@ I used Mongoose as ODM, which helped keeping things reasonabily organized. But o
 Since entities were heavily related to each other, there was a big amount of joins operations. They were slow. I tried performing data denormalization to speed up data access, but data consistency was a thing now. I kept the joins and implemented a cache system and a few indexes. 
 
 
-### Package managers, build tools and versioning control
+### Special mentions: package managers, build tools, versioning control and testing.
 
 I used Bower and NPM as package managers. This is probably the biggest mistake I made: not locking any package version at all. It was "latest" on all of them. So here I am, 10 years later trying to deploy the code. Not fun. Actually, the only reason I was able deploy the project so long after it's because I founded an old backup with the .lock files on it.
 
+Grunt was my option as build tool. The pipeline was trivial: apply minification and obfuscating all the frontend files. 
 
-Grunt was my choice as build tool. The pipeline was trivial: minification and obfuscating all the JS in the frontend.
+As you can see, I used git as repo. Some mistakes worth mentioning: 
 
+- Just one branch
+- A single commit usually included changes to many parts of the application
+- No defined milestones
+- Poor commit messages 
+
+About tests: I made a few using Selenium, but it was very time consuming. So "production testing" was a thing.
 
 ## Long story short
 
-Mistakes were made. This is just a reminder of my journey.
+It may look like this was a complete failure of a project, and it was in a sense. But many years later a desktop application was born out of this. That one is a comercial solution which sees real world usage!.
+
+I find that is very important of being aware of the mistakes I made in the past. Still, there is a long way to go. 
